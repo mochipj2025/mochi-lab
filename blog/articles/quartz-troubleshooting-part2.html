@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="GitHub PagesでQuartzをデプロイしようとしたらLiquid syntax errorやPermission deniedが出た話。自動ビルドの罠と回避策。">
+    <title>Quartz vs GitHub Pages：幽霊Jekyllと権限エラーの戦い | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+        <header class="site-header"><div class="container"><div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span class="logo-text">Mochisura Lab</span></a></div><nav class="site-nav"><a href="../../index.html#products">Products</a><a href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav></div></header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1 class="article-title">👻 Jekyllの亡霊が出た</h1>
+            <p class="article-meta">2026-01-24 | 3 min read</p>
+
+            <div class="tags">
+                <span class="tag">Quartz</span>
+                <span class="tag">GitHub</span>
+                <span class="tag">トラブルシューティング</span>
+            </div>
+
+            <div class="content">
+                <p>Windowsでの導入トラブル（前回の記事）を乗り越え、やっとGitHubにプッシュできた！と思ったら、今度はGitHub Pages側で謎のエラーが発生。</p>
+
+                <p>Actionsのログを見ると、真っ赤な文字でこう書かれていました。</p>
+
+                <pre><code>Error: Liquid syntax error (line 256): Variable '{{ ... }}' was not properly terminated</code></pre>
+
+                <h3>原因：Jekyllがしゃしゃり出てくる</h3>
+                <p>GitHub Pagesは、デフォルトで「Jekyll」というブログエンジンを使おうとします。<br>
+                    しかしQuartzはJekyllとは別の仕組みです。<br>
+                    JekyllがQuartzのファイル (<code>quartz.config.ts</code>) を無理やり読もうとして、「文法がおかしいぞ！」と怒っているわけです。</p>
+
+                <h3>✅ 解決策：<code>.nojekyll</code> というお守り</h3>
+                <p>「ここはJekyllの場所じゃない」と伝えるために、<code>.nojekyll</code> という名前の空ファイルをリポジトリのルートに置くだけで解決します。</p>
+
+                <pre><code>New-Item -ItemType File -Name ".nojekyll" -Force
+git add .nojekyll
+git commit -m "Begone Jekyll"
+git push origin v4</code></pre>
+
+                <hr>
+
+                <h2>🚫 権限がない！ (403 Forbidden)</h2>
+
+                <p>Jekyllを追い払ったと思ったら、次はこんなエラー。</p>
+
+                <pre><code>Error: Permission to mochipj2025/blog.site denied to github-actions[bot].</code></pre>
+
+                <p>GitHub Actions（自動ビルドロボット）が、作ったサイトを公開しようとしたら「書き込み権限がないよ！」と門前払いされたようです。</p>
+
+                <h3>✅ 解決策：Settingsで許可を出す</h3>
+                <p>これはGitHubのセキュリティ設定によるものです。</p>
+
+                <ol>
+                    <li>リポジトリの <strong>Settings</strong> > <strong>Actions</strong> > <strong>General</strong> を開く。</li>
+                    <li><strong>Workflow permissions</strong> という項目を探す。</li>
+                    <li><strong><code>Read and write permissions</code></strong> にチェックを入れる。</li>
+                    <li><strong>Save</strong> を押す。</li>
+                </ol>
+
+                <p>これでロボットに「書き込んでもいいよ」という許可が出ました。</p>
+
+                <hr>
+
+                <h2>🎉 ついに公開</h2>
+
+                <p>これらの障害を乗り越え、ついに <code>gh-pages</code> ブランチが生成されました。<br>
+                    最後に <strong>Settings</strong> > <strong>Pages</strong> で、公開元を <code>gh-pages</code> に指定して完了！</p>
+
+                <p>エラーログは怖いけど、一つずつ潰していけば必ず動きますね。</p>
+
+                <hr>
+
+                <p><em>このブログ自体が、上記のエラーを乗り越えて表示されています👏</em></p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+            <p class="footer-links">
+                <a href="https://www.threads.net/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" aria-label="トップに戻る">
+    ↑
+  </button>
+
+  <script>
+    // Scroll to top functionality
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+  <!-- Series Navigation -->
+  <script src="../js/series-navigation.js"></script>
+
+  <!-- Search Capability -->
+  <script src="../js/search.js"></script>
+</body>
+
+</html>
+

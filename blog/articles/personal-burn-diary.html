@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="個人の内面を焚き火のように静かに燃やし、灰に還す。プライバシーとメンタルケアを両立した日記システムの設計。">
+    <title>個人日記Burn - 自分で浄化タイミングを選ぶ | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+        <header class="site-header"><div class="container"><div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span class="logo-text">Mochisura Lab</span></a></div><nav class="site-nav"><a href="../../index.html#products">Products</a><a href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav></div></header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1 class="article-title">個人日記Burn - 自分で浄化タイミングを選ぶ</h1>
+            <p class="article-meta">2026-01-27 | 7 min read</p>
+
+            <div class="tags">
+                <span class="tag tag-burn">Burn</span>
+                <span class="tag">メンタルケア</span>
+                <span class="tag">UX設計</span>
+                <span class="tag">心理学</span>
+            </div>
+
+            <div class="content">
+                <h2>コンセプト</h2>
+
+                <blockquote>
+                    <p><strong>「手放す準備ができたら、自分で浄化できる」</strong></p>
+                </blockquote>
+
+                <p>ネガティブを書き出すことは治療的ですが、<strong>削除のタイミングは本人が決めるべき</strong>です。</p>
+
+                <hr>
+
+                <h2>焚き火広場 vs 個人日記Burn</h2>
+
+                <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-light);">
+                            <th style="padding: 0.75rem; text-align: left;">特徴</th>
+                            <th style="padding: 0.75rem; text-align: left;">🔥 焚き火広場</th>
+                            <th style="padding: 0.75rem; text-align: left;">📔 個人日記Burn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border-light);">
+                            <td style="padding: 0.75rem;"><strong>閲覧</strong></td>
+                            <td style="padding: 0.75rem;">コミュニティ（匿名）</td>
+                            <td style="padding: 0.75rem;"><strong>オーナーのみ</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-light);">
+                            <td style="padding: 0.75rem;"><strong>削除</strong></td>
+                            <td style="padding: 0.75rem;">5分で自動</td>
+                            <td style="padding: 0.75rem;"><strong>ユーザーが選択</strong></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-light);">
+                            <td style="padding: 0.75rem;"><strong>目的</strong></td>
+                            <td style="padding: 0.75rem;">即座の吐き出し・共感</td>
+                            <td style="padding: 0.75rem;">繰り返し読み返し・客観視</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem;"><strong>記録</strong></td>
+                            <td style="padding: 0.75rem;">統計のみ</td>
+                            <td style="padding: 0.75rem;">統計のみ</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <hr>
+
+                <h2>心理学的根拠</h2>
+
+                <h3>Expressive Writing療法の最適化</h3>
+                <p>James Pennebakerの研究：</p>
+                <ul>
+                    <li>1回15-20分、3-5日間続けることが推奨</li>
+                    <li>即座に削除するより、<strong>数日後に読み返す</strong>方が効果的な場合も</li>
+                </ul>
+
+                <h3>自己決定理論</h3>
+                <p>心理学における<strong>Self-Determination Theory</strong>：</p>
+                <ul>
+                    <li>自分で選択・コントロールできることが重要</li>
+                    <li>強制的な削除より、<strong>自分で手放すタイミングを選ぶ</strong>方が治療的</li>
+                </ul>
+
+                <h3>儀式化の効果</h3>
+                <p>意図的に「浄化する」という行為を選択することで：</p>
+                <ul>
+                    <li>より深いカタルシスを得られる</li>
+                    <li>感情との向き合いに区切りをつけられる</li>
+                    <li>セルフケアの実感が強まる</li>
+                </ul>
+
+                <hr>
+
+                <h2>ユースケース</h2>
+
+                <h3>パターン1: 即座の吐き出し</h3>
+                <pre><code>夜、辛いことがあった
+→ 個人Burn日記に書く
+→ 書き終わった瞬間に「浄化する」
+→ すっきりして眠る</code></pre>
+
+                <h3>パターン2: 繰り返し読み返し</h3>
+                <pre><code>1日目: 怒りを書き出す
+2日目: 読み返す → まだ怒っている
+3日目: 読み返す → 少し客観視できた
+4日目: 読み返す → もう大丈夫
+→ 「浄化する」ボタンを押す</code></pre>
+
+                <h3>パターン3: パターン認識</h3>
+                <pre><code>週に2-3回、似たような内容を書く
+→ 「あれ、同じパターンだ」と気づく
+→ カルテに正式に記録する
+→ 個人Burn日記は浄化</code></pre>
+
+                <hr>
+
+                <h2>UI設計</h2>
+
+                <h3>一覧画面</h3>
+                <pre><code>┌─────────────────────────────────────┐
+│ 📔 個人Burn日記                      │
+├─────────────────────────────────────┤
+│ ┌─────────────────────────────────┐ │
+│ │ 📝 「今日、本当に辛かった...」   │ │
+│ │                                 │ │
+│ │ 😢 悲しみ ●●●○○ (3/5)          │ │
+│ │ 📅 3日前                        │ │
+│ │                                 │ │
+│ │ [詳細] [🔥 今すぐ浄化]          │ │
+│ └─────────────────────────────────┘ │
+│                                     │
+│ 💡 Tip: 読み返して客観視できたら、  │
+│    浄化してみましょう               │
+└─────────────────────────────────────┘</code></pre>
+
+                <h3>浄化確認</h3>
+                <pre><code>┌─────────────────────────────────────┐
+│ 🔥 本当に浄化しますか？              │
+├─────────────────────────────────────┤
+│ この感情を手放す準備はできました    │
+│ か？                                │
+│                                     │
+│ ✓ 何度か読み返しました              │
+│ ✓ 客観的に見られるようになりました  │
+│ ✓ もう大丈夫です                    │
+│                                     │
+│ 浄化すると、この記録は完全に削除    │
+│ されます。                          │
+├─────────────────────────────────────┤
+│   [キャンセル]     [🔥 浄化する]     │
+└─────────────────────────────────────┘</code></pre>
+
+                <hr>
+
+                <h2>データ設計</h2>
+
+                <h3>PersonalBurnDiary</h3>
+                <pre><code>interface PersonalBurnDiary {
+  id: string;
+  userId: string; // オーナー
+  content: string;
+  createdAt: Timestamp;
+  
+  // 感情データ
+  category: 'anger' | 'sadness' | 'anxiety' | 'frustration';
+  emotionIntensity: 1 | 2 | 3 | 4 | 5;
+  
+  // 浄化関連
+  isBurned: boolean;
+  burnedAt?: Timestamp;
+  burnedByUser: boolean; // ユーザーが手動で浄化
+  readCount: number; // 読み返した回数
+  
+  // セーフティネット
+  autoExpiresAt: Timestamp; // 30日後
+  
+  // プライバシー（常に固定）
+  isPrivate: true;
+  viewableBy: [userId];
+  
+  // AI分析
+  mochisuraComment?: string;
+}</code></pre>
+
+                <hr>
+
+                <h2>プライバシー保護</h2>
+
+                <h3>Firestore Rules</h3>
+                <pre><code>match /personalBurnDiaries/{diaryId} {
+  // 本人のみアクセス可能
+  allow read, write: if request.auth.uid == resource.data.userId;
+  
+  // 作成時のバリデーション
+  allow create: if request.auth.uid == request.resource.data.userId
+                && request.resource.data.isPrivate == true;
+}</code></pre>
+
+                <hr>
+
+                <h2>付加価値</h2>
+
+                <h3>読み返し通知</h3>
+                <pre><code>「3日前に書いた日記があります。
+ 今なら違う気持ちで読めるかも？」</code></pre>
+
+                <h3>パターン認識</h3>
+                <pre><code>「同じカテゴリの記録が3回目です。
+ もしかして、繰り返すパターンかも？
+ カルテに記録してみますか？」</code></pre>
+
+                <h3>もちスラの声かけ</h3>
+                <pre><code>浄化時:
+「手放せてえらいばい！
+ これも成長の一歩ぷるよ」</code></pre>
+
+                <hr>
+
+                <h2>まとめ</h2>
+
+                <h3>個人Burn日記の価値</h3>
+                <ol>
+                    <li><strong>自己決定感</strong> - 手放すタイミングを自分で選べる</li>
+                    <li><strong>客観視の機会</strong> - 数日後に読み返して成長を実感</li>
+                    <li><strong>完全なプライバシー</strong> - 誰にも見られない安心感</li>
+                    <li><strong>儀式化された浄化</strong> - 能動的に「手放す」体験</li>
+                </ol>
+
+                <p><strong>ユーザーは自分のペースでネガティブと向き合い、準備ができたら手放すことができます。🌸</strong></p>
+
+                <hr>
+
+                <p><em>関連記事: <a href="burn-philosophy.html">Burn設計哲学</a></em></p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+            <p class="footer-links">
+                <a href="https://www.threads.net/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" aria-label="トップに戻る">
+    ↑
+  </button>
+
+  <script>
+    // Scroll to top functionality
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+  <!-- Series Navigation -->
+  <script src="../js/series-navigation.js"></script>
+
+  <!-- Search Capability -->
+  <script src="../js/search.js"></script>
+</body>
+
+</html>
+

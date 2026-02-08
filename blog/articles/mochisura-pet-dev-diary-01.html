@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="もちスラPetプロジェクトの設計記録 - Burn昇華システムの誕生">
+    <title>もちスラPet開発日記 #01 - 設計の誕生 | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+        <header class="site-header"><div class="container"><div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span class="logo-text">Mochisura Lab</span></a></div><nav class="site-nav"><a href="../../index.html#products">Products</a><a href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav></div></header>
+
+    <main class="container">
+        <article class="article-content">
+            <header>
+                <h1 class="article-title">もちスラPet開発日記 #01 - 設計の誕生</h1>
+                <p class="article-meta">2026-01-29 | 15 min read</p>
+                <div class="tags">
+                    <span class="tag tag-burn">Burn</span>
+                    <span class="tag">開発日記</span>
+                    <span class="tag">設計</span>
+                </div>
+            </header>
+
+            <div class="content">
+                <h2>🔥 新プロジェクト始動</h2>
+
+                <p>今日、もちスラプラットフォームの新しいコンポーネント「<strong>もちスラPet</strong>」の設計を行った。これは単なる育成アプリではなく、<strong>Burn設計哲学の新しい解釈</strong>を具現化するものだ。
+                </p>
+
+                <blockquote>
+                    <p><strong>「Burnは消失ではなく、変換・昇華である」</strong></p>
+                </blockquote>
+
+                <h2>💡 コンセプトの誕生</h2>
+
+                <p>これまでのBurn設計は「引き算の美学」として、<strong>削ぎ落とすこと</strong>に焦点を当てていた。しかし今日、新しい視点が生まれた。</p>
+
+                <pre><code>無形資産（日記・カルテ） → Burn → 有形資産（Petの成長）
+</code></pre>
+
+                <p>日記やカルテという<strong>無形の記録</strong>を「焼く」ことで、目に見える<strong>Petの成長</strong>へと変換する。これは引き算ではなく、<strong>変換・昇華</strong>のプロセスだ。
+                </p>
+
+                <h3>なぜPetなのか</h3>
+
+                <ul>
+                    <li><strong>可視化</strong>: 内面の努力が目に見える形になる</li>
+                    <li><strong>愛着</strong>: Petへの愛着 = 自分のケアへの愛着</li>
+                    <li><strong>継続</strong>: 成長を見ることがモチベーションに</li>
+                    <li><strong>救済</strong>: 辛い記録も「変容の灰」として価値を持つ</li>
+                </ul>
+
+                <h2>🎨 進化デザイン</h2>
+
+                <p>Petは5段階で進化する。それぞれの形態は、Burnの積み重ねを表現している。</p>
+
+                <pre><code>🥚 タマゴ   → 最初の一歩
+💧 水      → 純粋な始まり (Lv.1-10)
+🍯 水あめ   → 凝縮と甘美 (Lv.11-20)
+🍯 蜂蜜    → 熟成と深み (Lv.21-30)
+🟠 琥珀    → 時の結晶化 (Lv.31-40)
+💎 結晶    → 究極の昇華 (Lv.41-50)
+</code></pre>
+
+                <p>特に印象的なのは「<strong>水→水あめへの変化</strong>」だ。Burnによって液体が粘度を増し、色が変わり、動きが変わる。これは視覚的にも美しい変換プロセスだ。</p>
+
+                <h2>🔬 Essence抽出システム</h2>
+
+                <p>日記をBurnすると、5種類の「Essence（燃焼精髄）」が抽出される。これがPetの成長エネルギーとなる。</p>
+
+                <h3>5つのEssence</h3>
+
+                <ul>
+                    <li>🔥 <strong>情熱の焔</strong> - 長文や深い内省から抽出</li>
+                    <li>💧 <strong>癒しの雫</strong> - ポジティブな記録から</li>
+                    <li>⚡ <strong>成長の閃光</strong> - 新しい気づきから</li>
+                    <li>🌿 <strong>継続の芽</strong> - 連続記録日数から</li>
+                    <li>✨ <strong>変容の灰</strong> - 困難を乗り越えた時に</li>
+                </ul>
+
+                <p>特に「<strong>変容の灰</strong>」の設計には思い入れがある。辛い日記、ネガティブな記録も、乗り越えることで最も価値のあるEssenceへと変わる。これはBurn哲学の核心だ。</p>
+
+                <h2>🎭 たまごっち的生命感</h2>
+
+                <p>技術的な設計で最も時間をかけたのが「<strong>生きてる感</strong>」の実装だ。</p>
+
+                <h3>アニメーション設計</h3>
+
+                <ul>
+                    <li><strong>常時動作</strong>: 5フレームのスプライトアニメーション（1.5秒ループ）</li>
+                    <li><strong>呼吸</strong>: ゆっくりとした拡縮</li>
+                    <li><strong>ランダムアクション</strong>: 3秒ごとにぴょん/まばたき/首傾げ</li>
+                    <li><strong>タップ反応</strong>: 喜びのアニメーション + ハート</li>
+                </ul>
+
+                <p>特にこだわったのは「<strong>影の動的生成</strong>」。イラストには影を描き込まず、プログラムで動的に生成する。これによりPetが跳ねると影が縮み、Burn時には影がオレンジ色に変化する。
+                </p>
+
+                <pre><code class="language-dart">// 影もアニメーションと連動
+Container(
+  width: 120 * shadowScale,
+  decoration: BoxDecoration(
+    color: Colors.black.withOpacity(0.15),
+    borderRadius: BorderRadius.circular(60),
+  ),
+)
+</code></pre>
+
+                <h2>🥚 タマゴからの誕生</h2>
+
+                <p>初回起動時の演出にもこだわった。</p>
+
+                <ol>
+                    <li>タマゴがゆらゆら揺れている</li>
+                    <li>「最初の日記をBurnしよう」</li>
+                    <li>Burn実行 → ヒビが入る</li>
+                    <li>パリン！ 光と共に孵化</li>
+                    <li>もちスラPet誕生 🎉</li>
+                </ol>
+
+                <p>この演出により、ユーザーは「自分のBurnによってPetが生まれた」という<strong>特別な体験</strong>を得る。</p>
+
+                <h2>🎥 YouTube配信への野望</h2>
+
+                <p>今日の設計で最も興奮したのは、Live2D対応の可能性だ。</p>
+
+                <h3>できること</h3>
+
+                <ul>
+                    <li><strong>しゃべる</strong>: 音声に合わせた口パク</li>
+                    <li><strong>表情変化</strong>: 喜怒哀楽の表現</li>
+                    <li><strong>チャット連動</strong>: 視聴者の「!burn」コメントで反応</li>
+                    <li><strong>配信オーバーレイ</strong>: ステータス表示やEssenceカウンター</li>
+                </ul>
+
+                <p>これにより、もちスラPetは単なるアプリを超えて、<strong>配信のパートナー</strong>になる。開発の進捗を配信しながら、Petも一緒に成長していく...そんな未来が見えた。</p>
+
+                <h2>📐 設計ドキュメント</h2>
+
+                <p>今日作成した設計書は以下の通り：</p>
+
+                <ul>
+                    <li>✅ プロジェクト概要とコア哲学</li>
+                    <li>✅ 技術スタック（Flutter + Firebase + Gemini API）</li>
+                    <li>✅ データ構造設計（Pet State、Essence、進化システム）</li>
+                    <li>✅ アニメーション仕様（アイドル/タップ/Burn変化）</li>
+                    <li>✅ イラスト素材リスト（75枚 + Live2D用PSD）</li>
+                    <li>✅ タマゴ演出とYouTube配信オーバーレイ</li>
+                    <li>✅ 実装フェーズ（8週間計画）</li>
+                </ul>
+
+                <h2>🎯 最小実装セット</h2>
+
+                <p>完璧主義に陥らないよう、MVPを明確に定義した。</p>
+
+                <h3>必要最小限</h3>
+
+                <ul>
+                    <li>Pet水状態: 5フレーム</li>
+                    <li>タマゴ: 11フレーム</li>
+                    <li>基本のBurnシステム</li>
+                    <li>レベルアップ演出</li>
+                </ul>
+
+                <p><strong>合計16枚のイラスト</strong>だけで、コンセプトの検証ができる。</p>
+
+                <h2>💭 気づきと葛藤</h2>
+
+                <h3>Burn設計の拡張</h3>
+
+                <p>今日の設計で、Burn哲学が新しい次元に到達したと感じる。</p>
+
+                <ul>
+                    <li>従来: 引き算（削ぎ落とす）</li>
+                    <li>今回: 変換（昇華させる）</li>
+                </ul>
+
+                <p>どちらも「本質」を大切にする点では同じだが、アプローチが異なる。引き算が<strong>静的な美</strong>なら、昇華は<strong>動的な美</strong>だ。</p>
+
+                <h3>ゲーミフィケーションへの懸念</h3>
+
+                <p>一方で、懸念もある。Petの育成がメインになり、<strong>日記を書く本来の目的</strong>が二の次にならないか？</p>
+
+                <p>この問いへの答えは、設計に組み込んだ。</p>
+
+                <ul>
+                    <li>Petは<strong>手段であり目的ではない</strong></li>
+                    <li>「変容の灰」システムで、辛い経験も価値化</li>
+                    <li>一度Burnした記録は元に戻せない（真剣さの担保）</li>
+                </ul>
+
+                <h2>📊 技術的チャレンジ</h2>
+
+                <h3>感情分析の精度</h3>
+
+                <p>Essence抽出にAI（Gemini API）を使う予定だが、感情分析の精度が課題になる。特に：</p>
+
+                <ul>
+                    <li>日本語の微妙なニュアンス</li>
+                    <li>「辛かったけど乗り越えた」の検出</li>
+                    <li>プライバシー保護（ローカル処理の検討）</li>
+                </ul>
+
+                <h3>アニメーションのパフォーマンス</h3>
+
+                <p>5フレームのスプライトアニメーション + 呼吸 + ランダムアクション + 影の動的生成。これらを同時に実行してもスムーズに動作するか、実装時の検証が必要。</p>
+
+                <h2>🚀 次のステップ</h2>
+
+                <h3>短期（1週間以内）</h3>
+
+                <ul>
+                    <li>[ ] Pet水状態の5フレームイラスト作成</li>
+                    <li>[ ] Flutterプロジェクト初期化</li>
+                    <li>[ ] スプライトアニメーション実装</li>
+                </ul>
+
+                <h3>中期（1ヶ月以内）</h3>
+
+                <ul>
+                    <li>[ ] Burnシステム実装</li>
+                    <li>[ ] タマゴ孵化演出</li>
+                    <li>[ ] 基本的な成長システム</li>
+                </ul>
+
+                <h3>長期（3ヶ月以内）</h3>
+
+                <ul>
+                    <li>[ ] 全形態のイラスト完成</li>
+                    <li>[ ] Live2D対応</li>
+                    <li>[ ] YouTube配信開始</li>
+                </ul>
+
+                <h2>🎨 最後に</h2>
+
+                <p>今日、8時間かけて作った設計書は、<strong>11のマークダウンファイル</strong>に及ぶ。データ構造、アニメーション、イラスト仕様、配信システム...すべてが明確になった。</p>
+
+                <p>何より嬉しいのは、Burn設計という抽象的な哲学が、<strong>ぷるぷる動くもちスラPet</strong>という具体的な形を得たことだ。</p>
+
+                <p>無形が有形へ。</p>
+                <p>日記がPetへ。</p>
+                <p>努力が成長へ。</p>
+
+                <p>これがBurn昇華システムだ 🔥</p>
+
+                <hr>
+
+                <p><em>次回: イラスト制作開始 & 初回実装の記録</em></p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+            <p class="footer-links">
+                <a href="https://www.threads.com/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" aria-label="トップに戻る">
+    ↑
+  </button>
+
+  <script>
+    // Scroll to top functionality
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+  <!-- Series Navigation -->
+  <script src="../js/series-navigation.js"></script>
+
+  <!-- Search Capability -->
+  <script src="../js/search.js"></script>
+</body>
+
+</html>
+

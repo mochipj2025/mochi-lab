@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WindowsでQuartzをセットアップしようとしたらnpmエラーとPowerShell実行ポリシーでつまづいた記録と、Git Clone法での解決策。">
+    <title>WindowsでQuartzがエラーまみれだった話と解決策 | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+        <header class="site-header"><div class="container"><div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span class="logo-text">Mochisura Lab</span></a></div><nav class="site-nav"><a href="../../index.html#products">Products</a><a href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav></div></header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1 class="article-title">🛑 npx quartz create が動かない！</h1>
+            <p class="article-meta">2026-01-24 | 3 min read</p>
+
+            <div class="tags">
+                <span class="tag">Quartz</span>
+                <span class="tag">Obsidian</span>
+                <span class="tag">トラブルシューティング</span>
+            </div>
+
+            <div class="content">
+                <p>「Obsidianのメモをブログにしたい！」と意気込んで <strong>Quartz</strong> の導入を試みたものの、Windows環境 (PowerShell) でドハマリしました。</p>
+                <p>同じように苦しんでいる人のために、私が直面したエラーと、最終的な <strong>「最強の解決策」</strong> を残しておきます。</p>
+
+                <hr>
+
+                <h2>💥 発生したエラーたち</h2>
+
+                <h3>1. PowerShellの実行ポリシーエラー</h3>
+                <p>最初に <code>npx quartz create</code> を叩いた瞬間、真っ赤な文字が…。</p>
+
+                <pre><code>CategoryInfo: SecurityError
+FullyQualifiedErrorId: UnauthorizedAccess</code></pre>
+
+                <p>Windowsのセキュリティ機能が、スクリプトの実行をブロックしていました。</p>
+
+                <p><strong>対処法:</strong><br>
+                    管理者権限でPowerShellを開き、以下を実行。</p>
+                <pre><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
+
+                <h3>2. npm error "could not determine executable to run"</h3>
+                <p>気を取り直して再度実行すると、今度は謎のnpmエラー。</p>
+
+                <pre><code>npm error could not determine executable to run</code></pre>
+
+                <p>キャッシュをクリア (<code>npm cache clean --force</code>) しても直らず…。<br>
+                    どうやら <code>npx</code> コマンドとWindowsの相性が悪いパターンがあるようです。</p>
+
+                <hr>
+
+                <h2>✅ 解決策：インストーラーを使わない！ (Plan B)</h2>
+
+                <p>「自動インストーラー (<code>npx quartz create</code>) がダメなら、手動で入れればいいじゃない」</p>
+
+                <p>ということで、以下の <strong>Git Clone法</strong> を試したら一発で解決しました。</p>
+
+                <h3>手順 1: リポジトリを直接クローン</h3>
+                <p>フォルダを作って、GitHubから直接ソースコードを持ってきます。</p>
+
+                <pre><code>mkdir quartz-blog
+cd quartz-blog
+git clone https://github.com/jackyzha0/quartz.git .</code></pre>
+
+                <h3>手順 2: 依存関係をインストール</h3>
+                <pre><code>npm install</code></pre>
+
+                <p>これだけ！<br>
+                    あの苦労は何だったのかというくらい、あっさりと環境構築が完了しました。</p>
+
+                <hr>
+
+                <h2>🚀 学んだ教訓</h2>
+
+                <ol>
+                    <li><strong>Windowsの <code>npx</code> はたまに反抗期がある</strong>
+                        <ul>
+                            <li>うまくいかない時は、深追いせずに <code>git clone</code> を検討する。</li>
+                        </ul>
+                    </li>
+                    <li><strong>エラーログは裏切らない</strong>
+                        <ul>
+                            <li>真っ赤な画面にビビらず、一行ずつ読めばヒントがある（今回は <code>git</code> でいけることに気づいた）。</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <p>無事にブログが開設できたので、これからObsidianでバリバリ記事を書いていきます！</p>
+
+                <hr>
+
+                <p><em>この記事は Obsidian + Quartz で生成されています。</em></p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+            <p class="footer-links">
+                <a href="https://www.threads.net/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" aria-label="トップに戻る">
+    ↑
+  </button>
+
+  <script>
+    // Scroll to top functionality
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+  <!-- Series Navigation -->
+  <script src="../js/series-navigation.js"></script>
+
+  <!-- Search Capability -->
+  <script src="../js/search.js"></script>
+</body>
+
+</html>
+

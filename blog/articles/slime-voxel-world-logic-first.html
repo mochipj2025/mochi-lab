@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ollama 3.1とGodotを繋ぎ、自律的に思考するもちもちスライムを構築した開発記録。">
+    <title>【Logic-First】Ollama 3.1で動く「もちもちAIスライム」の自律世界を構築する | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span
+                        class="logo-text">Mochisura Lab</span></a></div>
+            <nav class="site-nav"><a href="../../index.html#products">Products</a><a
+                    href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a
+                    href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button
+                    class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="category-tag">開発日記</div>
+                <h1>【Logic-First】Ollama 3.1で動く「もちもちAIスライム」の自律世界を構築する</h1>
+                <p class="article-meta">2026-02-06 | 12 min read</p>
+            </header>
+
+            <div class="article-content">
+                <p>「見た目を作る前に、知能を作れ」。これが今回のプロジェクト、<strong>Slime Voxel
+                        World</strong>の核心です。贅沢なアセットを並べる前に、まずはプレースホルダーのキューブに「魂（ローカルLLM）」を吹き込み、自律的に動き回る世界を構築しました。</p>
+
+                <section>
+                    <h2>1. Logic-First：なぜロジックから始めるのか</h2>
+                    <p>美しいボクセルアセットを作るのは楽しい作業ですが、一番の難関は「AIがその世界を正しく認識し、意味のある行動をとれるか」です。アセット制作に没頭するあまり、肝心の「自律性」が置き去りになるのを防ぐため、今回はあえて「色付きのキューブ」だけでプロトタイプを完成させる手法をとりました。
+                    </p>
+                    <p>この三層構造により、モデルの差し替えやロジックの変更が容易な、柔軟なシステムが誕生しました。</p>
+                    <ul>
+                        <li><strong>Brain</strong>: Ollama 3.1 (Llama 3.1) - ローカルで動作する思考の核</li>
+                        <li><strong>Bridge</strong>: Python (FastAPI) - 思考と現実（Godot）のデータ橋渡し</li>
+                        <li><strong>Body</strong>: Godot 4.3 - 物理演算、アニメーション、そして世界そのもの</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>2. ブリッジの設計：AIの気まぐれを制御する</h2>
+                    <p>AI（Ollama）との通信にはPythonの <code>FastAPI</code>
+                        を採用しました。Godotが直接LLMを叩くのではなく、中間にブリッジを挟むことで、以下のような「知的な制御」を可能にしています。</p>
+                    <ul>
+                        <li><strong>プロンプト・エンジニアリング</strong>: スライムの性格（Personality）や空腹度を文脈に組み込み、AIに「スライムとしての自覚」を持たせます。
+                        </li>
+                        <li><strong>バリデーション（Pydantic）</strong>:
+                            AIが不完全なJSONを返したり、方向（target）を答え忘れたりした場合でも、サーバー側でデフォルト値を補完。Godot側のクラッシュを防ぎます。</li>
+                        <li><strong>レスポンスの正規化</strong>: <code>thought</code>, <code>action</code>, <code>target</code>
+                            といった構造化されたデータを確実にGodotへ届けます。</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>3. 物理と生命感：GDScriptでの実装</h2>
+                    <p>スライムの「体」はGodotの <code>CharacterBody3D</code>
+                        で制御されています。AIから「移動（MOVE）」の指令が届くと、目的地へのベクトルを計算し、<code>move_and_slide()</code> で地形を認識しながら進みます。</p>
+                    <h3>もちもちアニメーションの数式</h3>
+                    <p>単なるキューブに生命を吹き込むのが、独自実装した「もちもちアニメーション」です。<code>_process</code> 内でサイン波（Sin
+                        Wave）を回し、Meshのスケールをリアルタイムに操作しています。</p>
+                    <pre><code># squash & stretchの実装イメージ
+var s = sin(time * bounce_speed)
+mesh.scale.y = 1.0 + s * bounce_power
+mesh.scale.x = 1.0 - s * bounce_power * 0.5
+mesh.scale.z = 1.0 - s * bounce_power * 0.5</code></pre>
+                    <p>待機中（Idle）はゆったりとした呼吸のような伸縮、移動中（Move）はピッチを上げて躍動感のあるバウンド。この「見た目の変化」が、ユーザーにAIの思考を感じさせる重要なフィードバックとなります。
+                    </p>
+                </section>
+
+                <section>
+                    <h2>4. 常にスライムを中心に：追従カメラの実装</h2>
+                    <p>自律的にどこまでも歩いていくスライムを見失わないよう、専用の <code>Camera3D</code>
+                        スクリプトも作成しました。<code>lerp</code>（線形補間）を用いることで、スライムの急な動きにも滑らかに反応し、常に心地よい距離から観察できる「見守り視点」を確保しています。
+                    </p>
+                </section>
+
+                <section>
+                    <h2>5. 結び：AIとの共生に向けて</h2>
+                    <p>現在はプレースホルダーのキューブですが、土台は完成しました。この「知能の器」に、次はMagicaVoxelで愛着の持てるアセットを流し込み、農業や建築といった社会性を構築していく予定です。
+                    </p>
+                    <blockquote>
+                        AIは単なる自動化のツールではなく、物語を共に紡ぐエージェント。今回のプロトタイプはその可能性を証明する第一歩となりました。
+                    </blockquote>
+                </section>
+            </div>
+
+            <footer class="article-footer">
+                <div class="share-buttons">
+                    <a href="#" class="share-btn"><i class="fab fa-twitter"></i> Twitter</a>
+                    <a href="#" class="share-btn"><i class="fab fa-threads"></i> Threads</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+</body>
+
+</html>

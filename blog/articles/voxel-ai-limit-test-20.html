@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RTX 3060 Tiで20人のAIエージェントを同時シミュレーションした限界テストの記録。">
+    <title>VRAM 8GBの限界に挑む：20人のAIエージェントがひしめくボクセル世界 | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/article.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span
+                        class="logo-text">Mochisura Lab</span></a></div>
+            <nav class="site-nav"><a href="../../index.html#products">Products</a><a
+                    href="../../index.html#knowledge">Knowledge</a><a href="index.html">Dev Blog</a></nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="article-detail">
+            <header class="article-header">
+                <div class="category-tag">開発日記</div>
+                <h1>VRAM 8GBの限界に挑む：20人のAIエージェントがひしめくボクセル世界</h1>
+                <div class="article-meta">
+                    <span class="date"><i class="fa-regular fa-calendar"></i> 2026-02-06</span>
+                    <span class="author"><i class="fa-solid fa-pen-nib"></i> もちスラ</span>
+                </div>
+            </header>
+
+            <section class="content">
+                <p>「ローカルLLMで、一体何人までエージェントを同時に動かせるのか？」</p>
+                <p>今回の実験テーマはシンプル。私の愛機（RTX 3060 Ti / 8GB VRAM）をどこまで追い込めるか、その限界に挑戦しました。結果は、驚くべきことに **「20人体制」**
+                    でも安定した稼働を見せました。</p>
+
+                <h2>1. 実験の舞台：Voxel AI Lab</h2>
+                <p>ボクセルで構成された 30x30 の浮島。ここに、自律的に考え、歩き、他者と対話する AI エージェントを投入しました。頭脳には <strong>Llama 3 (8B)</strong>
+                    を採用。Ollama を通じて、毎ステップごとにエージェント一人一人が「次の行動」を JSON で生成します。</p>
+
+                <div class="info-box">
+                    <strong>システム構成:</strong>
+                    <ul>
+                        <li>GPU: NVIDIA GeForce RTX 3060 Ti (8GB VRAM)</li>
+                        <li>Model: Llama 3 (8B) - 4-bit Quantized</li>
+                        <li>Logic: FastAPI + Three.js</li>
+                    </ul>
+                </div>
+
+                <h2>2. 衝突から生まれる「社会性」</h2>
+                <p>ただ歩くだけではありません。エージェント同士が 1.0 ボクセル以内に接近すると <strong>「衝突（Collision）」</strong> が発生します。この時、AI
+                    の知覚情報（Perception）には <code>collision_detected: true</code> という信号が送られます。</p>
+                <p>ルールは一つ：<strong>「ぶつかったら、相手に挨拶せよ」</strong>。</p>
+                <p>10人、20人と密度が上がるにつれ、あちこちで「Hello!」「Oops, sorry!」といった吹き出しが飛び交う様子は、まさにデジタルな生態系のようでした。</p>
+
+                <h2>3. パフォーマンス・ベンチマーク</h2>
+                <p>最も懸念していたのは、人数の増加に伴う推論速度の低下（VRAM 溢れによるスワップ）です。しかし、計測データは驚くべき結果を示しました。</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>エージェント数</th>
+                            <th>1人あたりの推論時間</th>
+                            <th>1ターンの周期</th>
+                            <th>安定性</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>5人</td>
+                            <td>約 4.6秒</td>
+                            <td>約 23秒</td>
+                            <td>完璧</td>
+                        </tr>
+                        <tr>
+                            <td>10人</td>
+                            <td>約 4.7秒</td>
+                            <td>约 47秒</td>
+                            <td>安定</td>
+                        </tr>
+                        <tr>
+                            <td><strong>20人</strong></td>
+                            <td><strong>約 4.8秒</strong></td>
+                            <td><strong>約 96秒</strong></td>
+                            <td><strong>驚異の安定</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>推論を並列（同時）ではなく逐次（順番）に行っているため、一度にロードされるモデルは一つで済み、人数を増やしても 1 人あたりの思考時間はほとんど変化しませんでした。8GB VRAM
+                    でも、1分40秒待てるなら 20 人の AI 社会を維持できるのです。</p>
+
+                <h2>4. 結論：ローカルLLMの可能性</h2>
+                <p>今回の実験で、コンシューマ向け GPU であっても、十分に複雑なマルチエージェント・シミュレーションが可能であることが実証されました。</p>
+                <p>「待ち時間」という課題はありますが、それは非同期処理や軽量モデルの導入で解決可能な範囲です。次は、この 20 人の AI たちに「家を建てさせる」テストでもしてみようかと思います。</p>
+            </section>
+
+            <footer class="article-footer">
+                <div class="tags">
+                    <span class="tag">Local LLM</span>
+                    <span class="tag">Ollama</span>
+                    <span class="tag">Three.js</span>
+                    <span class="tag">限界テスト</span>
+                </div>
+                <div class="share-buttons">
+                    <a href="https://twitter.com/share?url=https://example.com/voxel-ai-test&text=VRAM 8GBの限界に挑む：20人のAIエージェントがひしめくボクセル世界"
+                        class="share-btn twitter" target="_blank"><i class="fa-brands fa-x-twitter"></i> 共有する</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and local LLM</p>
+        </div>
+    </footer>
+</body>
+
+</html>

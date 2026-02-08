@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AIを使って自分専用のニュース調査班を構築する技術ガイド。Gemini 2.5 Flashを活用し、ニュース収集からSNS投稿までを自動化する仕組みを解説。">
+    <title>自分専用・AI調査班を爆速で構築する：『MOCHISURA OPS ROOM』制作ガイド | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span
+                        class="logo-text">Mochisura Lab</span></a></div>
+            <nav class="site-nav"><a href="../../index.html#products">Products</a><a
+                    href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a
+                    href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button
+                    class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1 class="article-title">自分専用・AI調査班を爆速で構築する：『MOCHISURA OPS ROOM』制作ガイド</h1>
+            <p class="article-meta">2026-02-01 | 12 min read</p>
+
+            <div class="tags">
+                <span class="tag">AI開発</span>
+                <span class="tag">自動化</span>
+                <span class="tag">Gemini</span>
+                <span class="tag">個人開発</span>
+            </div>
+
+            <div class="content">
+                <p>情報の荒波に飲まれる現代。私たちが本当に欲しいのは「ただのニュース」ではなく、その裏側に隠された「意味」と「未来へのヒント」です。</p>
+                <p>今回は、最新AIであるGemini 2.5 Flashをフル活用し、24時間365日あなたのために世界を観測し続ける<strong>「自分専用のAI調査班（Intelligence
+                        Division）」</strong>の作り方を公開します。</p>
+
+                <hr>
+
+                <h2>🛠 システムの構成図</h2>
+                <p>今回のシステム『MOCHISURA OPS ROOM』は、以下の3つの主要パーツで構成されています。</p>
+
+                <ul>
+                    <li><strong>Brain (Gemini 2.5 Flash)</strong>: 情報を収集し、ペルソナ（今回は調査班）の視点で解析・要約。</li>
+                    <li><strong>Operations Hub (Flask)</strong>: バックエンドサーバー。AIの呼び出し、データの永続化（アーカイブ）を担当。</li>
+                    <li><strong>Visual Terminal (HTML/CSS/JS)</strong>: 羊皮紙のような「重厚なラボ」をイメージした直感的なWeb UI。</li>
+                </ul>
+
+                <hr>
+
+                <h2>🚀 ステップ1：AIに「観測眼」を与えるプロンプト設計</h2>
+                <p>最強の調査班を作る秘訣は、AIに「何をさせるか」の命令（プロンプト）にあります。単に「要約して」と言うのではなく、以下のような制約を設けます。</p>
+
+                <pre><code>【AIへのミッション】
+最新のAIニュースから、私たちの「仕事」や「生き方」、あるいは「人間の可能性」を拡張するような特異点を1つ抽出し、精密なプロファイリングを行ってください。
+
+これらを「個人のプロフェッショナルが、AI共生時代の荒波をどう戦略的に生き抜くか」という視点で読み解き、
+&lt;Analysis&gt;, &lt;Summary&gt;, &lt;Source&gt;, &lt;Commentary&gt; のタグ形式で出力せよ。
+</code></pre>
+
+                <p>このように出力を構造化することで、Webアプリでの表示が格段に楽になります。</p>
+
+                <hr>
+
+                <h2>💻 ステップ2：Flaskによる「指令室」の構築</h2>
+                <p>Pythonの軽量フレームワーク、Flaskを使ってAIと連携します。ポイントは、<strong>「同じニュースを二度調査しない」</strong>ための重複チェック機能です。</p>
+
+                <pre><code># 簡易的な重複回避ロジック（news_curator.py）
+if not any(item.get("summary") == latest_result["summary"] for item in archive):
+    archive.append(latest_result)
+    save_to_json(archive)</code></pre>
+
+                <p>これにより、あなたの「調査記録庫」には、毎日純度の高い知見だけが蓄積されていきます。</p>
+
+                <hr>
+
+                <h2>🎨 ステップ3：「事件」を演出するUIデザイン</h2>
+                <p>ただの管理画面ではモチベーションが上がりません。今回は「シャーロック・ホームズ」や「秘密基地」をイメージしたデザインを採用しました。</p>
+
+                <ul>
+                    <li><strong>羊皮紙テクスチャ</strong>: 背景に古地図のような質感を持たせ、文字を「インク」として表現。</li>
+                    <li><strong>調査報告書（Curation Sheet）</strong>: 解析結果をスクロールするレポート形式で表示。</li>
+                    <li><strong>インタラクティブなスライム</strong>: 解析状況に合わせてスライムが喋り、ユーザーと対話。</li>
+                </ul>
+
+                <p>ダークモードとゴールドのアクセントを組み合わせることで、「知的な優越感」を感じられるUIに仕上げています。</p>
+
+                <hr>
+
+                <hr>
+
+                <h2>🔎 ステップ4：特定の「ターゲット」を追跡する</h2>
+                <p>AI調査班の真の力は、あなたの興味に合わせた<strong>「指名手配（カスタム検索）」</strong>にあります。特定のトピックを入力することで、調査の解像度を劇的に高めることが可能です。</p>
+
+                <p><strong>実装の工夫:</strong><br>
+                    ユーザーが開いたインカム（入力欄）に「ウェアラブル」や「自動運転」といったキーワードを入れると、システムはベースとなる業界知識とキーワードを掛け合わせ、ピンポイントな特異点をリサーチします。</p>
+
+                <p>解析官（スライム）も指示に合わせて台詞を変えるため、「自分のためにAIが動いている」という実感を強く得られる設計にしました。</p>
+
+                <hr>
+
+                <h2>📱 ステップ5：SNSへの「極秘報告」放出ロジック</h2>
+                <p>調査班が掴んだ情報は、広く発信してこそ価値があります。特にThreadsへの投稿には工夫を凝らしました。</p>
+
+                <p><strong>「調査報告」風の演出:</strong><br>
+                    「もちスララボ調査班からの報告。気になる調査結果が入ったよ。」といった現場感のあるフレーズを添え、情報の信憑性と好奇心を両立させています。</p>
+
+                <p>また、Threadsの500文字制限を確実に守るため、フロントエンドで文字数をカウントし、溢れた場合は自動で要約・省略するロジックを組み込みました。これにより、どんな長文解析も確実に「ハッシュタグ付き」で完結します。
+                </p>
+
+                <hr>
+
+                <h2>🌍 応用編：あなたの業界なら？</h2>
+                <p>このシステムは、身体操作以外でも威力を発揮します。</p>
+
+                <ul>
+                    <li><strong>不動産業</strong>: 地域ごとの公示価格や再開発ニュースを「資産価値の守り手」としてキュレーション。</li>
+                    <li><strong>教育業</strong>: 最新のEdTechトレンドを「子供の未来の設計士」として解析。</li>
+                    <li><strong>HR/採用</strong>: 労働法改正や採用トレンドを「組織の軍師」として発信。</li>
+                </ul>
+
+                <hr>
+
+                <h2>✨ まとめ - 情報は「武器」に変わる</h2>
+                <p>AIは単なる「検索機」ではありません。適切な視点（ペルソナ）と仕組み（システム）を組み合わせることで、あなただけの強力な<strong>「情報武装」</strong>になります。</p>
+                <p>この『MOCHISURA OPS ROOM』のコードをベースに、ぜひあなただけの「調査班」を作り上げてみてください。</p>
+
+                <p>それでは、ラボの記録庫でお会いしましょう。</p>
+                <p><strong>Mochisura Lab Intelligence Division｜筆頭解析官</strong></p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and Intelligence</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+</body>
+
+</html>

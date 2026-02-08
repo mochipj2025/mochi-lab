@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Burn設計哲学とFlutter開発の技術ブログ">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mochisura-lab.com/blog/">
+  <meta property="og:title" content="もちスラカルテ開発ブログ | Burn設計哲学と開発記録">
+  <meta property="og:description" content="本質を見極め、余分を削ぎ落とし、美しく焼き上げる。もちスラカルテプロジェクトの開発記録と設計思想。">
+  <meta property="og:image" content="https://mochisura-lab.com/assets/logo.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://mochisura-lab.com/blog/">
+  <meta property="twitter:title" content="もちスラカルテ開発ブログ | Burn設計哲学と開発記録">
+  <meta property="twitter:description" content="本質を見極め、余分を削ぎ落とし、美しく焼き上げる。もちスラカルテプロジェクトの開発記録と設計思想。">
+  <meta property="twitter:image" content="https://mochisura-lab.com/assets/logo.png">
+  <meta property="twitter:site" content="@Yayan_Vangabond">
+  <meta property="twitter:creator" content="@Yayan_Vangabond">
+
+  <title>もちスラカルテ開発ブログ</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="bg-texture"></div>
+  <header class="site-header">
+    <div class="container">
+      <div class="logo"><a href="../index.html"><img src="../assets/logo.png" alt="Mochisura Lab Logo"><span
+            class="logo-text">Mochisura Lab</span></a></div>
+      <nav class="site-nav"><a href="../index.html#products">Products</a><a
+          href="../index.html#knowledge">Knowledge</a><a href="../index.html#community">Community</a><a
+          href="../index.html#store">Store</a><a href="index.html">Dev Blog</a><button class="theme-toggle"
+          onclick="toggleTheme()" aria-label="切替">🌙</button></nav>
+    </div>
+  </header>
+
+
+  <main class="container">
+    <!-- Hero with Mascot -->
+    <section class="hero hero-with-mascot">
+      <img src="../assets/character.png" alt="もちスラ博士" class="hero-mascot" loading="lazy">
+      <div class="hero-text">
+        <h2>Burn設計哲学と開発記録</h2>
+        <p>本質を見極め、余分を削ぎ落とし、美しく焼き上げる。<br>もちスラカルテプロジェクトの開発記録と設計思想。</p>
+        <p class="hero-author">
+          <i class="fa-solid fa-pen-nib"></i> Managed by もちスラ
+        </p>
+      </div>
+    </section>
+
+    <!-- Latest Article Spotlight -->
+    <section class="latest-article-section">
+      <h3 class="section-title"><i class="fa-solid fa-fire"></i> 最新の記事</h3>
+      <article class="latest-article-card" data-category="diary">
+        <a href="articles/voxel-ai-studio-pivot-integration.html" class="latest-article-link">
+          <div class="latest-article-content">
+            <h4>【戦略的転換】Voxel AI Studio：世界標準ツールとの統合による「AI Studio」の進化</h4>
+            <p class="article-meta">2026-02-08 | 10 min read</p>
+            <p class="article-excerpt">
+              「車輪の再発明を捨て、最高を組み合わせる」。MagicaVoxelとGodot、そしてAI Hubの統合により、Voxel AI Studioは新たな次元へ進みます。
+            </p>
+            <div class="tags">
+              <span class="tag">Voxel AI Studio</span>
+              <span class="tag">MagicaVoxel</span>
+              <span class="tag">Architecture</span>
+            </div>
+          </div>
+        </a>
+      </article>
+    </section>
+
+    <!-- Category Filter -->
+    <div class="category-filter">
+      <button class="category-btn active" data-category="all" onclick="filterCategory('all')">すべて</button>
+      <button class="category-btn" data-category="burn" onclick="filterCategory('burn')">Burn設計</button>
+      <button class="category-btn" data-category="architecture"
+        onclick="filterCategory('architecture')">アーキテクチャ</button>
+      <button class="category-btn" data-category="diary" onclick="filterCategory('diary')">開発日記</button>
+      <button class="category-btn" data-category="troubleshooting"
+        onclick="filterCategory('troubleshooting')">トラブルシューティング</button>
+    </div>
+
+    <section id="articles" class="article-grid">
+      <article class="article-card" data-category="diary">
+        <h3><a href="articles/voxel-ai-studio-phase2-report.html">【開発レポート】Voxel AI Studio：連動パレットとバケツツールがもたらす革新</a></h3>
+        <p class="article-meta">2026-02-07 | 8 min read</p>
+        <p class="article-excerpt">
+          連動パレット(Index方式)とバケツツールの実装により、圧倒的な編集体験を実現しました。Web版エディターの集大成。
+        </p>
+        <div class="tags">
+          <span class="tag">Voxel AI Studio</span>
+          <span class="tag">Three.js</span>
+          <span class="tag">UX Design</span>
+        </div>
+      </article>
+      <article class="article-card" data-category="diary">
+        <h3><a href="articles/voxel-ai-development-report.html">Voxel AI Lab：自律エージェントの軌跡と、その先にある「集合知能」の仮説</a></h3>
+        <p class="article-meta">2026-02-07 | 10 min read</p>
+        <p class="article-excerpt">
+          ローカルLLMを用いたマルチエージェント・シミュレーション「Voxel AI Lab」。これまで積み上げてきた開発の記録と、このデジタル生態系が拓く未来の可能性についての仮説。
+        </p>
+        <div class="tags">
+          <span class="tag">Voxel-AI</span>
+          <span class="tag">Llama 3</span>
+        </div>
+      </article>
+      <article class="article-card" data-category="diary">
+        <h3><a href="articles/voxel-ai-limit-test-20.html">【限界テスト】VRAM 8GBで20人のAIエージェントを動かす：ボクセル世界での社会的衝突実験</a></h3>
+        <p class="article-meta">2026-02-06 | 15 min read</p>
+        <p class="article-excerpt">
+          「RTX 3060 Tiで何人までいけるか？」Llama 3 (8B)を搭載した20人の自律エージェントがひしめき合い、衝突し、挨拶を交わす。ローカルLLMのポテンシャルを測る全記録。
+        </p>
+        <div class="tags">
+          <span class="tag">Local LLM</span>
+          <span class="tag">Ollama</span>
+        </div>
+      </article>
+      <article class="article-card" data-category="diary">
+        <h3><a href="articles/slime-voxel-world-logic-first.html">【Logic-First】Ollama 3.1で動く「もちもちAIスライム」の自律世界を構築する</a>
+        </h3>
+        <p class="article-meta">2026-02-06 | 12 min read</p>
+        <p class="article-excerpt">
+          「見た目を作る前に、知能を作れ」。Ollama 3.1とGodotを統合し、知的な意思決定を行うAIスライムの構築記録。
+        </p>
+        <div class="tags">
+          <span class="tag">AI Slime</span>
+          <span class="tag">Godot</span>
+          <span class="tag">Ollama</span>
+        </div>
+      </article>
+      <article class="article-card" data-category="diary">
+        <h3><a href="articles/secretary-pwa-dev-log-01.html">【開発ログ #01】一般ユーザーのためのAI秘書PWA：Discordを超えて</a></h3>
+        <p class="article-meta">2026-02-07 | 8 min read</p>
+        <p class="article-excerpt">
+          Discordを超え、一般ユーザーにも親しみやすい「AI秘書PWA」の開発スタート。カスタマイズ可能な高級UIと、自作検索ツールの統合を目指す開発ログ第1回。
+        </p>
+        <div class="tags">
+          <span class="tag">PWA</span>
+          <span class="tag">AI Secretary</span>
+          <span class="tag">UX Design</span>
+        </div>
+      </article>
+      <article class="article-card" data-category="troubleshooting">
+
+        <h3><a href="articles/openclaw-ollama-secretary.html">【完全自作】ローカルLLMで動く「もちスラ秘書」爆誕：OpenClaw × Ollama 構築戦記</a></h3>
+        <p class="article-meta">2026-02-06 | 12 min read</p>
+        <p class="article-excerpt">
+          OpenClawとOllamaを用いた完全ローカルAI秘書の構築記録。Discord連携からLlama 3.1への移行、トラブルシューティングの全記録。
+        </p>
+        <div class="tags">
+          <span class="tag">OpenClaw</span>
+          <span class="tag">Ollama</span>
+          <span class="tag">Local LLM</span>
+        </div>
+      </article>
+      <article class="article-card" data-category="troubleshooting">
+        <h3><a href="articles/llm-finetuning-dependency-hell.html">🔥 依存関係地獄からの大脱出：WindowsでのLLM環境構築記録</a></h3>
+        <p class="article-meta">2026-02-05 | 15 min read</p>
+        <p class="article-excerpt">
+          Windows環境でLLMファインチューニング環境を構築しようとしたら、依存関係地獄（Dependency Hell）にハマった全記録。UnslothからPEFT/LoRAへの移行まで。
+        </p>
+        <div class="tags">
+          <span class="tag">AI</span>
+          <span class="tag">LLM</span>
+          <span class="tag">トラブルシューティング</span>
+        </div>
+      </article>
+      <article class="article-card featured" data-category="diary">
+        <h3><a href="history/index.html">History Chronicles - AIと巡る歴史のパラレル探究</a></h3>
+        <p class="article-meta">2026-02-01 | 30 min read</p>
+        <p class="article-excerpt">
+          【専用セクション始動】138億年の記憶。宇宙の誕生から現代まで、世界史と日本史を横並びで俯瞰し、各時代の深淵（Deep Dive）へと潜る歴史探究アーカイブ。
+        </p>
+        <div class="tags">
+          <span class="tag">Hobby</span>
+          <span class="tag">歴史探究</span>
+          <span class="tag">Investigation</span>
+        </div>
+      </article>
+      <article class="article-card featured" data-category="diary">
+        <h3><a href="articles/ai-beginners-log-2026-02-01.html">【AI初心者必読】「ただの検索官」が「超一流の調査班」に化けた1日：2026年2月1日の全ログ</a></h3>
+        <p class="article-meta">2026-02-01 | 10 min read</p>
+        <p class="article-excerpt">
+          キュレーションから深層解析まで。AIエージェントが「ただの道具」から「最高の相棒」へと進化した1日の全記録。AI初心者が最速で成長するためのヒント。
+        </p>
+        <div class="tags">
+          <span class="tag">AI初心者</span>
+          <span class="tag">成長ログ</span>
+          <span class="tag">必読</span>
+        </div>
+      </article>
+      <article class="article-card" data-category="architecture">
+        <h3><a href="articles/digital-twin-era.html">デジタルツイン・エラ：個人の「可能性」をシミュレートする未来</a></h3>
+        <p class="article-meta">2026-02-01 | 15 min read</p>
+        <p class="article-excerpt">
+          身体、知性、そして世界。あらゆるものがデジタル化される時代、私たちはどう生き残るか。パーソナルヘルスツインと、AI共生時代の生存戦略。
+        </p>
+        <div class="tags">
+          <span class="tag">デジタルツイン</span>
+          <span class="tag">未来予測</span>
+          <span class="tag">Investigation</span>
+        </div>
+      </article>
+      <article class="article-card" data-category="diary">
+        <h3><a href="articles/ai-curator-system-guide.html">自分専用・AI調査班を爆速で構築する：『MOCHISURA OPS ROOM』制作ガイド</a></h3>
+        <p class="article-meta">2026-02-01 | 12 min read</p>
+        <p class="article-excerpt">
+          AIを使って自分専用のニュース調査班を構築する技術ガイド。Gemini 2.5 Flashを活用し、ニュース収集からSNS投稿までを自動化する仕組みを解説。
+        </p>
+        <div class="tags">
+          <span class="tag">AI開発</span>
+          <span class="tag">自動化</span>
+          <span class="tag">Gemini</span>
+        </div>
+      </article>
+      <article class="article-card" data-category="diary">
+        <h3><a href="articles/project-progress-2026-01-31.html">2026年1月31日 プロジェクト進捗まとめ</a></h3>
+        <p class="article-meta">2026-01-31 | 5 min read</p>
+        <p class="article-excerpt">
+          もちスラブログ、Pet、秘密基地SNS、もちカルテ、Mochi TTSの各プロジェクトにおける1月31日時点の達成事項まとめ。
+        </p>
+        <div class="tags">
+          <span class="tag">進捗報告</span>
+          <span class="tag">Diary</span>
+        </div>
+      </article>
+      <article class="article-card" data-category="diary">
+        <h3><a href="articles/antigravity-tips.html">こんなこともできる、Antigravityの便利なとこ</a></h3>
+        <p class="article-meta">2026-01-30 | 5 min read</p>
+        <p class="article-excerpt">
+          AIエージェントAntigravityを使って、コードが書けないセラピストがサイト全体のブランド統合やナイトモード実装を秒速で完了させた実録。
+        </p>
+        <div class="tags">
+          <span class="tag">AIエージェント</span>
+          <span class="tag">開発ハック</span>
+        </div>
+      </article>
+      <article class="article-card" data-category="troubleshooting">
+        <h3><a href="articles/ai-logo-counter.html">AIロゴ vs ベクター神話</a></h3>
+        <p class="article-meta">2026-01-30 | 3 min read</p>
+        <p class="article-excerpt">
+          AIでロゴを作ったら「ベクターじゃないとゴミ」と笑われたので、3分で論破してみた。最新の実装技術とツールの話。
+        </p>
+        <div class="tags">
+          <span class="tag">AIデザイン</span>
+          <span class="tag">論破</span>
+        </div>
+      </article>
+      <!-- Featured Article -->
+      <article class="article-card featured" data-category="burn">
+        <h3><a href="articles/burn-philosophy.html">Burn設計哲学</a></h3>
+        <p class="article-meta">2026-01-27 | 5 min read</p>
+        <p class="article-excerpt">
+          本質を見極め、余分を削ぎ落とし、美しく焼き上げる。Burn設計は、引き算の美学と可逆性を核心とする設計思想です。
+        </p>
+        <div class="tags">
+          <span class="tag tag-burn">Burn</span>
+          <span class="tag">設計哲学</span>
+        </div>
+      </article>
+
+      <article class="article-card" data-category="diary">
+        <h3><a href="articles/ai-coding-success.html">「コード書けない私」が1ヶ月でWebアプリ5個作った話</a></h3>
+        <p class="article-meta">2026-01-30 | 10 min read</p>
+        <p class="article-excerpt">
+          プログラミング素人のリラクゼーションセラピストが、AIアシスタントを使って1ヶ月で5つのWebアプリを作った話。費用0円、工期1/10の衝撃体験。
+        </p>
+        <div class="tags">
+          <span class="tag">AI開発</span>
+          <span class="tag">個人サロン</span>
+        </div>
+      </article>
+
+      <article class="article-card" data-category="diary">
+        <h3><a href="articles/mochisura-pet-dev-diary-01.html">もちスラPet開発日記 #01 - 設計の誕生</a></h3>
+        <p class="article-meta">2026-01-29 | 15 min read</p>
+        <p class="article-excerpt">
+          無形資産が有形資産へと昇華する。Burn設計哲学の新しい解釈を具現化した「もちスラPet」プロジェクトの設計記録。
+        </p>
+        <div class="tags">
+          <span class="tag tag-burn">Burn</span>
+          <span class="tag">開発日記</span>
+        </div>
+      </article>
+
+      <!-- Regular Articles -->
+      <article class="article-card" data-category="burn">
+        <h3><a href="articles/personal-burn-diary.html">個人Burn日記設計</a></h3>
+        <p class="article-meta">2026-01-27 | 7 min read</p>
+        <p class="article-excerpt">
+          個人の内面を焚き火のように静かに燃やし、灰に還す。プライバシーとメンタルケアを両立した日記システムの設計。
+        </p>
+        <div class="tags">
+          <span class="tag tag-burn">Burn</span>
+          <span class="tag">プライバシー</span>
+        </div>
+      </article>
+
+      <article class="article-card" data-category="architecture">
+        <h3><a href="articles/mochisura-platform-plan.html">もちスラ統合プラットフォーム計画</a></h3>
+        <p class="article-meta">2026-01-26 | 10 min read</p>
+        <p class="article-excerpt">
+          もちスラカルテ、Burn日記、秘密基地SNSを統合したメンタルケアプラットフォームの全体設計。
+        </p>
+        <div class="tags">
+          <span class="tag">アーキテクチャ</span>
+          <span class="tag">Flutter</span>
+        </div>
+      </article>
+
+      <article class="article-card" data-category="diary">
+        <h3><a href="articles/development-story.html">開発ストーリー</a></h3>
+        <p class="article-meta">2026-01-24 | 6 min read</p>
+        <p class="article-excerpt">
+          個人開発の苦悩と発見。もちスラカルテプロジェクトが生まれるまでの物語。
+        </p>
+        <div class="tags">
+          <span class="tag">開発日記</span>
+        </div>
+      </article>
+
+      <article class="article-card" data-category="troubleshooting">
+        <h3><a href="articles/ai-failures-and-fixes.html">AI失敗と修正記録</a></h3>
+        <p class="article-meta">2026-01-24 | 4 min read</p>
+        <p class="article-excerpt">
+          AIアシスタントとのペアプログラミングで遭遇した問題と解決策の記録。
+        </p>
+        <div class="tags">
+          <span class="tag">トラブルシューティング</span>
+          <span class="tag">AI</span>
+        </div>
+      </article>
+
+      <article class="article-card" data-category="troubleshooting">
+        <h3><a href="articles/quartz-troubleshooting.html">Quartzトラブルシューティング</a></h3>
+        <p class="article-meta">2026-01-24 | 3 min read</p>
+        <p class="article-excerpt">
+          Quartz v4でカスタムCSSが反映されない問題の調査と解決記録。
+        </p>
+        <div class="tags">
+          <span class="tag">Quartz</span>
+          <span class="tag">CSS</span>
+        </div>
+      </article>
+
+      <article class="article-card" data-category="troubleshooting">
+        <h3><a href="articles/quartz-troubleshooting-part2.html">Quartzトラブルシューティング Part 2</a></h3>
+        <p class="article-meta">2026-01-24 | 3 min read</p>
+        <p class="article-excerpt">
+          lightningcssとSCSS構文の互換性問題を深掘りした完全版トラブルシューティング。
+        </p>
+        <div class="tags">
+          <span class="tag">Quartz</span>
+          <span class="tag">SCSS</span>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+      <p class="footer-links">
+        <a href="https://www.threads.com/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple dark mode toggle
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+    }
+
+    // Load saved theme
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      document.querySelector('.theme-toggle').textContent = '☀️';
+    }
+
+    // Category filter function
+    function filterCategory(category) {
+      const articles = document.querySelectorAll('.article-card');
+      const buttons = document.querySelectorAll('.category-btn');
+
+      buttons.forEach(btn => {
+        if (btn.dataset.category === category) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      articles.forEach(article => {
+        if (category === 'all' || article.dataset.category === category) {
+          article.classList.remove('hidden');
+          article.style.display = 'block';
+        } else {
+          article.classList.add('hidden');
+          article.style.display = 'none';
+        }
+      });
+    }
+
+    function filterTopic(keyword) {
+      // Small delay to let filterCategory finish if called concurrently
+      setTimeout(() => {
+        const articles = document.querySelectorAll('.article-card');
+        articles.forEach(article => {
+          const title = article.querySelector('h3').textContent;
+          const excerpt = article.querySelector('.article-excerpt').textContent;
+          const tags = Array.from(article.querySelectorAll('.tag')).map(t => t.textContent).join(' ');
+
+          if (title.includes(keyword) || excerpt.includes(keyword) || tags.includes(keyword)) {
+            article.classList.remove('hidden');
+            article.style.display = 'block';
+          } else {
+            article.classList.add('hidden');
+            article.style.display = 'none';
+          }
+        });
+
+        // Scroll to articles section
+        document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    }
+  </script>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" aria-label="トップに戻る">
+    ↑
+  </button>
+
+  <script>
+    // Scroll to top functionality
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+
+  <!-- Search Capability -->
+  <script src="js/search.js"></script>
+</body>
+
+</html>

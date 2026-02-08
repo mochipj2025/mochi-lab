@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="個人開発の苦悩と発見。もちスラカルテプロジェクトが生まれるまでの物語。">
+    <title>セラピストがローカルAIで「電子カルテ」を自作した話 | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+        <header class="site-header"><div class="container"><div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span class="logo-text">Mochisura Lab</span></a></div><nav class="site-nav"><a href="../../index.html#products">Products</a><a href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav></div></header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1 class="article-title">【開発ログ】セラピストがローカルAIで「電子カルテ」を自作した話</h1>
+            <p class="article-meta">2026-01-24 | 6 min read</p>
+
+            <div class="tags">
+                <span class="tag">開発日記</span>
+                <span class="tag">AI</span>
+                <span class="tag">Obsidian</span>
+            </div>
+
+            <div class="content">
+                <p>こんにちは、もちスラです。</p>
+                <p>今回は、私が実際に開発している「もちスラカルテ」という電子カルテシステムについて、技術的な構成と開発の裏側をお話しします。</p>
+                <p>このシステムは <strong>将来的に同業者の方々と共同利用できる形</strong> を目指しており、知的財産として一部を公開しながら、コアな部分は有料コンテンツとして展開していく予定です。</p>
+
+                <hr>
+
+                <h2>なぜ作ったのか？</h2>
+                <p>私は作業療法士（OT）とリラクゼーションセラピストとして働いていますが、施術後のカルテ記録が <strong>手書きで30分以上</strong> かかっていました。</p>
+                <ul>
+                    <li>お客様の主訴や体の状態</li>
+                    <li>五行思想に基づく体質分析</li>
+                    <li>次回の施術プラン</li>
+                </ul>
+                <p>これらを毎回丁寧に書くのは、正直しんどい…。</p>
+                <p>そこで思いついたのが、<strong>「スマホでポチポチ入力 → AIが自動で整形 → Obsidianで蓄積」</strong> という仕組みです。</p>
+
+                <hr>
+
+                <h2>システム構成：3層アーキテクチャ</h2>
+
+                <h3>📱 Phase 1: PWA入力層（スマホアプリ）</h3>
+                <p><strong>技術スタック</strong></p>
+                <ul>
+                    <li>HTML/CSS/JavaScript</li>
+                    <li>LocalStorage</li>
+                    <li>PWA (Progressive Web App)</li>
+                </ul>
+
+                <p><strong>できること</strong></p>
+                <ul>
+                    <li>施術中にスマホで「ポチポチ」タグ入力</li>
+                    <li>主訴、体の状態、強さ（NRS）を記録</li>
+                    <li>データはスマホ内に保存され、後でPCに転送</li>
+                </ul>
+
+                <p><strong>こだわりポイント</strong></p>
+                <ul>
+                    <li>「もちスラ」ブランドの柔らかいUI</li>
+                    <li>FAB（フローティングアクションボタン）で保存しやすく</li>
+                    <li>オフラインでも動作（PWA）</li>
+                </ul>
+
+                <hr>
+
+                <h3>💻 Phase 2: Python処理エンジン（ローカルAI）</h3>
+                <p><strong>技術スタック</strong></p>
+                <ul>
+                    <li>Python 3.x</li>
+                    <li>Ollama (Llama3) - ローカルLLM</li>
+                    <li>Pydantic (データ検証)</li>
+                </ul>
+
+                <p><strong>できること</strong></p>
+                <ul>
+                    <li>スマホから受け取ったJSONデータを解析</li>
+                    <li>AIが「SOAP形式」でカルテを自動生成
+                        <ul>
+                            <li><strong>S (Subjective)</strong>: お客様の訴え</li>
+                            <li><strong>O (Objective)</strong>: セラピストの観察</li>
+                            <li><strong>A (Assessment)</strong>: OT視点 × 五行思想での分析</li>
+                            <li><strong>P (Plan)</strong>: 次回の施術方針</li>
+                        </ul>
+                    </li>
+                    <li>五行タグ（木・火・土・金・水）を自動付与</li>
+                </ul>
+
+                <p><strong>なぜローカルAI？</strong></p>
+                <ul>
+                    <li><strong>プライバシー重視</strong>: お客様の情報をクラウドに送らない</li>
+                    <li><strong>コスト削減</strong>: ChatGPT APIは従量課金だが、ローカルなら無料</li>
+                    <li><strong>カスタマイズ性</strong>: 自分専用のプロンプトで「もちスラ教授」を育成</li>
+                </ul>
+
+                <hr>
+
+                <h3>📚 Phase 3: Obsidian Vault（ナレッジベース）</h3>
+                <p><strong>技術スタック</strong></p>
+                <ul>
+                    <li>Obsidian</li>
+                    <li>Dataview Plugin</li>
+                    <li>Pykakasi (日本語処理)</li>
+                </ul>
+
+                <p><strong>できること</strong></p>
+                <ul>
+                    <li>顧客ごとに50音順でフォルダ自動整理</li>
+                    <li>日次ログで「今日誰が来たか」を一覧化</li>
+                    <li>ダッシュボードで全体を俯瞰</li>
+                    <li>Callout（吹き出し）とHTMLバッジで視覚化</li>
+                </ul>
+
+                <p><strong>将来の展開</strong></p>
+                <ul>
+                    <li>Quartzを使ってWeb公開（一部のみ）</li>
+                    <li>同業者向けに「テンプレート販売」も検討中</li>
+                </ul>
+
+                <hr>
+
+                <h2>🔒 ブロックチェーン証明（おまけ）</h2>
+                <p>カルテの改ざん防止のため、各ファイルに <strong>SHA256ハッシュ</strong> と <strong>タイムスタンプ</strong> を埋め込んでいます。</p>
+                <p>これにより、「いつ・誰が・何を記録したか」が証明可能になります。</p>
+
+                <hr>
+
+                <h2>開発で学んだこと</h2>
+
+                <h3>技術的な壁</h3>
+                <ol>
+                    <li><strong>タイムゾーン問題</strong>: UTC と JST の変換ミスで日付がズレた</li>
+                    <li><strong>データモデルの同期</strong>: PWA（JavaScript）と Python の型定義を合わせるのが大変</li>
+                    <li><strong>日本語処理</strong>: 顧客名を50音順に振り分けるため <code>pykakasi</code> を導入</li>
+                </ol>
+
+                <h3>バグ修正の記録</h3>
+                <ul>
+                    <li><code>app.js</code> が破損して全タグが消えた事件</li>
+                    <li><code>courseMenu</code> フィールドが保存されていなかった</li>
+                    <li><code>visitDate</code> が未定義でエラー連発</li>
+                </ul>
+
+                <hr>
+
+                <h2>今後の展開</h2>
+
+                <h3>技術面</h3>
+                <ul>
+                    <li>Quartz連携でWeb公開</li>
+                    <li>PWA → Obsidian の「逆輸入」機能</li>
+                    <li>音声入力対応</li>
+                    <li>MOC（Map of Content）自動再構成</li>
+                </ul>
+
+                <h3>ビジネス面</h3>
+                <ul>
+                    <li>無料版：システム構成の解説記事</li>
+                    <li>有料版：AIプロンプトの詳細 + 運用ノウハウ</li>
+                    <li>ケーススタディ集の作成</li>
+                    <li>note/Brain での販売</li>
+                </ul>
+
+                <hr>
+
+                <h2>まとめ</h2>
+                <p>「もちスラカルテ」は、<strong>セラピストの知見をデジタル資産化</strong> するプロジェクトです。</p>
+                <ul>
+                    <li>スマホで簡単入力</li>
+                    <li>AIが自動でSOAP形式に整形</li>
+                    <li>Obsidianで蓄積・可視化</li>
+                    <li>ブロックチェーンで証明</li>
+                </ul>
+
+                <p>このシステムは <strong>将来的に同業者の方々と共有できる形</strong> を目指しています。</p>
+                <p>技術的な詳細や、実際のプロンプト設計については、今後 <strong>有料コンテンツ</strong> として公開予定です。</p>
+                <p>ご興味のある方は、ぜひフォローしてお待ちください！</p>
+
+                <hr>
+
+                <p><strong>もちスラ</strong><br>
+                    作業療法士 × リラクゼーションセラピスト<br>
+                    「養生」をテクノロジーで再定義する</p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+            <p class="footer-links">
+                <a href="https://www.threads.net/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" aria-label="トップに戻る">
+    ↑
+  </button>
+
+  <script>
+    // Scroll to top functionality
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+  <!-- Series Navigation -->
+  <script src="../js/series-navigation.js"></script>
+
+  <!-- Search Capability -->
+  <script src="../js/search.js"></script>
+</body>
+
+</html>
+

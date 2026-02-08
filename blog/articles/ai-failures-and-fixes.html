@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AIアシスタントとのペアプログラミングで遭遇した問題と解決策の記録。">
+    <title>AIと作ったブログ、AIがやらかした3つのミスと解決策 | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+        <header class="site-header"><div class="container"><div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span class="logo-text">Mochisura Lab</span></a></div><nav class="site-nav"><a href="../../index.html#products">Products</a><a href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav></div></header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1 class="article-title">🤖 "AI開発" のリアルな失敗事例</h1>
+            <p class="article-meta">2026-01-24 | 4 min read</p>
+
+            <div class="tags">
+                <span class="tag">AI</span>
+                <span class="tag">失敗談</span>
+                <span class="tag">Quartz</span>
+                <span class="tag">トラブルシューティング</span>
+            </div>
+
+            <div class="content">
+                <p>「AIに指示を出せば、寝ている間にブログができている」<br>
+                    …そんな甘い話はありませんでした。</p>
+
+                <p>このブログはAI（Gemini/Claude）とペアプログラミングで作っていますが、構築中に <strong>AIが盛大にやらかした（見落とした）</strong> ミスが3つありました。</p>
+
+                <p>同じ罠にハマる人を減らすために、あえて <strong>「AIの失敗例」</strong> として記録に残します。</p>
+
+                <hr>
+
+                <h2>❌ 失敗1：Windows環境への配慮不足</h2>
+
+                <p>AIは最初に自信満々でこう言いました。</p>
+                <blockquote>
+                    <p>「<code>npx quartz create</code> を実行してください！簡単です！」</p>
+                </blockquote>
+
+                <p>しかし、私のWindows環境（PowerShell）では…</p>
+                <ul>
+                    <li>💥 <strong>実行ポリシーエラー</strong>（セキュリティでブロックされる）</li>
+                    <li>💥 <strong>npmエラー</strong>（<code>could not determine executable</code>）</li>
+                </ul>
+
+                <p>AIはLinux/Macベースの知識が強く、Windows特有のクセ（文字コードや権限まわり）に弱いです。</p>
+
+                <h3>✅ 解決策</h3>
+                <p>「インストーラー」に頼るのをやめ、<strong><code>git clone</code> で直接ソースコードを持ってくる</strong>
+                    という原始的な方法で解決しました。AIが提案する「スマートな方法」が動かないときは、泥臭い方法が最強です。</p>
+
+                <hr>
+
+                <h2>❌ 失敗2：Jekyllの亡霊 (Ghost Jekyll)</h2>
+
+                <p>GitHubにコードを上げたら、謎のビルドエラーが発生。<br>
+                    <code>Liquid syntax error</code> という聞き覚えのないエラーです。
+                </p>
+
+                <p>AIの言い分：</p>
+                <blockquote>
+                    <p>「Quartzのコードは正しいはずです…」</p>
+                </blockquote>
+
+                <p>実は、<strong>GitHub Pagesはおせっかいな機能</strong>
+                    を持っています。何も指定しないと「Jekyll」という古いブログエンジンだと思い込んで勝手にビルドし始め、Quartzのファイルを読み込んで自爆していたのです。</p>
+
+                <p>AIはこの「プラットフォームの仕様」を考慮に入れていませんでした。</p>
+
+                <h3>✅ 解決策</h3>
+                <p><strong><code>.nojekyll</code></strong> という空ファイルを置く。「これはJekyllじゃないから触るな！」という魔除けです。これで亡霊は消えました。</p>
+
+                <hr>
+
+                <h2>❌ 失敗3：デプロイ設計図の欠落</h2>
+
+                <p>「エラーは消えたのに、サイトが表示されない…？」<br>
+                    AIと一緒にフォルダを確認すると、ある重大なファイルが欠けていました。</p>
+
+                <p><strong><code>deploy.yml</code>（サイトを公開するための手順書）</strong></p>
+
+                <p>AI：「あ、テスト用の <code>ci.yaml</code> はありましたが、公開用のファイルを作るのを忘れていました（テヘペロ）」</p>
+
+                <p>AIは「コードを書く」のには夢中になりますが、それを「どうやってサーバーに置くか」という <strong>最後の一手</strong> を忘れる傾向があります。</p>
+
+                <h3>✅ 解決策</h3>
+                <p>人間が気付いて指摘し、<code>deploy.yml</code> を作成させました。AIは万能ではなく、<strong>「詰めが甘い部下」</strong> だと思って接するのが正解です。</p>
+
+                <hr>
+
+                <h2>💡 教訓</h2>
+
+                <p>AI開発は「全自動」ではありません。<br>
+                    <strong>「AIが書いたコードを、人間が疑い、エラーログを突きつけて修正させる」</strong> という <strong>泥臭いラリー</strong> そのものです。
+                </p>
+
+                <p>でも、そのラリーがあったからこそ、このブログは完成しました。<br>
+                    「AIも失敗するんだな」と暖かく見守りながら、一緒にデバッグを楽しめる余裕が必要ですね。</p>
+
+                <hr>
+
+                <p><em>この記事も、AIに自分の失敗を書かせています。</em></p>
+
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+            <p class="footer-links">
+                <a href="https://www.threads.net/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" aria-label="トップに戻る">
+    ↑
+  </button>
+
+  <script>
+    // Scroll to top functionality
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+  <!-- Series Navigation -->
+  <script src="../js/series-navigation.js"></script>
+
+  <!-- Search Capability -->
+  <script src="../js/search.js"></script>
+</body>
+
+</html>
+

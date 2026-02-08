@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Windows環境でLLMファインチューニング環境を構築しようとしたら、依存関係地獄（Dependency Hell）にハマった全記録。UnslothからPEFT/LoRAへの移行まで。">
+    <title>WindowsでLLMファインチューニング環境構築：依存関係地獄からの脱出記 | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span
+                        class="logo-text">Mochisura Lab</span></a></div>
+            <nav class="site-nav"><a href="../../index.html#products">Products</a><a
+                    href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a
+                    href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button
+                    class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1 class="article-title">🔥 依存関係地獄からの大脱出</h1>
+            <p class="article-meta">2026-02-05 | 15 min read</p>
+
+            <div class="tags">
+                <span class="tag">AI</span>
+                <span class="tag">LLM</span>
+                <span class="tag">ファインチューニング</span>
+                <span class="tag">トラブルシューティング</span>
+                <span class="tag">Windows</span>
+            </div>
+
+            <div class="content">
+                <p>「Project
+                    Genesisの世界観をAIに学習させたい！」と意気込んで、LLMのファインチューニング環境を構築しようとしたら、<strong>2時間以上も依存関係の迷宮に迷い込んでしまった</strong>話です。
+                </p>
+
+                <p>同じように苦しんでいる未来の誰かのために、この長い戦いの全記録を残します。</p>
+
+                <hr>
+
+                <h2>📋 前提条件</h2>
+
+                <ul>
+                    <li><strong>OS</strong>: Windows 11</li>
+                    <li><strong>GPU</strong>: RTX 3060 Ti (8GB VRAM)</li>
+                    <li><strong>Python</strong>: 3.10</li>
+                    <li><strong>目的</strong>: Llama-3ベースのモデルをProject Genesisのデータでファインチューニング</li>
+                </ul>
+
+                <hr>
+
+                <h2>💥 第一の罠：Unslothのインストール</h2>
+
+                <h3>期待していたこと</h3>
+                <p>「Unslothは高速でメモリ効率が良い」と評判だったので、これを使おうと決めました。</p>
+
+                <pre><code>pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+pip install unsloth</code></pre>
+
+                <h3>現実</h3>
+                <p>エラー連発。まず <code>ModuleNotFoundError: No module named 'torch'</code> が発生。</p>
+
+                <p><strong>原因</strong>: Unslothが <code>pip install</code> の「ビルド段階」で <code>torch</code>
+                    の存在をチェックするが、Windowsでは同時インストール中のパッケージがまだ認識されていない。</p>
+
+                <hr>
+
+                <h2>💥 第二の罠：torchバージョンの不一致</h2>
+
+                <p>torchを先にインストールしたら、今度は：</p>
+
+                <pre><code>ERROR: pip's dependency resolver does not currently take into account all the packages that are installed.
+torchaudio 2.5.1+cu121 requires torch==2.5.1+cu121, but you have torch 2.10.0 which is incompatible.</code></pre>
+
+                <p><strong>原因</strong>: Unslothの最新版（2026.1.4）が、自動的に最新のPyTorch 2.10.0を要求するが、CUDA
+                    12.1向けのPyTorchは2.5.1までしか公式提供されていない。</p>
+
+                <hr>
+
+                <h2>💥 第三の罠：xformersの闇</h2>
+
+                <p>バージョンを統一しようとして <code>xformers</code> を指定すると：</p>
+
+                <pre><code>ERROR: Could not find a version that satisfies the requirement xformers==0.0.28.post3</code></pre>
+
+                <p><strong>原因</strong>: xformersのビルド済みバイナリがPythonバージョンやCUDAバージョンに非常に依存しており、指定したバージョンが存在しない。</p>
+
+                <hr>
+
+                <h2>💥 第四の罠：torchaoの自爆</h2>
+
+                <p>何とか進めると、実行時にこれが出現：</p>
+
+                <pre><code>AttributeError: module 'torch' has no attribute 'int1'</code></pre>
+
+                <p><strong>原因</strong>: <code>torchao</code> という最適化ライブラリが、まだリリースされていない超最新機能（<code>int1</code>
+                    データ型）を前提にしている。torch 2.5.1にはそんなものはない。</p>
+
+                <hr>
+
+                <h2>💥 第五の罠：transformersの大爆発</h2>
+
+                <p>transformersをアップグレードすると：</p>
+
+                <pre><code>ImportError: cannot import name 'CompileConfig' from 'transformers'</code></pre>
+
+                <p>逆にダウングレードすると：</p>
+
+                <pre><code>unsloth-zoo 2026.1.4 requires transformers&gt;=4.51.3, but you have transformers 4.47.1</code></pre>
+
+                <p><strong>原因</strong>: Unslothが最新のtransformersの機能（<code>CompileConfig</code>）を使おうとするが、バージョン管理が追いついていない。
+                </p>
+
+                <hr>
+
+                <h2>🚨 決断：Unslothを諦める</h2>
+
+                <p>2時間の試行錯誤の末、ついに決断しました：</p>
+
+                <blockquote>
+                    <p><strong>「Unslothはまだ2026年初頭のWindowsでは不安定すぎる。標準ライブラリに切り替えよう。」</strong></p>
+                </blockquote>
+
+                <hr>
+
+                <h2>✅ 解決策：PEFT + LoRAの標準構成</h2>
+
+                <h3>最終的なインストールコマンド</h3>
+
+                <pre><code># 問題児を全削除
+pip uninstall unsloth unsloth-zoo torchao xformers -y
+
+# シンプルで確実な構成
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+pip install transformers datasets peft trl accelerate bitsandbytes</code></pre>
+
+                <h3>学習スクリプト（train_genesis_simple.py）</h3>
+
+                <pre><code>from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+from trl import SFTTrainer
+import torch
+
+# 4-bit量子化設定（8GB VRAM向け）
+bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.float16,
+)
+
+# TinyLlama（認証不要、軽量）
+model = AutoModelForCausalLM.from_pretrained(
+    "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+    quantization_config=bnb_config,
+    device_map="auto",
+)
+
+# LoRA設定
+lora_config = LoraConfig(
+    r=16,
+    lora_alpha=32,
+    target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+    lora_dropout=0.05,
+    bias="none",
+    task_type="CAUSAL_LM"
+)
+
+model = get_peft_model(model, lora_config)
+
+# ... 以下、学習処理</code></pre>
+
+                <p>このシンプルな構成で、ついに <strong>「Loading model and tokenizer...」</strong> という待望のメッセージが表示され、学習が始まりました。</p>
+
+                <hr>
+
+                <h2>💥 第六の罠：API仕様の激変 (TRL 2025-2026)</h2>
+
+                <p>「標準ライブラリなら安心」と思っていたら、そこにも罠が。2025年から2026年にかけて、<code>trl</code> ライブラリのAPIが大幅に更新されていました。</p>
+
+                <h3>1. <code>SFTTrainer</code> の引数名変更</h3>
+                <pre><code>TypeError: SFTTrainer.__init__() got an unexpected keyword argument 'tokenizer'</code></pre>
+                <p><strong>解決策</strong>: <code>tokenizer</code> は <code>processing_class</code> という名前に変更されていました。</p>
+
+                <h3>2. <code>SFTConfig</code> への設定集約</h3>
+                <pre><code>TypeError: SFTTrainer.__init__() got an unexpected keyword argument 'dataset_text_field'</code></pre>
+                <p><strong>解決策</strong>: 設定値の多くが、<code>SFTTrainer</code> に直接渡すのではなく、新設された <code>SFTConfig</code>
+                    オブジェクトの中に含める形式に変わっていました。</p>
+
+                <h3>3. バージョン 0.12.2 の地雷：<code>max_length</code></h3>
+                <pre><code>TypeError: SFTConfig.__init__() got an unexpected keyword argument 'max_seq_length'</code></pre>
+                <p><strong>解決策</strong>: 多くのドキュメントでは <code>max_seq_length</code> とされていますが、この特定のバージョンでは単に
+                    <code>max_length</code> と定義されていました。OS側からAPIの中身を <code>inspect</code> することでようやく正解に辿り着きました。</p>
+
+                <hr>
+
+                <h2>📊 比較：UnslothとPEFT</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>項目</th>
+                            <th>Unsloth</th>
+                            <th>PEFT + LoRA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>インストール</strong></td>
+                            <td>🔴 非常に困難（2026年2月時点）</td>
+                            <td>🟢 シンプル</td>
+                        </tr>
+                        <tr>
+                            <td><strong>学習速度</strong></td>
+                            <td>🟢 高速</td>
+                            <td>🟡 やや遅い</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VRAM消費</strong></td>
+                            <td>🟢 最小</td>
+                            <td>🟡 やや多い（8GBでも動く）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>安定性</strong></td>
+                            <td>🔴 依存関係が複雑</td>
+                            <td>🟢 枯れた技術</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <hr>
+
+                <h2>🎓 学んだ教訓</h2>
+
+                <ol>
+                    <li><strong>2026年初頭のUnslothは、Windowsでは「開発版」扱い</strong>
+                        <ul>
+                            <li>Linux環境やGoogle Colabでは安定しているが、Windowsの依存関係管理ツール（pip）との相性が悪い。</li>
+                        </ul>
+                    </li>
+                    <li><strong>「最新」は必ずしも「ベスト」ではない</strong>
+                        <ul>
+                            <li>枯れた技術（PEFT + LoRA）の方が、結果的に早く目的を達成できることもある。</li>
+                        </ul>
+                    </li>
+                    <li><strong>依存関係地獄に2時間以上費やすくらいなら、早めに方針転換を</strong>
+                        <ul>
+                            <li>「あと少しで動くはず」という希望的観測が、時間を浪費させる。</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <hr>
+
+                <h2>🔮 今後の展望</h2>
+
+                <p>Unslothの開発は非常に活発なので、数ヶ月後にはWindows環境でも安定すると期待しています。</p>
+
+                <p>それまでは、<strong>標準的なPEFT + LoRA</strong> で十分に高品質なファインチューニングが可能です。</p>
+
+                <p>Project Genesisの世界観をAIに学習させる旅は、これからが本番です！</p>
+
+                <hr>
+
+                <p><em>この記事は、実際に2時間以上かけて試行錯誤した全記録をもとに執筆しました。</em></p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+            <p class="footer-links">
+                <a href="https://www.threads.net/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" onclick="scrollToTop()" aria-label="トップに戻る">
+        ↑
+    </button>
+
+    <script>
+        const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+    <!-- Series Navigation -->
+    <script src="../js/series-navigation.js"></script>
+
+    <!-- Search Capability -->
+    <script src="../js/search.js"></script>
+</body>
+
+</html>

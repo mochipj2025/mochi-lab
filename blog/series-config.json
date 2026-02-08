@@ -1,0 +1,49 @@
+{
+  "series": [
+    {
+      "id": "mochisura-pet-devlog",
+      "title": "もちスラPet開発日記",
+      "description": "Burn昇華システムの設計から実装まで",
+      "articles": [
+        {
+          "slug": "mochisura-pet-dev-diary-01",
+          "title": "もちスラPet開発日記 #01 - 設計の誕生",
+          "url": "articles/mochisura-pet-dev-diary-01.html",
+          "date": "2026-01-29"
+        }
+      ]
+    },
+    {
+      "id": "quartz-troubleshooting",
+      "title": "Quartzトラブルシューティング",
+      "description": "Quartz v4カスタマイズの落とし穴と解決策",
+      "articles": [
+        {
+          "slug": "quartz-troubleshooting",
+          "title": "Quartzトラブルシューティング",
+          "url": "articles/quartz-troubleshooting.html",
+          "date": "2026-01-24"
+        },
+        {
+          "slug": "quartz-troubleshooting-part2",
+          "title": "Quartzトラブルシューティング Part 2",
+          "url": "articles/quartz-troubleshooting-part2.html",
+          "date": "2026-01-24"
+        }
+      ]
+    },
+    {
+      "id": "project-progress",
+      "title": "進捗報告",
+      "description": "もちスララボの各プロジェクト進捗まとめ",
+      "articles": [
+        {
+          "slug": "project-progress-2026-01-31",
+          "title": "2026年1月31日 プロジェクト進捗まとめ",
+          "url": "articles/project-progress-2026-01-31.html",
+          "date": "2026-01-31"
+        }
+      ]
+    }
+  ]
+}

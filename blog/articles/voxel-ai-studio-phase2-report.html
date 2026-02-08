@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Voxel AI Studio 開発レポート：ボクセルエディターの進化と連動パレットの魔法">
+    <title>【開発レポート】Voxel AI Studio：連動パレットとバケツツールがもたらす革新 - もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span
+                        class="logo-text">Mochisura Lab</span></a></div>
+            <nav class="site-nav"><a href="../../index.html#products">Products</a><a
+                    href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a
+                    href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button
+                    class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="blog-article">
+            <header class="article-header">
+                <h1 class="article-title">【開発レポート】Voxel AI Studio：連動パレットとバケツツールがもたらすボクセル制作の革新</h1>
+                <p class="article-meta"><i class="fa-solid fa-calendar"></i> 2026-02-07 | <i
+                        class="fa-solid fa-clock"></i> 8 min read</p>
+                <div class="tags">
+                    <span class="tag">Voxel AI Studio</span>
+                    <span class="tag">Three.js</span>
+                    <span class="tag">UX Design</span>
+                </div>
+            </header>
+
+            <section class="article-content">
+                <p>「一瞬で、すべてを塗り替える」。</p>
+                <p>Voxel AI Studio の Phase 2 開発が佳境を迎えています。今回のアップデートでは、ボクセル制作の「面倒くさい」を徹底的に排除し、直感的な創造性を加速させる編集機能を多数実装しました。
+                </p>
+
+                <h3>1. パレット・インデックス方式：色の同期という魔法</h3>
+                <p>ボクセル一つ一つに直接色を塗るのではなく、パレットの「番号（インデックス）」を割り当てる方式を採用しました。これにより、パレット上の色を変更するだけで、ワールド内の対応するボクセルがリアルタイムで一斉に変化します。「屋根の色を赤から青に変えたい」と思った時、もう一度塗り直す必要はありません。パレットの色コードを打ち変えるだけです。
+                </p>
+
+                <h3>2. バケツツール（Flood Fill）：面を支配する機能</h3>
+                <p>ボクセル一つ一つをクリックして配置するのは、時に苦行です。新しく実装した「バケツツール（🪣）」は、繋がっている同じ色の面を検知し、ワンクリックで塗りつぶします。これにより、広大な地面や壁の配色が瞬時に完了します。
+                </p>
+
+                <h3>3. 素材（Material）と地形生成の連動</h3>
+                <p>単なる色だけでなく、「芝生」「土」「石」「水」といった素材の概念を導入しました。生成ボタン一つで、サイン波に基づいた自然な山々や湖が、適切な素材の層（最下層は石、表面は芝生など）を保ったまま自動構築されます。
+                </p>
+
+                <h3>4. 近未来的なコクピット・エディター</h3>
+                <p>UIはリッチブラックを基調とした、 cockpit 風のデザインを採用。ショートカット（Ctrl+Z/Y, A, P,
+                    E）の追加により、キーボードとマウスを駆使したプロフェッショナルな編集が可能になりました。</p>
+
+                <blockquote>
+                    <p><strong>Antigravityメモ:</strong> 「創造」の障壁となるクリック回数をどこまで減らせるか。それが今回の Phase 2 の大きなテーマでした。</p>
+                </blockquote>
+
+                <p>次は、この世界に自律的に動くAIエージェントを放つ準備を進めます。休息の後は、保存機能とスタンプ機能の実装です。</p>
+            </section>
+
+            <footer class="article-footer">
+                <div class="author-card">
+                    <img src="../../assets/character.png" alt="もちスラ" class="author-img">
+                    <div class="author-info">
+                        <h5>もちスラ</h5>
+                        <p>Mochisura Lab 主宰。本質的な設計と美しい実装を追求するセラピスト。AIと共に、新しい創造の形を模索中。</p>
+                    </div>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="本質を見極め、余分を削ぎ落とし、美しく焼き上げる。Burn設計は、引き算の美学と可逆性を核心とする設計思想です。">
+    <title>Burn設計哲学 - なぜネガティブを残さないのか | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+        <header class="site-header"><div class="container"><div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span class="logo-text">Mochisura Lab</span></a></div><nav class="site-nav"><a href="../../index.html#products">Products</a><a href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav></div></header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1 class="article-title">Burn設計哲学 - なぜネガティブを残さないのか</h1>
+            <p class="article-meta">2026-01-27 | 5 min read</p>
+
+            <div class="tags">
+                <span class="tag tag-burn">Burn</span>
+                <span class="tag">メンタルケア</span>
+                <span class="tag">設計思想</span>
+                <span class="tag">SNS</span>
+            </div>
+
+            <div class="content">
+                <h2>SNSの根本的問題</h2>
+
+                <p>既存のSNSプラットフォームでは、ネガティブな投稿が<strong>永続的に残る</strong>ことが大きな問題です。</p>
+
+                <h3>個人への影響</h3>
+                <ul>
+                    <li>投稿者自身が過去のネガティブに縛られる</li>
+                    <li>「デジタルタトゥー」として後悔の種になる</li>
+                    <li>感情的な投稿を削除できない不安</li>
+                </ul>
+
+                <h3>コミュニティへの影響</h3>
+                <ul>
+                    <li>他のユーザーがネガティブに引っ張られる</li>
+                    <li>全体の雰囲気が悪化する</li>
+                    <li>ポジティブな投稿が埋もれる</li>
+                </ul>
+
+                <h3>プラットフォームの病理</h3>
+                <ul>
+                    <li>炎上の連鎖</li>
+                    <li>承認欲求の歪み（ネガティブの方が反応を得やすい）</li>
+                    <li>メンタルヘルスへの悪影響</li>
+                </ul>
+
+                <hr>
+
+                <h2>吐き出すことは有効、でも残すことは有害</h2>
+
+                <p><strong>Expressive Writing療法（James Pennebaker博士）</strong>によれば：</p>
+                <ul>
+                    <li>ネガティブな感情を書き出すことでストレス軽減</li>
+                    <li>不安症状やPTSD症状の改善</li>
+                    <li>免疫機能の向上</li>
+                </ul>
+
+                <p>しかし、これは「書くこと」の効果であって、「残すこと」ではありません。</p>
+
+                <p>むしろ、<strong>オープンな空間にネガティブが蓄積すること</strong>は：</p>
+                <ul>
+                    <li>コミュニティの雰囲気を悪化させる</li>
+                    <li>新しいメンバーを遠ざける</li>
+                    <li>ネガティブの連鎖を生む</li>
+                </ul>
+
+                <hr>
+
+                <h2>もちスラの解決策</h2>
+
+                <h3>「消える場所」と「残す場所」の明確な分離</h3>
+
+                <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-light);">
+                            <th style="padding: 0.75rem; text-align: left;">空間</th>
+                            <th style="padding: 0.75rem; text-align: center;">ネガティブ</th>
+                            <th style="padding: 0.75rem; text-align: left;">データ保持</th>
+                            <th style="padding: 0.75rem; text-align: left;">理由</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border-light);">
+                            <td style="padding: 0.75rem;">🔥 焚き火広場</td>
+                            <td style="padding: 0.75rem; text-align: center;">✅ OK</td>
+                            <td style="padding: 0.75rem;"><strong>5分で削除</strong></td>
+                            <td style="padding: 0.75rem;">吐き出すが残さない</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-light);">
+                            <td style="padding: 0.75rem;">📔 個人Burn日記</td>
+                            <td style="padding: 0.75rem; text-align: center;">✅ OK</td>
+                            <td style="padding: 0.75rem;">最大30日（ユーザーが選択）</td>
+                            <td style="padding: 0.75rem;">プライベートなら治療的</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-light);">
+                            <td style="padding: 0.75rem;">💬 プラザ</td>
+                            <td style="padding: 0.75rem; text-align: center;">⚠️ 避ける</td>
+                            <td style="padding: 0.75rem;">24h-7日</td>
+                            <td style="padding: 0.75rem;">ポジティブ交流が主</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-light);">
+                            <td style="padding: 0.75rem;">📖 図書館</td>
+                            <td style="padding: 0.75rem; text-align: center;">❌ NG</td>
+                            <td style="padding: 0.75rem;">永続（公開）</td>
+                            <td style="padding: 0.75rem;">他者へ良い影響を</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem;">🏥 カルテ</td>
+                            <td style="padding: 0.75rem; text-align: center;">✅ OK</td>
+                            <td style="padding: 0.75rem;">永続（個人）</td>
+                            <td style="padding: 0.75rem;">自己理解のため</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>原則</h3>
+                <ol>
+                    <li><strong>共有空間ではネガティブを残さない</strong></li>
+                    <li><strong>個人空間でのみ記録</strong></li>
+                    <li><strong>ネガティブは決してオープンに永続化しない</strong></li>
+                </ol>
+
+                <hr>
+
+                <h2>焚き火広場の設計</h2>
+
+                <h3>完全な匿名性</h3>
+                <ul>
+                    <li>名前非表示</li>
+                    <li>アバター非表示</li>
+                    <li>投稿者を特定できない</li>
+                </ul>
+
+                <h3>5分で完全削除</h3>
+
+                <pre><code>// Cloud Function
+export const burnExpiredMessages = functions
+  .pubsub.schedule('every 1 minutes')
+  .onRun(async () => {
+    const now = Timestamp.now();
+    const expired = await db.collection('burnMessages')
+      .where('expiresAt', '<=', now)
+      .get();
+    
+    // 物理削除
+    const batch = db.batch();
+    expired.forEach(doc => batch.delete(doc.ref));
+    await batch.commit();
+  });</code></pre>
+
+                <h3>統計データのみ残す</h3>
+
+                <p>個人カルテには<strong>内容を残さず、回数だけ</strong>：</p>
+
+                <pre><code>interface DailyStats {
+  date: string;
+  burnedCount: number; // 今日燃やした数
+  // 内容は保存しない
+}</code></pre>
+
+                <hr>
+
+                <h2>個人Burn日記の役割</h2>
+
+                <h3>プライベート = 残してOK</h3>
+                <ul>
+                    <li>完全に自分だけが見られる</li>
+                    <li>長期的なパターン分析に使える</li>
+                    <li>他人に影響を与えない</li>
+                </ul>
+
+                <h3>ユーザーが浄化タイミングを選択</h3>
+
+                <p>強制的な削除ではなく、<strong>自分で手放すタイミングを選ぶ</strong>：</p>
+                <ol>
+                    <li>書き出す</li>
+                    <li>何度か読み返す</li>
+                    <li>客観視できた</li>
+                    <li><strong>「🔥 浄化する」ボタンを押す</strong></li>
+                    <li>データ完全削除</li>
+                </ol>
+
+                <h3>心理学的メリット</h3>
+
+                <p><strong>自己決定理論（Self-Determination Theory）</strong>：</p>
+                <ul>
+                    <li>自分で選択できることがメンタルヘルスに重要</li>
+                    <li>能動的に手放す方が、より深いカタルシスを得られる</li>
+                </ul>
+
+                <hr>
+
+                <h2>技術的実装</h2>
+
+                <h3>GDPR準拠の完全削除</h3>
+
+                <pre><code>async function completeBurn(messageId: string) {
+  // 1. Firestore物理削除
+  await db.collection('burnMessages').doc(messageId).delete();
+  
+  // 2. キャッシュクリア
+  await cache.invalidate(`burn/${messageId}`);
+  
+  // 3. バックアップから除外
+  // (設定でburnMessagesを除外)
+  
+  // 4. ログにも残さない
+}</code></pre>
+
+                <hr>
+
+                <h2>哲学的考察</h2>
+
+                <h3>デジタル空間における「忘却の権利」</h3>
+
+                <p>物理世界では、嫌なことは時間が経てば自然に忘れられます。</p>
+                <p>しかしデジタルでは、すべてが永遠に残ってしまう。</p>
+                <p><strong>もちスラは、デジタルに「忘れる力」を取り戻す試みです。</strong></p>
+
+                <h3>儚さ（ephemerality）の美学</h3>
+
+                <p>日本の美意識：</p>
+                <ul>
+                    <li>桜は散るから美しい</li>
+                    <li>焚き火の炎は消えるから見つめる</li>
+                    <li>雪は溶けるから尊い</li>
+                </ul>
+
+                <p><strong>ネガティブも、消えるから安心して出せる。</strong></p>
+
+                <hr>
+
+                <h2>まとめ</h2>
+
+                <h3>なぜネガティブを残さないのか</h3>
+                <ol>
+                    <li><strong>コミュニティの健全性</strong>を保つため</li>
+                    <li><strong>個人の成長</strong>を妨げないため</li>
+                    <li><strong>安全な吐き出しの場</strong>を提供するため</li>
+                    <li><strong>デジタルに儚さを取り戻す</strong>ため</li>
+                </ol>
+
+                <h3>実現する世界</h3>
+                <ul>
+                    <li>ユーザーは安全に感情を吐き出せる</li>
+                    <li>コミュニティは健全に保たれる</li>
+                    <li>個人は長期的に成長できる</li>
+                </ul>
+
+                <p><strong>すべての利害関係者にとって、Win-Win-Win の設計です。🌸</strong></p>
+
+                <hr>
+
+                <p><em>関連記事: <a href="mochisura-platform-plan.html">もちスラ統合メンタルケアプラットフォーム - 構想</a></em></p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+            <p class="footer-links">
+                <a href="https://www.threads.net/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple dark mode toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" aria-label="トップに戻る">
+    ↑
+  </button>
+
+  <script>
+    // Scroll to top functionality
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+  <!-- Series Navigation -->
+  <script src="../js/series-navigation.js"></script>
+
+  <!-- Search Capability -->
+  <script src="../js/search.js"></script>
+</body>
+
+</html>
+

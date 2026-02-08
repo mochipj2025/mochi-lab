@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="2026年1月31日時点の全プロジェクト（秘密基地SNS、もちカルテ、もちスラPetなど）の進捗状況まとめ。">
+    <title>2026年1月31日 プロジェクト進捗まとめ | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html">
+                    <img src="../../assets/logo.png" alt="Mochisura Lab Logo">
+                    <span class="logo-text">Mochisura Lab</span>
+                </a>
+            </div>
+            <nav class="site-nav">
+                <a href="../../index.html#products">Products</a>
+                <a href="../../index.html#knowledge">Knowledge</a>
+                <a href="../../index.html#community">Community</a>
+                <a href="../../index.html#store">Store</a>
+                <a href="../index.html">Dev Blog</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1 class="article-title">2026年1月31日 プロジェクト進捗まとめ</h1>
+            <p class="article-meta">2026-01-31 | 5 min read</p>
+
+            <div class="tags">
+                <span class="tag">進捗報告</span>
+                <span class="tag">もちスララボ</span>
+                <span class="tag">Antigravity</span>
+            </div>
+
+            <div class="content">
+                <p>現在進行中の各プロジェクトの達成事項をまとめました。1月も末になり、多くの機能が形になってきています。</p>
+
+                <hr>
+
+                <h2>🎨 もちスラブログ (Mochisura Blog)</h2>
+                <p><strong>コンセプト</strong>: Warm Minimalism (Pure HTML/CSS)</p>
+                <ul>
+                    <li><strong>記事移行完了</strong>: 全8本の記事をMarkdownからHTMLへ移行。</li>
+                    <li><strong>シリーズナビ実装</strong>: 記事間の前後リンクやシリーズ一覧を表示するナビゲーションを自動挿入。</li>
+                    <li><strong>モバイル最適化</strong>: スマホ閲覧時のヘッダー表示やレイアウトを修正済み。</li>
+                </ul>
+
+                <h2>🐾 もちスラPet (Mochisura Pet)</h2>
+                <p><strong>コンセプト</strong>: インタラクティブなスライム・ペット</p>
+                <ul>
+                    <li><strong>リアクション強化</strong>: クリック時の「ぷるぷる」震えるエフェクト（CSS Animation）を実装。</li>
+                    <li><strong>行動ロジック</strong>: リアクション中は移動を停止するなど、より自然な振る舞いを調整。</li>
+                </ul>
+
+                <h2>🔥 秘密基地SNS (0000秘密基地)</h2>
+                <p><strong>コンセプト</strong>: 焚き火を囲む深夜のSNS</p>
+                <ul>
+                    <li><strong>お焚き上げシステム</strong>: 投稿が5分で消える仕組み（Firestore <code>expiresAt</code>）と、煙のように消えるアニメーション。
+                    </li>
+                    <li><strong>トークン報酬</strong>: メッセージが燃える（お焚き上げ）と、送信者に +10pt 付与される仕組み。</li>
+                    <li><strong>利用規約ゲート</strong>: 初回ログイン時に <code>/rules</code> への同意を必須とするリダイレクト処理。</li>
+                </ul>
+
+                <h2>📋 もちカルテ (Mochi Karte)</h2>
+                <p><strong>コンセプト</strong>: 整体・リラクゼーション用カルテ管理PWA</p>
+                <ul>
+                    <li><strong>UI改善</strong>: FAB（浮遊ボタン）やヘッダーからのデータ出力機能を実装。</li>
+                    <li><strong>AI分析</strong>: 入力内容から「五行」や「部位」を自動タグ付けするエージェント機能。</li>
+                </ul>
+
+                <h2>🎙️ Mochi TTS (旧 sbv2)</h2>
+                <p><strong>コンセプト</strong>: Style-Bert-VITS2を活用した音声合成</p>
+                <ul>
+                    <li><strong>リファクタリング</strong>: <code>sbv2</code> から <code>mochiTTS</code> へのフォルダ整理とバッチスクリプト作成。</li>
+                    <li><strong>Web UI計画</strong>: Next.jsを用いたプロフェッショナルなTTS管理画面の設計。</li>
+                </ul>
+
+                <hr>
+
+                <h2>🚀 次のステップに向けて</h2>
+                <p>
+                    今後はブログの「Phase 2: 検索機能」の実装や、秘密基地SNSの「Bard BOT」の本格稼働などを予定しています。
+                    引き続き、AIエージェントのAntigravityと共に、心地よいプロダクトを開発していきます。
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Partnered with Antigravity</p>
+            <p class="footer-links">
+                <a href="../../index.html">Portal</a>
+                <a href="https://www.threads.net/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = isDark ? '☀️' : '🌙');
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = '☀️');
+        }
+    </script>
+    <!-- Series Navigation -->
+    <script src="../js/series-navigation.js"></script>
+  <!-- Search Capability -->
+  <script src="../js/search.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="もちスラカルテ、Burn日記、秘密基地SNSを統合したメンタルケアプラットフォームの全体設計。">
+    <title>もちスラ統合メンタルケアプラットフォーム - 構想 | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+        <header class="site-header"><div class="container"><div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span class="logo-text">Mochisura Lab</span></a></div><nav class="site-nav"><a href="../../index.html#products">Products</a><a href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav></div></header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1 class="article-title">もちスラ統合メンタルケアプラットフォーム - 構想</h1>
+            <p class="article-meta">2026-01-27 | 10 min read</p>
+
+            <div class="tags">
+                <span class="tag">メンタルケア</span>
+                <span class="tag">プロジェクト</span>
+                <span class="tag">設計</span>
+                <span class="tag">もちスラ</span>
+                <span class="tag tag-burn">Burn</span>
+            </div>
+
+            <div class="content">
+                <h2>はじめに</h2>
+                <p>これまでバラバラだった複数のプロジェクトを、<strong>もちスラIPを中心とした統合メンタルケアプラットフォーム</strong>として再構築する計画を立てました。</p>
+                <p>このエントリでは、その構想と設計思想をまとめます。</p>
+
+                <hr>
+
+                <h2>💭 なぜ作るのか</h2>
+
+                <h3>SNSの病理</h3>
+                <p>既存のSNSには構造的な問題があります：</p>
+                <ul>
+                    <li><strong>ネガティブが永続的に残る</strong>
+                        <ul>
+                            <li>投稿者自身が過去のネガティブに縛られる</li>
+                            <li>他のユーザーがネガティブに引っ張られる</li>
+                            <li>コミュニティ全体の雰囲気が悪化する</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <blockquote>
+                    <p>「吐き出すことは治療的に有効だが、残すことは有害」</p>
+                </blockquote>
+
+                <h3>心理学のエビデンス</h3>
+                <p>心理学者<strong>James Pennebaker博士</strong>の研究では、ネガティブな感情を書き出すことで：</p>
+                <ul>
+                    <li> ストレス軽減</li>
+                    <li>気分改善</li>
+                    <li>免疫機能向上</li>
+                    <li>不安症状やPTSD症状の軽減</li>
+                </ul>
+                <p>が科学的に実証されています。</p>
+                <p>しかし、<strong>書いた内容をどう扱うか</strong>が重要です。</p>
+
+                <hr>
+
+                <h2>🎯 コンセプト</h2>
+                <p><strong>「刹那の浄化と継続的なケア」</strong></p>
+                <ol>
+                    <li><strong>ネガティブは吐き出せる場所がある</strong></li>
+                    <li><strong>でも、オープンには残さない</strong></li>
+                    <li><strong>本人だけが見られる空間では、本人が浄化タイミングを選ぶ</strong></li>
+                    <li><strong>温かいAIキャラクターが見守る</strong></li>
+                </ol>
+
+                <hr>
+
+                <h2>🔥 Burnシステム - 2層構造</h2>
+
+                <h3>焚き火広場（Community Burn）</h3>
+                <p><strong>目的</strong>: コミュニティでの匿名の吐き出し</p>
+                <ul>
+                    <li>完全匿名（名前・アバター非表示）</li>
+                    <li>コミュニティメンバーが見られる</li>
+                    <li><strong>5分で自動削除</strong></li>
+                    <li>共感を得たいけど、記録には残したくない</li>
+                </ul>
+
+                <h3>個人日記Burn（Personal Burn）</h3>
+                <p><strong>目的</strong>: プライベートなネガティブ記録と能動的浄化</p>
+                <ul>
+                    <li><strong>オーナーのみ閲覧可能</strong></li>
+                    <li>他のユーザーには一切見えない</li>
+                    <li><strong>ユーザーが能動的に削除タイミングを選択</strong></li>
+                    <li>何度か読み返して客観視する時間が持てる</li>
+                    <li>準備ができたら「🔥 浄化する」ボタンで手放す</li>
+                </ul>
+
+                <hr>
+
+                <h2>🏗️ システム全体像</h2>
+
+                <h3>秘密基地コミュニティ</h3>
+                <pre><code>秘密基地
+├── 🔥 焚き火広場（Community Burn）
+│   └── ネガティブを匿名で吐き出す
+│
+├── 📔 個人日記Burn（Personal Burn）
+│   └── プライベートに書いて、自分で浄化
+│
+├── 💬 プラザ
+│   └── ポジティブな日常会話
+│
+├── 📖 図書館
+│   └── 住民の成長記録（公開設定のみ）
+│
+├── 🎵 音の庭
+│   └── 音声配信・リラクゼーション
+│
+└── 🏥 ケアルーム（個人用）
+    ├── 自分のカルテ
+    ├── 気分トレンド分析
+    └── もちスラとの1対1対話</code></pre>
+
+                <h3>もちスラIPキャラクター</h3>
+                <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-light);">
+                            <th style="padding: 0.75rem; text-align: left;">キャラクター</th>
+                            <th style="padding: 0.75rem; text-align: left;">役割</th>
+                            <th style="padding: 0.75rem; text-align: left;">登場シーン</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border-light);">
+                            <td style="padding: 0.75rem;"><strong>もちスラ教授</strong></td>
+                            <td style="padding: 0.75rem;">メインガイド・見守り役</td>
+                            <td style="padding: 0.75rem;">全体、カルテ分析</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-light);">
+                            <td style="padding: 0.75rem;"><strong>ピヨ教授</strong></td>
+                            <td style="padding: 0.75rem;">ポジティブメッセージ</td>
+                            <td style="padding: 0.75rem;">朝の挨拶、励まし</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-light);">
+                            <td style="padding: 0.75rem;"><strong>紫苑</strong></td>
+                            <td style="padding: 0.75rem;">夜の癒し</td>
+                            <td style="padding: 0.75rem;">就寝前ケア、音声ガイド</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem;"><strong>あおい</strong></td>
+                            <td style="padding: 0.75rem;">日常の相棒</td>
+                            <td style="padding: 0.75rem;">チャット、リアクション</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <hr>
+
+                <h2>💻 技術スタック</h2>
+
+                <h3>フロントエンド</h3>
+                <ul>
+                    <li>Next.js 15 (App Router)</li>
+                    <li>React 19 + TypeScript</li>
+                    <li>Tailwind CSS</li>
+                    <li>PWA対応</li>
+                </ul>
+
+                <h3>バックエンド</h3>
+                <ul>
+                    <li>Next.js API Routes</li>
+                    <li>Firebase (Firestore + Auth)</li>
+                    <li>FastAPI（ローカルAI用）</li>
+                </ul>
+
+                <h3>AI/ML</h3>
+                <ul>
+                    <li>Google Gemini API（対話）</li>
+                    <li>Llama 3（カルテ分析・ローカル）</li>
+                    <li>Style-Bert-VITS2（音声合成・ローカル）</li>
+                </ul>
+
+                <hr>
+
+                <h2>🌟 期待される効果</h2>
+
+                <h3>ユーザーにとって</h3>
+                <ol>
+                    <li><strong>安全な吐き出しの場</strong>
+                        <ul>
+                            <li>「どうせ消える」から正直になれる</li>
+                            <li>誰かに迷惑をかける心配がない</li>
+                        </ul>
+                    </li>
+                    <li><strong>健全なコミュニティ</strong>
+                        <ul>
+                            <li>ネガティブが蓄積しない</li>
+                            <li>常に「今」に集中</li>
+                            <li>雰囲気が清潔に保たれる</li>
+                        </ul>
+                    </li>
+                    <li><strong>個人の成長</strong>
+                        <ul>
+                            <li>プライベートカルテで長期的に振り返れる</li>
+                            <li>ネガティブのパターンに気づける</li>
+                            <li>でもコミュニティには影響しない</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <hr>
+
+                <h2>💭 今考えていること</h2>
+
+                <h3>なぜこのプロジェクトに取り組むのか</h3>
+                <p>既存のSNSは、人を繋ぐはずなのに人を傷つけることがあります。</p>
+                <p>特に、<strong>ネガティブが永遠に残る</strong>という構造的な問題が、多くの人のメンタルヘルスを蝕んでいます。</p>
+                <p>私は治療院を営む中で、多くの人の心と身体の痛みに向き合ってきました。</p>
+                <p>そこで気づいたのは：</p>
+                <blockquote>
+                    <p><strong>「吐き出したい気持ち」と「残したくない気持ち」が同時に存在する</strong></p>
+                </blockquote>
+                <p>という矛盾です。</p>
+
+                <h3>デジタル養生の実現</h3>
+                <p><strong>養生（ようじょう）</strong>とは、東洋医学の考え方で、日頃から健康に気を配り、病気を未然に防ぐことです。</p>
+                <p>もちスラプラットフォームは、<strong>デジタル空間における養生</strong>を実現します：</p>
+                <ul>
+                    <li><strong>体の養生</strong> → カルテ、SOAP分析</li>
+                    <li><strong>心の養生</strong> → Burn、焚き火の場</li>
+                    <li><strong>知の養生</strong> → Obsidian、長期記録</li>
+                    <li><strong>声の養生</strong> → TTS、音声ガイド</li>
+                </ul>
+
+                <h3>儚さ（ephemerality）の美学</h3>
+                <p>日本の美意識には「儚さ」という概念があります：</p>
+                <ul>
+                    <li>桜は散るから美しい</li>
+                    <li>焚き火の炎は消えるから見つめる</li>
+                    <li>雪は溶けるから尊い</li>
+                </ul>
+                <p><strong>ネガティブも、消えるから安心して出せる。</strong></p>
+                <p>デジタルに「忘れる力」を取り戻すこと。</p>
+                <p>それが、このプロジェクトの本質です。</p>
+
+                <hr>
+
+                <h2>📝 最後に</h2>
+                <p>このプロジェクトは、<strong>テクノロジーを使って人間性を取り戻す</strong>試みです。</p>
+                <p>AIという新しい道具を使って、古くからある「人を癒し、繋ぎ、育てる」営みを現代に再創造したい。</p>
+                <p>もちスラという温かいキャラクターと共に、安全で健全なデジタル空間を作りたい。</p>
+                <p>これが、私が目指す未来です。</p>
+
+                <hr>
+
+                <p><strong>もちスラ統合メンタルケアプラットフォーム、始動します。🌸</strong></p>
+
+                <hr>
+
+                <p><em>2026年1月27日 初稿</em></p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+            <p class="footer-links">
+                <a href="https://www.threads.net/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" aria-label="トップに戻る">
+    ↑
+  </button>
+
+  <script>
+    // Scroll to top functionality
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('visible');
+      } else {
+        scrollToTopBtn.classList.remove('visible');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+  <!-- Series Navigation -->
+  <script src="../js/series-navigation.js"></script>
+
+  <!-- Search Capability -->
+  <script src="../js/search.js"></script>
+</body>
+
+</html>
+

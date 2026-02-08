@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI生成ロゴはラスターデータだから使えない？そんな時代遅れな常識を、実装スピードと最新ツールで論破します。">
+    <title>AIでロゴ作ったら「ベクターじゃないとゴミ」と笑われた話 | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+        <header class="site-header"><div class="container"><div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span class="logo-text">Mochisura Lab</span></a></div><nav class="site-nav"><a href="../../index.html#products">Products</a><a href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav></div></header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1 class="article-title">AIでロゴ作ったら「ベクターじゃないとゴミ」と笑われたので、3分で論破してみた</h1>
+            <p class="article-meta">2026-01-30 | 3 min read</p>
+
+            <div class="tags">
+                <span class="tag">AIデザイン</span>
+                <span class="tag">論破</span>
+                <span class="tag">DX</span>
+            </div>
+
+            <div class="content">
+                <p>こんにちわ、もちスラです。 もちスラAIラボの所長として、日々「身体知 × AI」の可能性を探求しています。</p>
+                <p>先日、AIで生成したラボのロゴを公開したところ、一部の界隈からこんな声が聞こえてきそうです（というか、実際によくある批判です）。</p>
+
+                <blockquote>
+                    <p>「は？ AIで作った画像？ それラスターデータ（ただの画像）でしょ？」<br>
+                        「パスも取れてないロゴなんて、印刷に使えないし拡大したらボケるじゃん」<br>
+                        「やっぱりAIは素人のお遊びだね（失笑）」</p>
+                </blockquote>
+
+                <p>いわゆる <strong>「ベクター至上主義」のデザイナー様</strong> です。</p>
+
+                <p>今日は、この「AIロゴ＝ベクターじゃないから無意味」説を、<strong>実体験とテクノロジーで完全論破</strong> したいと思います。</p>
+
+                <hr>
+
+                <h2>🛡️ 反論1: 「今すぐ看板印刷するんですか？」</h2>
+
+                <p>まずこれ。 個人サロンやスタートアップで、いきなりビル火災の懸垂幕や、巨大な看板を作る予定ってありますか？</p>
+                <p>ないですよね。</p>
+
+                <p><strong>99%の用途は「スマホの画面」です。</strong><br>
+                    Webサイトのヘッダー、SNSのアイコン、名刺のワンポイント。</p>
+                <p>これなら、AIが吐き出した <strong>1024px × 1024px のPNG画像で十分</strong> すぎます。 高解像度ディスプレイで見ても、ロゴ程度のサイズなら網膜の限界を超えています。
+                </p>
+                <p>「いつか使うかも」という0.1%の可能性のために、高い金払ってIllustrator形式をもらう必要、本当にあるんでしょうか？</p>
+
+                <hr>
+
+                <h2>🛡️ 反論2: 「透過処理？ CSSで一瞬です」</h2>
+
+                <p>「でも背景透過されてないじゃん。白背景のままじゃ、オシャレな背景色のサイトに乗せられないよ」</p>
+                <p>これ、私も最初は困るかと思いました。 でも、今日のラボ構築でやった解決策を見てください。</p>
+
+                <pre><code>.logo img {
+    mix-blend-mode: multiply; /* 白背景を透明化して馴染ませる */
+}</code></pre>
+
+                <p><strong>CSSたった一行。</strong></p>
+
+                <p>これだけで、白背景のロゴ画像が、サイトの和紙っぽい背景色に完璧に馴染みました。 デザイナーがPhotoshopでせっせと「背景の切り抜き（ペン入れ）」をやっている間に、こっちは
+                    <strong>コード一行で実装完了</strong> して、サイト公開まで走り抜けています。
+                </p>
+
+                <p><strong>「素材の完璧さ」より「実装のスピード」</strong>。これが今の時代の勝ちパターンです。</p>
+
+                <hr>
+
+                <h2>🛡️ 反論3: 「ベクターが必要なら、AIで変換すればいい」</h2>
+
+                <p>ここがトドメです。</p>
+                <p>「それでもやっぱり、Tシャツ作りたいからベクターデータが必要なんだ！」</p>
+                <p>もしそうなったらどうするか？ <strong>AIに変換させればいいんです。</strong></p>
+
+                <p>今は <code>Vectorizer.ai</code> のようなツールを使えば、AI生成したJPEG画像を、<strong>一瞬でパス付きのベクターデータ（SVG/EPS）に変換</strong>
+                    できます。 しかも、人間がトレースするより早くて正確だったりします。</p>
+
+                <p>つまり、<br>
+                    <strong>「AIでロゴを作る → 必要になったらAIでベクター化する」</strong><br>
+                    これが最強のフローなんです。 無駄な「保険」にコストをかけない。これがDXの本質です。
+                </p>
+
+                <hr>
+
+                <h2>結論: 道具に使われるな、目的を見ろ。</h2>
+
+                <p>今回のラボ構築では、視線誘導の「Zパターン」に合わせて秒速でレイアウトを変更しました。
+                    AIで生成した素材を、AIと一緒に一瞬で組み上げる。
+                    このスピード感こそが、AI時代のクリエイティビティです。</p>
+
+                <ul>
+                    <li><strong>古いデザイナー</strong>: 「正しい形式」にこだわる。</li>
+                    <li><strong>AI時代のクリエイター</strong>: 「目的の達成」にこだわる。</li>
+                </ul>
+
+                <p>もちスラAIラボのロゴは、AIが数秒で描いたものです。 でも、サイトの顔として立派に機能し、こうして記事のネタにもなっています。</p>
+
+                <p>「これはベクターじゃないから…」なんて言い訳をして立ち止まるより、<br>
+                    <strong>「今の素材でどうやって最高のものを作るか？」</strong> を考える方が、よっぽどクリエイティブだと思いませんか？
+                </p>
+
+                <p>道具の奴隷にならず、意志の主導権を握りましょう。🔥</p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and AI</p>
+            <p class="footer-links">
+                <a href="../../index.html">Portal</a>
+                <a href="https://www.threads.net/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+  <!-- Search Capability -->
+  <script src="../js/search.js"></script>
+</body>
+
+</html>
+

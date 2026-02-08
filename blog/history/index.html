@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="歴史の特異点を深く、細く観測する。宇宙の誕生から現代まで、世界史と日本史を横並びで俯瞰する専用アーカイブ。">
+    <title>History Chronicles | もちスララボ歴史探究セクション</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --history-accent: #c5a87c;
+            --world-color: rgba(197, 168, 124, 0.2);
+            --japan-color: rgba(255, 255, 255, 0.08);
+        }
+
+        body.dark-mode {
+            --world-color: rgba(197, 168, 124, 0.1);
+            --japan-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .history-hero {
+            text-align: center;
+            padding: 6rem 1rem;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent), url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2022&auto=format&fit=crop') center/cover;
+            border-bottom: 2px solid var(--history-accent);
+            margin-top: -70px;
+        }
+
+        .history-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-intro {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            text-align: center;
+            font-family: 'Shippori Mincho', serif;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #dcb;
+        }
+
+        .chronicles-grid {
+            margin: 4rem 0;
+        }
+
+        .timeline-header {
+            display: grid;
+            grid-template-columns: 1fr 120px 1fr;
+            text-align: center;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 70px;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 10;
+            border-bottom: 3px solid var(--history-accent);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-header div {
+            font-weight: 700;
+            color: var(--history-accent);
+            letter-spacing: 0.2em;
+        }
+
+        .timeline-row {
+            display: grid;
+            grid-template-columns: 1fr 120px 1fr;
+            min-height: 180px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-row:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .timeline-era {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.4);
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            color: var(--history-accent);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-item {
+            padding: 2rem;
+            position: relative;
+        }
+
+        .timeline-item h4 {
+            color: var(--history-accent);
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .timeline-item p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .deep-dive-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--history-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--history-accent);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .deep-dive-btn:hover {
+            background: var(--history-accent);
+            color: #121212;
+            transform: scale(1.05);
+        }
+
+        .status-planned {
+            font-size: 0.7rem;
+            color: #888;
+            border-color: #444;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .world-side {
+            background: var(--world-color);
+            text-align: right;
+            border-right: 1px solid rgba(197, 168, 124, 0.1);
+        }
+
+        .japan-side {
+            background: var(--japan-color);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .investigation-note {
+            grid-column: 1 / -1;
+            padding: 1.5rem 3rem;
+            background: rgba(197, 168, 124, 0.08);
+            font-size: 0.95rem;
+            border-left: 6px solid var(--history-accent);
+            margin: 1rem 0;
+            color: #dcb;
+            line-height: 1.7;
+        }
+
+        .philosophy-session {
+            border: 1px solid var(--history-accent);
+            background: rgba(197, 168, 124, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .philosophy-tag {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--history-accent);
+            color: #121212;
+            font-size: 0.65rem;
+            padding: 2px 10px;
+            font-weight: bold;
+            transform: rotate(45deg) translate(15px, -15px);
+            width: 100px;
+            text-align: center;
+        }
+
+        @media (max-width: 992px) {
+
+            .timeline-header,
+            .timeline-row {
+                grid-template-columns: 1fr 100px 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .history-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .timeline-header {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .timeline-header .era-label {
+                display: none;
+            }
+
+            .timeline-row {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-era {
+                grid-row: 1;
+                width: 100%;
+                border: none;
+                padding: 1rem;
+            }
+
+            .world-side,
+            .japan-side {
+                text-align: left;
+                padding: 1.5rem;
+                border: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header class="site-header">
+        <div class="container">
+            <div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span
+                        class="logo-text">History Chronicles</span></a></div>
+            <nav class="site-nav"><a href="../../index.html">Portal</a><a href="../index.html">Dev Blog</a><a
+                    href="index.html" style="color: var(--history-accent);">Chronicles</a></nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="history-hero">
+            <h1 class="article-title">History Chronicles</h1>
+            <p>もちスララボ歴史探究セクション：宇宙開闢から文明の分水嶺まで</p>
+        </section>
+
+        <section class="section-intro">
+            <p>
+                ここは、断片的な知識を繋ぎ合わせ、人類の歩みを一つの壮大な物語（クロニクル）として観測する場所。
+                世界が動く時、日本はどこにいたのか。AIの冷徹な解析と、物語としての奥行きを融合させ、
+                私たちは歴史の特異点へと深く（Deep Dive）潜り込んでいく。
+            </p>
+        </section>
+
+        <div class="chronicles-grid">
+            <div class="timeline-header">
+                <div>世界史 (World)</div>
+                <div class="era-label">年代</div>
+                <div>日本史 (Japan)</div>
+            </div>
+
+            <!-- Chapter 1 -->
+            <div class="timeline-row">
+                <div class="timeline-item world-side">
+                    <h4>宇宙の誕生と相転移</h4>
+                    <p>138億年に及ぶ、物質とエネルギーの変遷。銀河と太陽系の形成、そして奇跡の惑星・地球。</p>
+                    <a href="cosmic-origin.html" class="deep-dive-btn"><i class="fa-solid fa-rocket"></i> Cosmic Deep
+                        Dive</a>
+                </div>
+                <div class="timeline-era">BEG - 4.6B</div>
+                <div class="timeline-item japan-side">
+                    <h4>列島の形成と原風景</h4>
+                    <p>ユーラシア大陸の東端が切り離され、海に抱かれた「日本列島」が姿を現すまでの地球史。</p>
+                    <a href="cosmic-origin.html#island-birth" class="deep-dive-btn"><i class="fa-solid fa-map"></i>
+                        Origin of Japan</a>
+                </div>
+            </div>
+
+            <!-- Chapter 2 -->
+            <div class="timeline-row">
+                <div class="timeline-item world-side">
+                    <h4>最後の氷河期の終焉</h4>
+                    <p>温暖化により海面が上昇、植生が激変。人類は「定住」という新しい生存戦略を選択し始める。</p>
+                    <a href="post-ice-age.html" class="deep-dive-btn"><i class="fa-solid fa-sun"></i> Warming Deep
+                        Dive</a>
+                </div>
+                <div class="timeline-era">BC 10,000</div>
+                <div class="timeline-item japan-side">
+                    <h4>縄文文化の幕明け</h4>
+                    <p>大陸から孤立し「島国」となった日本。豊かな森に囲まれ、世界でも稀な長期間の定住型採集・狩猟社会へ。</p>
+                    <a href="post-ice-age.html#jomon-start" class="deep-dive-btn"><i class="fa-solid fa-leaf"></i> Jomon
+                        Dawn</a>
+                </div>
+            </div>
+
+            <div class="investigation-note">
+                <i class="fa-solid fa-microscope"></i>
+                調査班記録：地形の変化が「文化の殻」を作る。日本列島の形成は、世界史の奔流から一歩身を引いた、独自の進化（ガラパゴス化の祖先）の始まりだった。
+            </div>
+
+            <!-- Chapter 3 -->
+            <div class="timeline-row">
+                <div class="timeline-item world-side">
+                    <h4>肥沃な三日月地帯と都市</h4>
+                    <p>大規模な灌漑、文字、そして階級社会。メソポタミアで最初の都市国家群が産声を上げる。</p>
+                    <a href="ancient-civilizations.html" class="deep-dive-btn"><i class="fa-solid fa-monument"></i>
+                        Ancient Cities</a>
+                </div>
+                <div class="timeline-era">BC 3,500</div>
+                <div class="timeline-item japan-side">
+                    <h4>三内丸山遺跡の繁栄</h4>
+                    <p>管理と征服に明け暮れる大陸とは対照的に、大規模集落を維持しながら平穏を保つ「ハイテク縄文」の極致。</p>
+                    <a href="ancient-civilizations.html#jomon-harmony" class="deep-dive-btn"><i
+                            class="fa-solid fa-tent"></i> High Jomon</a>
+                </div>
+            </div>
+
+            <!-- Chapter 4: Philosophy Special -->
+            <div class="timeline-row philosophy-session">
+                <div class="philosophy-tag">Special</div>
+                <div class="timeline-item world-side">
+                    <h4>枢軸時代の精神革命</h4>
+                    <p>ソクラテス、ブッダ、孔子。人類の精神を規定する巨大な知性が世界各地で同時多発的に発生する。</p>
+                    <span class="deep-dive-btn status-planned"><i class="fa-solid fa-brain"></i> Coming Session</span>
+                </div>
+                <div class="timeline-era">BC 500</div>
+                <div class="timeline-item japan-side">
+                    <h4>稲作の伝来と社会の変奏</h4>
+                    <p>精神の深まりと時を同じくして、列島には「稲」がもたらされた。生存の基盤が「獲る」から「作る」へ。</p>
+                    <span class="deep-dive-btn status-planned"><i class="fa-solid fa-seedling"></i> Coming
+                        Session</span>
+                </div>
+            </div>
+
+            <div class="investigation-note" style="border-left-color: #5e8c95;">
+                <i class="fa-solid fa-clock"></i> 次回更新予告：【思考の特異点】人類はなぜ、この時期に同時に「問い」を始めたのか。哲学セクションの生成準備中。
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | History Chronicles Project</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('theme') === 'dark' || !localStorage.getItem('theme')) {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+</body>
+
+</html>
