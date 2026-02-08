@@ -1,0 +1,2 @@
+jekyll: false
+exclude: ["Project_Genesis", ".venv", "ComfyUI", "openclow"]
