@@ -36,8 +36,17 @@ jobs:
       - name: Create public directory
         run: |
           mkdir -p _site
-          cp -r index.html css assets blog community products store _site/ || true
-          cp .nojekyll _site/ 2>/dev/null || true
+          # フォルダが存在する場合のみコピー（エラーを無視せず、何がコピーされたかログに出す）
+          for item in index.html css assets blog community products store history .nojekyll _config.yml; do
+            if [ -e "$item" ]; then
+              cp -r "$item" _site/
+              echo "Copied $item to _site"
+            else
+              echo "Skipping $item (not found)"
+            fi
+          done
+      - name: List files in _site (Debug)
+        run: ls -R _site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
