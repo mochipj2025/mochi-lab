@@ -1,0 +1,629 @@
+:root {
+    --color-bg: #f8f5f2;
+    --color-text: #2c3e50;
+    --color-accent: #e67e22;
+    --color-accent-soft: #f39c12;
+    --color-card-bg: #ffffff;
+    --color-border: #e0d7cd;
+    --font-serif: 'Shippori Mincho', serif;
+    --font-sans: 'Noto Sans JP', sans-serif;
+}
+
+body.dark-mode {
+    --color-bg: #0b0c10;
+    /* Near Black */
+    --color-primary: #1f2833;
+    /* Deep Slate Blue */
+    --color-accent: #c5a059;
+    /* Aged Brass */
+    --color-gold: #d4af37;
+    --color-text: #c5c6c7;
+    --color-heading: #ffffff;
+    --color-parchment: #fdfaf1;
+    --color-ink: #1a1a1a;
+    --font-serif: 'Shippori Mincho', serif;
+    --font-sans: 'Noto Sans JP', sans-serif;
+    --font-mono: 'Fira Code', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-serif);
+    line-height: 1.6;
+    margin: 0;
+    overflow-x: hidden;
+    transition: background-color 0.3s, color 0.3s;
+    min-height: 100vh;
+}
+
+/* Atmospheric Background */
+.bg-texture {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(31, 40, 51, 0.4) 0%, rgba(11, 12, 16, 1) 100%);
+    z-index: -2;
+    pointer-events: none;
+}
+
+.bg-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://www.transparenttextures.com/patterns/dark-leather.png");
+    opacity: 0.2;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+header h1 {
+    font-size: 3.5rem;
+    color: var(--color-heading);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0;
+    font-weight: 700;
+}
+
+.subtitle {
+    display: block;
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+    letter-spacing: 0.3em;
+    font-size: 0.9rem;
+}
+
+.tab-nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    padding-bottom: 1rem;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    padding: 0.8rem 1.5rem;
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0.6;
+}
+
+.tab-btn.active {
+    color: var(--color-accent);
+    opacity: 1;
+    border-bottom: 2px solid var(--color-accent);
+}
+
+.curator-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.input-group {
+    width: 100%;
+    max-width: 600px;
+}
+
+.custom-input {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--accent-gold);
+    border-radius: 8px;
+    color: var(--text-light);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.custom-input:focus {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(197, 168, 124, 0.2);
+}
+
+.custom-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.api-notice {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--color-accent-soft);
+    font-family: var(--font-mono);
+}
+
+.api-notice i {
+    margin-right: 0.4rem;
+    color: #10b981;
+}
+
+.character-section {
+    margin: 4rem 0;
+}
+
+.character-box {
+    position: relative;
+    max-width: 300px;
+    text-align: center;
+}
+
+.character-box img {
+    width: 140px;
+    /* 縮小: でかすぎるとの指摘対応 */
+    height: auto;
+    filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.4));
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(2deg);
+    }
+}
+
+.dialogue-box {
+    background: rgba(31, 40, 51, 0.6);
+    border-left: 4px solid var(--color-accent);
+    padding: 2.5rem;
+    position: relative;
+    flex-grow: 1;
+    backdrop-filter: blur(10px);
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.dialogue-box i {
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    background: var(--color-bg);
+    color: var(--color-accent);
+    padding: 0 10px;
+}
+
+.bubble {
+    font-size: 1.2rem;
+    color: #fff;
+    line-height: 1.8;
+}
+
+/* Controls */
+.landing-controls,
+.controls,
+.curator-controls {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.btn-primary {
+    background: transparent;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    padding: 1.2rem 3rem;
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
+}
+
+.btn-primary:hover {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    box-shadow: 0 0 20px rgba(197, 160, 89, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-large {
+    font-size: 1.4rem;
+    padding: 1.5rem 4rem;
+}
+
+.select-wrapper {
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 500px;
+}
+
+select {
+    background: rgba(31, 40, 51, 0.8);
+    border: 1px solid var(--color-accent);
+    color: var(--color-text);
+    padding: 1rem;
+    font-family: var(--font-serif);
+    width: 100%;
+    max-width: 500px;
+    font-size: 1.1rem;
+    outline: none;
+    border-radius: 12px;
+    cursor: pointer;
+    appearance: none;
+    transition: border-color 0.3s;
+}
+
+select:focus {
+    border-color: var(--color-accent);
+}
+
+/* Curation Sheet */
+.curation-sheet {
+    background: var(--color-parchment);
+    color: var(--color-ink);
+    border-radius: 4px;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    background-image: url("https://www.transparenttextures.com/patterns/old-map.png");
+    margin-top: 2rem;
+}
+
+.sheet-header {
+    background: #3e3e3e;
+    color: #fff;
+    padding: 1.5rem 2rem;
+    text-align: center;
+}
+
+.sheet-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    letter-spacing: 0.2em;
+}
+
+.sheet-body {
+    padding: 3rem;
+}
+
+.sheet-section {
+    margin-bottom: 2.5rem;
+}
+
+.sheet-section:last-child {
+    margin-bottom: 0;
+}
+
+.sheet-section label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #4e342e;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid rgba(78, 52, 46, 0.2);
+    padding-bottom: 0.3rem;
+}
+
+.sheet-content {
+    background: rgba(255, 255, 255, 0.85);
+    /* 視認性向上のための白地（不透明度アップ） */
+    padding: 1.5rem;
+    line-height: 1.8;
+    color: #1a1a1a;
+    /* 濃いインク色で固定 */
+    white-space: pre-wrap;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-size: 1rem;
+}
+
+.sheet-content.highlight {
+    font-size: 1.4rem;
+    font-weight: 700;
+    border-left: 8px solid #4e342e;
+    padding: 2rem;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sheet-content.small {
+    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    word-break: break-all;
+}
+
+/* Pattern Cards */
+.patterns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+}
+
+.pattern-card {
+    background: rgba(31, 40, 51, 0.9);
+    /* ダークモードに適した深い色 */
+    color: #fff;
+    padding: 2.5rem;
+    border: 1px solid var(--color-accent);
+    border-left: 6px solid var(--color-accent);
+    border-radius: 4px;
+    /* シャーロックらしく、角を丸めすぎない */
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.pattern-card h3 {
+    color: var(--color-accent);
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-serif);
+    border-bottom: 2px solid var(--color-bg);
+    padding-bottom: 0.5rem;
+}
+
+.tweet-content {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    border: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+.card-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.copy-btn,
+.threads-btn {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid var(--color-accent);
+    background: transparent;
+    color: var(--color-accent);
+    cursor: pointer;
+    font-family: var(--font-serif);
+    transition: all 0.3s;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.threads-btn {
+    background: var(--color-accent);
+    color: var(--color-bg);
+}
+
+/* Action Buttons in Curation Sheet */
+.sheet-actions {
+    display: flex;
+    gap: 1.5rem;
+    padding: 2rem 3rem;
+    background: rgba(0, 0, 0, 0.03);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.action-btn {
+    flex: 1;
+    padding: 1rem;
+    border: 1px solid #4e342e;
+    background: transparent;
+    color: #4e342e;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: all 0.3s;
+}
+
+.action-btn.primary {
+    background: #4e342e;
+    color: #fff;
+}
+
+.action-btn:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+.action-btn i {
+    font-size: 1rem;
+}
+
+.copy-btn:hover,
+.threads-btn:hover {
+    opacity: 0.8;
+    background: var(--color-bg);
+    border-color: var(--color-text);
+}
+
+.threads-btn:hover {
+    background: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    background: rgba(11, 12, 16, 0.95);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(197, 160, 89, 0.2);
+    border-top: 3px solid var(--color-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Sherlock's Bookshelf */
+#sherlock-shelf {
+    padding: 2rem 0;
+}
+
+.shelf-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.shelf-header h2 {
+    color: var(--color-accent);
+    font-size: 2rem;
+    letter-spacing: 0.1em;
+}
+
+.shelf-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.archive-card {
+    background: var(--color-parchment);
+    color: var(--color-ink);
+    padding: 2rem;
+    border-radius: 2px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    border-left: 10px solid #4e342e;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.archive-card:hover {
+    transform: translateX(5px);
+}
+
+.archive-date {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-bottom: 1rem;
+}
+
+.archive-summary {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.archive-section {
+    margin-bottom: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+.archive-section label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+}
+
+.archive-section p {
+    font-size: 0.95rem;
+    white-space: pre-wrap;
+}
+
+.view-report-btn {
+    background: #4e342e;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-family: var(--font-serif);
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.loading-text,
+.empty-text,
+.error-text {
+    text-align: center;
+    padding: 3rem;
+    font-style: italic;
+    color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+    .bubble {
+        position: static;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .character-box {
+        max-width: 100%;
+    }
+}

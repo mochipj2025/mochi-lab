@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mochisura Lab | AI開発実験室</title>
+    <meta name="description" content="アイデアをコードで検証する、個人AI開発者の実験記録。Voxel AI、Burn設計哲学、歴史探究まで。">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mochisura-lab.com/">
+    <meta property="og:title" content="Mochisura Lab | AI開発実験室">
+    <meta property="og:description" content="アイデアをコードで検証する、個人AI開発者の実験記録。Voxel AI、Burn設計哲学、歴史探究まで。">
+    <meta property="og:image" content="https://mochisura-lab.com/assets/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://mochisura-lab.com/">
+    <meta property="twitter:title" content="Mochisura Lab | AI開発実験室">
+    <meta property="twitter:description" content="アイデアをコードで検証する、個人AI開発者の実験記録。Voxel AI、Burn設計哲学、歴史探究まで。">
+    <meta property="twitter:image" content="https://mochisura-lab.com/assets/logo.png">
+    <meta property="twitter:site" content="@Yayan_Vangabond">
+    <meta property="twitter:creator" content="@Yayan_Vangabond">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Fira+Code:wght@400;500&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/logo.png" alt="Mochisura Lab Logo" class="logo-img">
+                    <span class="logo-text">Mochisura Lab</span>
+                </a>
+            </div>
+            <nav class="site-nav">
+                <a href="blog/index.html">Dev Blog</a>
+                <a href="#projects">Projects</a>
+                <a href="#about">About</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="ダークモード切替">🌙</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero hub-hero">
+            <div class="container hero-content">
+                <p class="hero-label">&lt; Idea / Code / Validation &gt;</p>
+                <h1 class="hero-title">思考を、コードで<br>実証する。</h1>
+                <p class="hero-desc">好奇心を形にする個人開発の記録。<br>AIエージェント、設計哲学、そして歴史の深淵まで。</p>
+            </div>
+        </section>
+
+        <section class="hub-navigation">
+            <div class="container grid-hub">
+                <!-- Dev Blog -->
+                <a href="blog/index.html" class="hub-card lab-card">
+                    <div class="hub-icon"><i class="fa-solid fa-flask"></i></div>
+                    <div class="hub-text">
+                        <h3>Dev Blog <small>開発日記</small></h3>
+                        <p>Voxel AI、Burn設計哲学、歴史探究。思考の軌跡と実験の記録。</p>
+                        <span class="hub-cta">開発記録を読む &rarr;</span>
+                    </div>
+                </a>
+
+                <!-- Projects -->
+                <div class="hub-card outcome-card">
+                    <div class="hub-icon"><i class="fa-solid fa-code"></i></div>
+                    <div class="hub-text">
+                        <h3>Projects <small>実験プロジェクト</small></h3>
+                        <p>進行中の実験と完成したプロトタイプ。コードで思考を形にする過程。</p>
+                        <span class="hub-cta">プロジェクトを見る &darr;</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="outcome-details">
+            <div class="container text-center">
+                <h2 class="section-title">Current Experiments</h2>
+                <div class="outcome-grid">
+                    <div class="outcome-item">
+                        <i class="fa-solid fa-cube"></i>
+                        <h4>Voxel AI Studio</h4>
+                        <p>ボクセル世界で自律エージェントを動かす。MagicaVoxel×Godot×AIの統合実験。</p>
+                    </div>
+                    <div class="outcome-item">
+                        <i class="fa-solid fa-fire"></i>
+                        <h4>Burn設計哲学</h4>
+                        <p>本質を見極め、余分を削ぎ落とし、美しく焼き上げる。引き算の設計思想。</p>
+                    </div>
+                    <div class="outcome-item">
+                        <i class="fa-solid fa-book-open"></i>
+                        <h4>History Chronicles</h4>
+                        <p>AIと巡る歴史探究。宇宙の誕生から現代まで、世界史と日本史を横並びで俯瞰。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hidden Operations -->
+        <section class="secret-ops">
+            <div class="container text-center">
+                <a href="scripts/marketing/ui/templates/index.html" class="admin-link">
+                    <i class="fa-solid fa-gear"></i> 作戦室 (Operator Login)
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Mochisura Lab. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.6;">
+                Director: <a href="https://hogushiyakida.com/index.html" target="_blank"
+                    style="color: inherit; text-decoration: underline;">リラクゼーションセラピスト木田</a>
+            </p>
+            <p class="footer-copy">Built with purely organic intelligence and AI assistance.</p>
+        </div>
+    </footer>
+    <script>
+        // Simple dark mode toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            if (document.querySelector('.theme-toggle')) {
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            }
+        }
+    </script>
+</body>
+
+</html>

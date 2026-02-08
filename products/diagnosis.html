@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五行性格分析 - Lab Edition | Mochisura Lab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Fira+Code:wght@400;500&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .app-container {
+            max-width: 600px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background: #fff;
+            border: 1px solid var(--color-border);
+            position: relative;
+        }
+
+        .setup-screen,
+        .quiz-screen,
+        .result-screen {
+            display: none;
+        }
+
+        .active {
+            display: block;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .lab-warning {
+            padding: 1.5rem;
+            background: rgba(217, 144, 88, 0.05);
+            border: 1px dashed var(--color-accent-warm);
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .yy-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .yy-btn {
+            padding: 2rem;
+            border: 1px solid var(--color-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .yy-btn:hover {
+            border-color: var(--color-accent-tech);
+            background: rgba(94, 140, 149, 0.05);
+        }
+
+        .yy-btn h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 2px;
+            background: var(--color-border);
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--color-accent-tech);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-box h2 {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            min-height: 4em;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .opt-btn {
+            padding: 1rem 1.5rem;
+            border: 1px solid var(--color-border);
+            background: none;
+            text-align: left;
+            cursor: pointer;
+            font-family: var(--font-body);
+            transition: all 0.2s ease;
+        }
+
+        .opt-btn:hover {
+            background: #fafafa;
+            border-color: var(--color-accent-tech);
+            padding-left: 2rem;
+        }
+
+        .result-card {
+            padding: 2rem;
+            border: 2px solid var(--color-text);
+            margin-bottom: 2rem;
+            background: #fff;
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            color: var(--color-accent-warm);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 1rem;
+        }
+
+        .result-desc {
+            line-height: 1.9;
+            margin-bottom: 2rem;
+            color: #444;
+        }
+
+        .item-box {
+            background: var(--color-bg);
+            padding: 1rem;
+            font-size: 0.9rem;
+            font-family: var(--font-code);
+        }
+
+        canvas#radarChart {
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+
+        <header class="site-header"><div class="container"><div class="logo"><a href="../index.html"><img src="../assets/logo.png" alt="Mochisura Lab Logo"><span class="logo-text">Mochisura Lab</span></a></div><nav class="site-nav"><a href="../index.html#products">Products</a><a href="../index.html#knowledge">Knowledge</a><a href="../index.html#community">Community</a><a href="../index.html#store">Store</a><a href="../blog/index.html">Dev Blog</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button>
+</nav></div></header>
+
+    <main class="container">
+        <div class="app-container">
+            <!-- Setup Screen -->
+            <div id="scene-start" class="setup-screen active">
+                <div class="featured-label">EXPERIMENT #02</div>
+                <h1 style="font-family:var(--font-heading); margin-bottom:1rem;">五行性格分析</h1>
+
+                <div class="lab-warning">
+                    <p><strong>[警告]</strong>
+                        このプログラムは、古代中国の五行思想に基づき、対象者の潜在的性格を「極めて客観的（かつ辛辣）」に抽出します。感情的なバイアスを排除し、事実のみを受け入れる覚悟でお進みください。</p>
+                </div>
+
+                <p style="text-align:center; margin-bottom:1.5rem;">あなたの魂の属性（陰陽）を選択してください。</p>
+
+                <div class="yy-selection">
+                    <div class="yy-btn" onclick="startGame('yang')">
+                        <h3>陽 (YANG)</h3>
+                        <p style="font-size:0.75rem;">能動的・外向的</p>
+                    </div>
+                    <div class="yy-btn" onclick="startGame('yin')">
+                        <h3>陰 (YIN)</h3>
+                        <p style="font-size:0.75rem;">受動的・内向的</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Screen -->
+            <div id="scene-quiz" class="quiz-screen">
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <div class="question-box">
+                    <div style="font-family:var(--font-code); font-size:0.8rem; margin-bottom:1rem;">QUESTION <span
+                            id="q-num">1</span>/10</div>
+                    <h2 id="q-text">質問テキストが入ります</h2>
+                    <div id="options-area" class="options-list"></div>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="scene-result" class="result-screen">
+                <div class="featured-label">ANALYSIS RESULT</div>
+                <div class="result-card">
+                    <div id="card-rarity"
+                        style="font-family:var(--font-code); font-size:0.75rem; color:var(--color-accent-warm);">TYPE:
+                        WOOD</div>
+                    <h2 id="card-title" class="result-title">称号が入ります</h2>
+                    <p id="card-desc" class="result-desc">診断結果のテキスト...</p>
+                    <div class="item-box">
+                        <strong>PRESCRIPTION:</strong> <span id="card-lucky-item">アイテム</span>
+                    </div>
+                </div>
+
+                <h3 style="text-align:center; font-family:var(--font-heading);">Balance Chart</h3>
+                <canvas id="radarChart"></canvas>
+
+                <div id="chart-comment"
+                    style="line-height:1.8; margin-bottom:2rem; padding:1.5rem; background:var(--color-bg);"></div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                    <button class="btn-primary" onclick="location.reload()">RE-ANALYZE</button>
+                    <a href="../index.html" class="btn-primary"
+                        style="background:var(--color-text); color:#fff; display:flex; align-items:center; justify-content:center;">BACK
+                        TO LAB</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Data logic from original diagnosis.html
+        let userYinYang = 'yang';
+        let currentQIndex = 0;
+        let scores = { wood: 0, fire: 0, earth: 0, metal: 0, water: 0 };
+
+        const questions = [
+            { text: "渋滞やレジ待ちでイライラ…<br>その時、心の中でどう思ってる？", options: [{ type: 'wood', label: "「チッ、早く動けよ」と舌打ちしそうになる" }, { type: 'fire', label: "「暇だしスマホ見るか！」とSNSを開く" }, { type: 'earth', label: "「まあいいか」と持っておいたお菓子を食べる" }, { type: 'metal', label: "「予定より3分遅れる…」と時間を計算する" }, { type: 'water', label: "「トイレ行きたくなったらどうしよう」と不安になる" }] },
+            { text: "新しい仕事を任されたとき、<br>最初のアクションは？", options: [{ type: 'wood', label: "「よし、やってやる！」と即座に動き出す" }, { type: 'fire', label: "「面白そう！」と周りに言いふらして盛り上がる" }, { type: 'earth', label: "「えー、めんどくさいな…」と一旦休憩する" }, { type: 'metal', label: "「マニュアルは？手順は？」と詳細を確認する" }, { type: 'water', label: "「失敗したらどうしよう」とリスクを考える" }] },
+            { text: "休日の過ごし方、<br>理想に近いのはどれ？", options: [{ type: 'wood', label: "スポーツやジムで体を動かして発散！" }, { type: 'fire', label: "イベントや飲み会で大騒ぎ！" }, { type: 'earth', label: "家でゴロゴロしながら動画とポテチ" }, { type: 'metal', label: "部屋の掃除や断捨離で完璧に整える" }, { type: 'water', label: "一人で静かに読書や映画鑑賞" }] },
+            { text: "友達との会話中、<br>よくやってしまうことは？", options: [{ type: 'wood', label: "つい熱くなって自分の意見を押し通す" }, { type: 'fire', label: "笑いすぎて何の話をしてたか忘れる" }, { type: 'earth', label: "「へー」と聞き流して別の事考える" }, { type: 'metal', label: "相手の言葉の間違いや矛盾を指摘しちゃう" }, { type: 'water', label: "愛想笑いをして本音は言わない" }] },
+            { text: "体調が悪くなると、<br>最初に出やすい症状は？", options: [{ type: 'wood', label: "目が疲れる、肩がガチガチになる" }, { type: 'fire', label: "動悸がする、眠れなくなる" }, { type: 'earth', label: "胃もたれする、口内炎ができる" }, { type: 'metal', label: "喉が痛くなる、咳が出る、肌が荒れる" }, { type: 'water', label: "足腰が冷える、トイレが近くなる" }] },
+            { text: "理不尽な上司や客に絡まれた！<br>あなたの脳内反応は？", options: [{ type: 'wood', label: "「は？」と顔に出てしまい、反論したくなる" }, { type: 'fire', label: "「信じらんない！」と後で同僚に喋り散らす" }, { type: 'earth', label: "「私が悪いのかな…」と一人で抱え込んで落ち込む" }, { type: 'metal', label: "「規定ではこうです」と冷静に論破する" }, { type: 'water', label: "怖くて何も言えず、愛想笑いでやり過ごす" }] },
+            { text: "臨時収入で10万円入った！<br>どう使う？", options: [{ type: 'wood', label: "欲しかったブランド物や機材を即決で買う" }, { type: 'fire', label: "友達と盛り上がってパーッと派手に使う" }, { type: 'earth', label: "美味しいものを食べに行くか、とりあえず貯金" }, { type: 'metal', label: "以前から計画していた必要な設備投資に回す" }, { type: 'water', label: "何があるか分からないから、全額タンス預金" }] },
+            { text: "部屋の片付け、<br>あなたのスタイルは？", options: [{ type: 'wood', label: "やるとなったら徹底的に捨てまくる" }, { type: 'fire', label: "懐かしい写真を見つけて作業が止まる" }, { type: 'earth', label: "「いつか使うかも」と物が捨てられない" }, { type: 'metal', label: "本の高さや服の向きまで完璧に揃える" }, { type: 'water', label: "そもそも動きたくない" }] },
+            { text: "カフェで注文した料理が全然来ない…<br>どうする？", options: [{ type: 'wood', label: "店員を呼んで「まだですか？」と問い詰める" }, { type: 'fire', label: "「忘れられてる？」とソワソワしてキョロキョロする" }, { type: 'earth', label: "言い出せなくて、ひたすらお腹を空かせて待つ" }, { type: 'metal', label: "時計を見て「20分経過しましたね」と事実を伝える" }, { type: 'water', label: "「私の注文だけ通ってないかも…」と不審に思う" }] },
+            { text: "寝る前のルーティン、<br>一番近いのは？", options: [{ type: 'wood', label: "明日のToDoを確認して、戦闘態勢で寝る" }, { type: 'fire', label: "スマホを見すぎて、気づけば深夜2時" }, { type: 'earth', label: "今日あったことを思い出して、一人反省会" }, { type: 'metal', label: "アロマや湿度管理など、完璧な環境を整える" }, { type: 'water', label: "トイレに行ったり戸締まりを確認したり、落ち着かない" }] }
+        ];
+
+        const resultData = {
+            wood: {
+                desc: "周りは『圧が強すぎてウザい』としか思ってねぇよ。眉間のシワに挟まったそのプライド、さっさと捨てな。肝臓が焼き切れて、ただの枯れ木になる前に。",
+                item: "酸っぱいもんかじって、さっさと寝ろ。",
+                yang: { title: "ANALYSIS: 陽木の暴君 / イキり散らかしの大樹" },
+                yin: { title: "ANALYSIS: 陰木のメンヘラ / 絡みつくツタ植物" },
+                comment: "「木（肝）」が突き抜けてるだろ。これは「怒りのエネルギー」が暴走してる証拠だ。お前のそのイライラが、筋肉を硬直させ、目を疲れさせてるんだよ。"
+            },
+            fire: {
+                desc: "心の穴を『いいね！』で埋めようとするな、虚しくなるだけだ。お前のそのハイテンション、見てるこっちが息切れするわ。中身スカスカの風船かよ。",
+                item: "スマホ電源切って、苦いコーヒー飲め。",
+                yang: { title: "ANALYSIS: 陽火の爆弾 / 制御不能の核融合炉" },
+                yin: { title: "ANALYSIS: 陰火の怨念 / 静かに呪う種火" },
+                comment: "「火（心）」の数値が異常だ。お前は常にアクセル全開のスポーツカーだ。ブレーキが壊れてるから、いつか壁に激突して燃え尽きるぞ。"
+            },
+            earth: {
+                desc: "悩みすぎて胃に穴開けるのが趣味か？ そのくせ甘い菓子ばっか食って、思考も体型もドロドロに溶けてんだよ。見てらんねぇわ。",
+                item: "芋とかカボチャ食って、散歩しろ。",
+                yang: { title: "ANALYSIS: 陽土の頑固岩 / 動かざる山" },
+                yin: { title: "ANALYSIS: 陰土の沼 / 全てを飲み込む優柔不断" },
+                comment: "「土（脾）」が突出してる。これは「悩みすぎ」と「糖分過多」の証明書だ。胃腸が弱って、食べたものをエネルギーに変えられてない。"
+            },
+            metal: {
+                desc: "白黒つけなきゃ気が済まないその潔癖さが、周りの空気まで乾燥させてる。カサカサの心で正しさを振りかざして、何が楽しいの？",
+                item: "大根おろし食って、深呼吸しろ。",
+                yang: { title: "ANALYSIS: 陽金の処刑人 / 冷徹ロボット" },
+                yin: { title: "ANALYSIS: 陰金の宝石 / 粉々に砕けやすい虚栄" },
+                comment: "「金（肺）」のグラフが尖りすぎだ。お前は自分にも他人にも厳しすぎる。その完璧主義が、呼吸を浅くし、肌を乾燥させてる元凶だ。"
+            },
+            water: {
+                desc: "石橋を叩きすぎて壊すタイプだな。賢いつもりでいるみたいだが、それはただのビビリだ。腹の底で計算ばっかして冷え切ってるから、孤独死一直線だぞ。",
+                item: "黒豆茶でも飲んで、温めとけ。",
+                yang: { title: "ANALYSIS: 陽水の大津波 / 全てを流し去る破壊神" },
+                yin: { title: "ANALYSIS: 陰水の氷柱 / ビビリな深海魚" },
+                comment: "「水（腎）」が他を圧倒してる。これは賢さじゃない、「恐怖」と「冷え」が骨の髄まで染み付いてる証拠だ。生命力のタンクが枯渇してるぞ。"
+            }
+        };
+
+        function startGame(type) {
+            userYinYang = type;
+            document.getElementById('scene-start').classList.remove('active');
+            document.getElementById('scene-quiz').classList.add('active');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQIndex];
+            document.getElementById('progress-bar').style.width = `${((currentQIndex) / questions.length) * 100}%`;
+            document.getElementById('q-num').textContent = currentQIndex + 1;
+            document.getElementById('q-text').innerHTML = q.text;
+            const optionsArea = document.getElementById('options-area');
+            optionsArea.innerHTML = '';
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.textContent = opt.label;
+                btn.onclick = () => answer(opt.type);
+                optionsArea.appendChild(btn);
+            });
+        }
+
+        function answer(type) {
+            scores[type]++;
+            currentQIndex++;
+            if (currentQIndex < questions.length) {
+                showQuestion();
+            } else {
+                calcResult();
+            }
+        }
+
+        function calcResult() {
+            const finalResultType = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+            const data = resultData[finalResultType];
+            const specific = (userYinYang === 'yang') ? data.yang : data.yin;
+
+            document.getElementById('scene-quiz').classList.remove('active');
+            document.getElementById('scene-result').classList.add('active');
+
+            document.getElementById('card-rarity').textContent = `TYPE: ${finalResultType.toUpperCase()}`;
+            document.getElementById('card-title').textContent = specific.title;
+            document.getElementById('card-desc').textContent = data.desc;
+            document.getElementById('card-lucky-item').textContent = data.item;
+            document.getElementById('chart-comment').innerHTML = data.comment;
+
+            showChart();
+        }
+
+        function showChart() {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['木', '火', '土', '金', '水'],
+                    datasets: [{
+                        label: 'Analysis',
+                        data: [scores.wood, scores.fire, scores.earth, scores.metal, scores.water],
+                        backgroundColor: 'rgba(94, 140, 149, 0.2)',
+                        borderColor: 'rgba(94, 140, 149, 1)',
+                        borderWidth: 1,
+                        pointBackgroundColor: '#5e8c95'
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            suggestedMin: 0,
+                            suggestedMax: 5,
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+    </script>
+    <script>function toggleTheme(){document.body.classList.toggle("dark-mode");const isDark=document.body.classList.contains("dark-mode");localStorage.setItem("theme",isDark?"dark":"light");document.querySelectorAll(".theme-toggle").forEach(b=>b.textContent=isDark?"☀️":"🌙");}if(localStorage.getItem("theme")==="dark"){document.body.classList.add("dark-mode");document.querySelectorAll(".theme-toggle").forEach(b=>b.textContent="☀️");}</script>
+</body>
+
+</html>
+

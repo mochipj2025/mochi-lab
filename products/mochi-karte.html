@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>もちスラカルテ | Mochisura Lab Products</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .product-hero {
+            padding: 8rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, #fff 0%, var(--color-bg) 100%);
+        }
+
+        .product-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-tagline {
+            font-size: 1.2rem;
+            color: var(--color-accent-tech);
+            font-family: var(--font-code);
+            margin-bottom: 2rem;
+        }
+
+        .product-main {
+            padding: 4rem 0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .feature-item {
+            padding: 2rem;
+            background: #fff;
+            border: 1px solid var(--color-border);
+        }
+
+        .feature-item i {
+            font-size: 2.5rem;
+            color: var(--color-accent-warm);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-item h3 {
+            font-family: var(--font-heading);
+            margin-bottom: 1rem;
+        }
+
+        .product-showcase {
+            background: var(--color-text);
+            color: #fff;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .showcase-img {
+            max-width: 800px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            margin: 3rem auto;
+            border: 4px solid #333;
+        }
+
+        .cta-section {
+            padding: 6rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+
+        <header class="site-header"><div class="container"><div class="logo"><a href="../index.html"><img src="../assets/logo.png" alt="Mochisura Lab Logo"><span class="logo-text">Mochisura Lab</span></a></div><nav class="site-nav"><a href="../index.html#products">Products</a><a href="../index.html#knowledge">Knowledge</a><a href="../index.html#community">Community</a><a href="../index.html#store">Store</a><a href="../blog/index.html">Dev Blog</a><button class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button>
+</nav></div></header>
+
+    <main>
+        <section class="product-hero">
+            <div class="container">
+                <div class="featured-label">DEVELOPED BY AI x THERAPIST</div>
+                <h1 class="product-title">もちスラカルテ</h1>
+                <p class="product-tagline">「手書きより早く、AIより深い」次世代のカウンセリング支援システム</p>
+                <div style="max-width: 700px; margin: 0 auto;">
+                    <p>セラピストの脳内にある「五行」「SOAP」「養生」のネットワークを、AIがリアルタイムに整理。書けば書くほど、あなたの「診立て」は洗練されていきます。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-main">
+            <div class="container">
+                <h2 class="section-title" style="text-align:center;">Core Features</h2>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <h3>AI自動タグ付け</h3>
+                        <p>自由入力されたカルテから、五行（木・火・土・金・水）や身体部位を自動抽出。分析の手間をゼロに。</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-brain"></i>
+                        <h3>SOAP構造化</h3>
+                        <p>バラバラなメモを、プロフェッショナルなSOAP形式へ自動整形。振り返りやすい知見として蓄積します。</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-leaf"></i>
+                        <h3>養生アドバイス生成</h3>
+                        <p>お客様にそのまま渡せる「今日のアドバイス」をAIが提案。満足度と信頼度を飛躍的に高めます。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-showcase">
+            <div class="container">
+                <h2>The Interface</h2>
+                <p>ObsidianとWeb、そしてAIをシームレスに繋ぐ、引き算の美学に基づいたUI。</p>
+                <!-- Placeholder for Mochi-Karte Interface Screenshot -->
+                <div class="showcase-img"
+                    style="background:#222; padding:5rem; display:flex; align-items:center; justify-content:center;">
+                    <p style="font-family:var(--font-code); color:#666;">&lt; SCREENSHOT_PLACEHOLDER &gt;</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>あなたのサロンに、AIの相棒を。</h2>
+                <p>現在、限定のクローズドテスターを募集中です。</p>
+                <a href="../community/gate.html" class="btn-primary" style="margin-top:2rem;">
+                    参加を申請する <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Mochisura Lab.</p>
+        </div>
+    </footer>
+    <script>function toggleTheme(){document.body.classList.toggle("dark-mode");const isDark=document.body.classList.contains("dark-mode");localStorage.setItem("theme",isDark?"dark":"light");document.querySelectorAll(".theme-toggle").forEach(b=>b.textContent=isDark?"☀️":"🌙");}if(localStorage.getItem("theme")==="dark"){document.body.classList.add("dark-mode");document.querySelectorAll(".theme-toggle").forEach(b=>b.textContent="☀️");}</script>
+</body>
+
+</html>
+

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Store | Mochisura Lab 購買部</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .store-header {
+            padding: 6rem 0 3rem;
+            text-align: center;
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 6rem;
+        }
+
+        .item-card {
+            background: #fff;
+            border: 1px solid var(--color-border);
+            padding: 0;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .item-thumb {
+            height: 200px;
+            background: var(--color-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 5rem;
+        }
+
+        .item-info {
+            padding: 2rem;
+        }
+
+        .item-category {
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: var(--color-accent-warm);
+            margin-bottom: 0.5rem;
+        }
+
+        .item-info h3 {
+            font-family: var(--font-heading);
+            margin-bottom: 1rem;
+        }
+
+        .item-price {
+            font-family: var(--font-code);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-buy {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--color-accent-tech);
+            color: #fff;
+            text-align: center;
+            font-family: var(--font-code);
+            font-weight: 500;
+        }
+
+        .btn-buy:hover {
+            background: var(--color-text);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <a href="../index.html" style="display:flex; align-items:center; gap:0.5rem; color:inherit;">
+                    <img src="../assets/logo.png" alt="Mochisura Lab Logo" class="logo-img"
+                        style="height:48px; mix-blend-mode:multiply;">
+                    <span class="logo-text">Mochisura Lab</span>
+                </a>
+            </div>
+            <nav class="site-nav">
+                <a href="../index.html#products">Products</a>
+                <a href="../index.html#knowledge">Knowledge</a>
+                <a href="../index.html#community">Community</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="store-header">
+            <div class="featured-label">RESEARCH OUTPUTS</div>
+            <h1 class="hero-title">Lab Store</h1>
+            <p>実験の過程で生まれたテンプレートやツールを、あなたのサロンへ。<br>「車輪の再発明」を避け、本質的なケアに集中するための知恵を共有します。</p>
+        </section>
+
+        <div class="item-grid">
+            <!-- Item 1 -->
+            <div class="item-card">
+                <div class="item-thumb" style="background: #e8e4df;">
+                    <i class="fa-solid fa-leaf" style="color:#5e8c95;"></i>
+                </div>
+                <div class="item-info">
+                    <div class="item-category">Obsidian Template</div>
+                    <h3>もちスラ・電子カルテ・システム</h3>
+                    <p>五行タグ、SOAP構造、養生管理、すべてが統合されたObsidian用スターターキット。</p>
+                    <div class="item-price">¥4,980</div>
+                    <a href="#" class="btn-buy" onclick="alert('まもなく一般公開。現在はコミュニティ限定配布中。')">GET TEMPLATE</a>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="item-card">
+                <div class="item-thumb" style="background: #2c2c2c;">
+                    <i class="fa-solid fa-terminal" style="color:#d99058;"></i>
+                </div>
+                <div class="item-info">
+                    <div class="item-category">AI Prompt Collection</div>
+                    <h3>セラピストのための「AI対話」レシピ集</h3>
+                    <p>お客様の悩みをどうAIに伝えて分析させるか。即戦力の最強プロンプト30選。</p>
+                    <div class="item-price">¥2,500</div>
+                    <a href="#" class="btn-buy" onclick="alert('準備中。ご期待ください。')">GET PROMPTS</a>
+                </div>
+            </div>
+        </div>
+
+        <section
+            style="text-align:center; padding: 4rem; background:rgba(255,255,255,0.4); border:1px dashed var(--color-border); margin-bottom:6rem;">
+            <h3>研究員（コミュニティメンバー）特典</h3>
+            <p>ラボのメンバーには、上記テンプレートや新着ツールを「無料」または「先行優待価格」で提供しています。</p>
+            <a href="../community/gate.html" style="text-decoration:underline;">コミュニティに参加してコードを取得</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Mochisura Lab. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitality System Prototype | Mochisura Lab</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --vitality-color: #00b8d4;
+            --color-bg: #050a0d;
+            --color-text: #e0f2f1;
+            --color-accent-tech: #00b8d4;
+            --color-accent-tech-rgb: 0, 184, 212;
+            --font-hud: 'Space Mono', monospace;
+            --font-ui: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-ui);
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bg-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 20%, rgba(var(--color-accent-tech-rgb), 0.1) 0%, transparent 60%);
+            z-index: -10;
+        }
+
+        /* --- Smartphone Case Container --- */
+        .aquarium-container {
+            width: 390px;
+            height: 844px;
+            position: relative;
+            background-color: #050a0d;
+            border-radius: 44px;
+            overflow: hidden;
+            box-shadow:
+                0 0 0 4px #1a1a1a,
+                0 0 0 6px #333,
+                0 40px 100px rgba(0, 0, 0, 0.8),
+                inset 0 0 30px rgba(0, 184, 212, 0.03);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        /* Glass Surface Reflex */
+        .aquarium-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 44px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 40%, transparent 60%, rgba(255, 255, 255, 0.02) 100%);
+            pointer-events: none;
+            z-index: 3000;
+        }
+
+        /* --- HUD Layout (Optimized for Mobile width) --- */
+        .hud-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2000;
+            padding: 1.5rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hud-top {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .hud-bottom {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            width: 100%;
+            padding-bottom: 30px;
+            /* Offset from the bottom edge */
+        }
+
+        .glass-panel {
+            background: rgba(10, 20, 25, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 20px;
+            pointer-events: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .vitality-hud {
+            text-align: left;
+            width: 100%;
+            padding: 16px;
+        }
+
+        .hud-label {
+            font-family: var(--font-hud);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--color-accent-tech);
+            opacity: 0.8;
+            margin-bottom: 2px;
+        }
+
+        .counter-display {
+            font-family: var(--font-hud);
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(0, 184, 212, 0.4);
+        }
+
+        .level-badge {
+            font-size: 0.8rem;
+            color: #fff;
+            margin-top: 4px;
+            display: block;
+            opacity: 0.7;
+        }
+
+        .inject-btn {
+            background: linear-gradient(135deg, rgba(var(--color-accent-tech-rgb), 0.25) 0%, rgba(var(--color-accent-tech-rgb), 0.05) 100%);
+            border: 1px solid rgba(var(--color-accent-tech-rgb), 0.3);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 14px 28px;
+            font-family: var(--font-ui);
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 15px rgba(0, 184, 212, 0.1);
+            width: 100%;
+            justify-content: center;
+            pointer-events: auto;
+            /* Enable interaction */
+        }
+
+        .inject-btn:hover {
+            background: rgba(var(--color-accent-tech-rgb), 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 184, 212, 0.3);
+            color: #fff;
+        }
+
+        /* --- Ambient Environmental FX --- */
+        .ambient-fx {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .god-rays {
+            position: absolute;
+            top: -30%;
+            left: 0;
+            width: 150%;
+            height: 160%;
+            background: repeating-linear-gradient(95deg,
+                    transparent 0%,
+                    transparent 10%,
+                    rgba(255, 255, 255, 0.02) 12%,
+                    rgba(255, 255, 255, 0.04) 15%,
+                    rgba(255, 255, 255, 0.02) 18%,
+                    transparent 20%);
+            filter: blur(50px);
+            opacity: 0.6;
+            animation: rays-drift 30s ease-in-out infinite alternate;
+            transform-origin: top center;
+        }
+
+        @keyframes rays-drift {
+            from {
+                transform: translateX(-5%) skew(-10deg);
+            }
+
+            to {
+                transform: translateX(5%) skew(10deg);
+            }
+        }
+
+        .marine-snow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, #fff, transparent),
+                radial-gradient(2px 2px at 40% 50%, #fff, transparent),
+                radial-gradient(1px 1px at 80% 30%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 20% 70%, #fff, transparent),
+                radial-gradient(1px 1px at 60% 85%, #fff, transparent);
+            background-size: 200px 300px;
+            opacity: 0.15;
+            animation: snow-drift 40s linear infinite;
+        }
+
+        @keyframes snow-drift {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-300px);
+            }
+        }
+
+        /* --- Aquarium Floor --- */
+        .aquarium-floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 45%;
+            /* Relative to container height */
+            background: linear-gradient(to bottom,
+                    transparent,
+                    rgba(var(--color-accent-tech-rgb), 0.03) 20%,
+                    rgba(var(--color-accent-tech-rgb), 0.1) 100%);
+            perspective: 800px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .caustics-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+            mix-blend-mode: overlay;
+            filter: blur(30px);
+            animation: caustics-anim 30s ease-in-out infinite alternate;
+        }
+
+        @keyframes caustics-anim {
+            from {
+                transform: translate(-5%, -5%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(5%, 5%) rotate(3deg);
+            }
+        }
+
+        .floor-grid {
+            position: absolute;
+            bottom: 0;
+            left: -50%;
+            width: 200%;
+            height: 1200px;
+            background-image:
+                linear-gradient(rgba(var(--color-accent-tech-rgb), 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(var(--color-accent-tech-rgb), 0.08) 1px, transparent 1px);
+            background-size: 100px 100px;
+            transform: rotateX(75deg);
+            transform-origin: bottom center;
+            opacity: 0.4;
+            animation: grid-scroll-slow 120s linear infinite;
+        }
+
+        @keyframes grid-scroll-slow {
+            from {
+                background-position: 0 0;
+            }
+
+            to {
+                background-position: 0 100%;
+            }
+        }
+
+        /* --- Slime Styles --- */
+        #mochisura-slime {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            z-index: 100;
+            cursor: pointer;
+            pointer-events: auto;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            transform-origin: bottom center;
+        }
+
+        .slime-body {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            z-index: 2;
+            transform-origin: bottom center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: slime-breathe 8s ease-in-out infinite;
+        }
+
+        @keyframes slime-breathe {
+
+            0%,
+            100% {
+                transform: scale(1, 1);
+            }
+
+            50% {
+                transform: scale(1.03, 0.97);
+            }
+        }
+
+        .jumping .slime-body {
+            animation: none;
+        }
+
+        .body-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .face-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .face-layer.side-view {
+            transform: translateX(15px);
+        }
+
+        .face-part {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .eye-blink {
+            animation: eye-blink-anim 4.5s infinite;
+        }
+
+        @keyframes eye-blink-anim {
+
+            0%,
+            92%,
+            100% {
+                transform: scaleY(1);
+            }
+
+            96% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        .slime-shadow {
+            width: 100px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            margin-top: -15px;
+            filter: blur(6px);
+            position: relative;
+            z-index: 1;
+            mix-blend-mode: multiply;
+            transform-origin: center center;
+            transition: transform 0.15s, opacity 0.15s;
+        }
+
+        .message-bubble {
+            position: absolute;
+            bottom: 115%;
+            background: rgba(15, 25, 30, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            display: none;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .frenzy {
+            filter: drop-shadow(0 0 15px rgba(255, 138, 101, 0.6));
+        }
+
+        /* --- Energy Core (Food) --- */
+        .energy-core {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle at 30% 30%, #fff, var(--color-accent-tech));
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--color-accent-tech);
+            z-index: 50;
+        }
+
+        @keyframes slime-munch-shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-3px) rotate(-1deg);
+            }
+
+            75% {
+                transform: translateX(3px) rotate(1deg);
+            }
+        }
+
+        .munching .slime-body {
+            animation: slime-munch-shake 0.15s infinite;
+        }
+
+        /* --- Poke Squishy Reaction (Mochi-Puni) --- */
+        @keyframes mochi-puni {
+            0% {
+                transform: scale(1, 1);
+            }
+
+            15% {
+                transform: scale(1.3, 0.7);
+            }
+
+            /* Deep squash */
+            40% {
+                transform: scale(0.9, 1.2);
+            }
+
+            /* Elastic bounce up */
+            65% {
+                transform: scale(1.1, 0.9);
+            }
+
+            /* Small squash */
+            100% {
+                transform: scale(1, 1);
+            }
+        }
+
+        .squishy .slime-body {
+            animation: mochi-puni 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+
+    <div class="aquarium-container">
+        <!-- Ambient FX Layers -->
+        <div class="ambient-fx">
+            <div class="god-rays"></div>
+            <div class="marine-snow"></div>
+        </div>
+
+        <div class="hud-overlay">
+            <div class="hud-top">
+                <div class="glass-panel vitality-hud">
+                    <span class="hud-label">Vitality core</span>
+                    <div class="counter-display" id="pv-counter">0000</div>
+                    <span class="level-badge">LV: <span id="lv-text">1 (Rest)</span></span>
+                </div>
+            </div>
+            <div class="hud-bottom">
+                <button class="inject-btn" onclick="boost()">
+                    <div class="btn-core"></div>
+                    ENERGY INJECT
+                </button>
+            </div>
+        </div>
+
+        <!-- The Aquarium Floor -->
+        <div class="aquarium-floor">
+            <div class="caustics-layer"></div>
+            <div class="floor-grid"></div>
+        </div>
+
+        <!-- The Slime -->
+        <div id="mochisura-slime" onclick="slimeReact('ぷるん！', true)">
+            <div class="slime-wrapper">
+                <div class="message-bubble" id="slime-msg">ぷるん！</div>
+                <div id="slime-jump-node">
+                    <div class="slime-body" id="slime-inner">
+                        <!-- Base body image -->
+                        <img src="../assets/mochipet/base.png" class="body-img" id="body-sprite">
+                        <!-- Face layers -->
+                        <div class="face-layer" id="face-layer">
+                            <img src="../assets/mochipet/eye.png" class="face-part eye-part eye-blink" id="eye-sprite">
+                            <img src="../assets/mochipet/mouth-smile.png" class="face-part mouth-part"
+                                id="mouth-sprite">
+                            <img src="../assets/mochipet/cheek.png" class="face-part cheek-part" id="cheek-sprite"
+                                style="opacity: 0.3;">
+                        </div>
+                    </div>
+                </div>
+                <div class="slime-shadow"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pv = 0;
+        const container = document.querySelector('.aquarium-container');
+        const slime = document.getElementById('mochisura-slime');
+        const slimeInner = document.getElementById('slime-inner');
+        const bodySprite = document.getElementById('body-sprite');
+        const eyeSprite = document.getElementById('eye-sprite');
+        const mouthSprite = document.getElementById('mouth-sprite');
+        const cheekSprite = document.getElementById('cheek-sprite');
+        const faceLayer = document.getElementById('face-layer');
+        const jumpNode = document.getElementById('slime-jump-node');
+        const counterEl = document.getElementById('pv-counter');
+        const lvEl = document.getElementById('lv-text');
+        const msgEl = document.getElementById('slime-msg');
+
+        const assetPath = '../assets/mochipet/';
+
+        // --- Container-Based Physics ---
+        const cw = 390;
+        const ch = 844;
+
+        let walkableHeight = ch * 0.22; // Narrower vertical range
+        let groundAnchorY = ch - 130; // Further raised to clear the HUD button
+        let horizonY = groundAnchorY - walkableHeight;
+
+        let currentX = cw / 2;
+        let currentY = groundAnchorY;
+        let startX = currentX;
+        let startY = currentY;
+        let targetX = currentX;
+        let targetY = currentY;
+
+        let isJumping = false;
+        let jumpProgress = 0;
+        let jumpDuration = 1800;
+        let jumpStartTime = 0;
+        let jumpCooldown = 3500;
+        let lastJumpEndTime = 0;
+
+        // --- Interaction State ---
+        let isMunching = false;
+        let isReacting = false; // New: To suppress movement during poke
+        let energyCores = [];
+
+        function updateLevel() {
+            let level = "1 (Rest)";
+            jumpCooldown = 6000; // Very slow at rest
+            jumpDuration = 2200; // Maximum buoyancy
+            slime.classList.remove('frenzy');
+            eyeSprite.src = assetPath + 'eye.png';
+            cheekSprite.style.display = 'none';
+
+            if (pv > 500) {
+                level = "4 (FRENZY!!)";
+                jumpCooldown = 800; // Faster but still underwater feel
+                jumpDuration = 1200;
+                slime.classList.add('frenzy');
+                eyeSprite.src = assetPath + 'eye-kira.png';
+                cheekSprite.style.display = 'block';
+                cheekSprite.style.opacity = 0.6;
+            } else if (pv > 100) {
+                level = "3 (Active)";
+                jumpCooldown = 2500;
+                jumpDuration = 1600;
+                cheekSprite.style.display = 'block';
+            } else if (pv > 20) {
+                level = "2 (Awake)";
+                jumpCooldown = 4000;
+                jumpDuration = 1800;
+            }
+            lvEl.textContent = level;
+        }
+
+        let munchTimer = null;
+        function startMunching() {
+            if (isMunching) return;
+            isMunching = true;
+            slime.classList.add('munching');
+            eyeSprite.src = assetPath + 'eye-kira.png';
+            cheekSprite.style.display = 'block';
+            cheekSprite.style.opacity = 0.8;
+
+            let count = 0;
+            munchTimer = setInterval(() => {
+                mouthSprite.src = assetPath + (count % 2 === 0 ? 'mouth-o.png' : 'mouth-a.png');
+                count++;
+                if (count > 10) {
+                    stopMunching();
+                }
+            }, 120);
+        }
+
+        function stopMunching() {
+            clearInterval(munchTimer);
+            isMunching = false;
+            slime.classList.remove('munching');
+            updateLevel();
+            mouthSprite.src = assetPath + 'mouth-smile.png';
+        }
+
+        function spawnEnergyCore() {
+            const core = document.createElement('div');
+            core.className = 'energy-core';
+            container.appendChild(core);
+
+            const startX = 60 + Math.random() * (cw - 120);
+            const coreState = {
+                el: core,
+                x: startX,
+                y: -30,
+                vy: 2 + Math.random() * 3,
+                consumed: false
+            };
+            energyCores.push(coreState);
+
+            // React to feed injection
+            slimeReact("ごはん！✨");
+        }
+
+        function boost() {
+            spawnEnergyCore();
+        }
+
+        function slimeReact(text, shouldSquash = false) {
+            if (text) {
+                msgEl.textContent = text;
+                msgEl.style.display = 'block';
+                setTimeout(() => msgEl.style.display = 'none', 2000);
+            }
+
+            if (shouldSquash) {
+                // Interaction feedback: Stop and Squash (Mochi-Puni)
+                isReacting = true;
+                slime.classList.remove('squishy');
+                void slime.offsetWidth; // Trigger reflow
+                slime.classList.add('squishy');
+
+                // Allow movement again after the squishy animation completes
+                setTimeout(() => {
+                    slime.classList.remove('squishy');
+                    isReacting = false;
+                }, 900);
+            }
+        }
+
+        function updateCounter() {
+            counterEl.textContent = String(Math.floor(pv)).padStart(4, '0');
+            updateLevel();
+        }
+
+        function startJump() {
+            if (isMunching || isReacting) return; // Wait during munching or poke reaction
+            isJumping = true;
+            jumpStartTime = performance.now();
+            startX = currentX;
+            startY = currentY;
+
+            // Target Logic: Priority to Energy Cores
+            if (energyCores.length > 0) {
+                const targetCore = energyCores[0]; // Chase the oldest one
+                targetX = targetCore.x;
+                targetY = targetCore.y;
+            } else {
+                // Default random behavior within container
+                targetX = 60 + Math.random() * (cw - 120);
+                targetY = horizonY + 20 + Math.random() * (walkableHeight - 60);
+            }
+
+            const maxStep = 180;
+            const dx = targetX - startX;
+            const dy = targetY - startY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist > maxStep) {
+                targetX = startX + (dx / dist) * maxStep;
+                targetY = startY + (dy / dist) * maxStep;
+            }
+            slime.classList.add('jumping');
+        }
+
+        function update(time) {
+            updateLevel();
+
+            // --- Energy Cores Logic ---
+            energyCores.forEach((core, index) => {
+                if (core.consumed) return;
+
+                // Physics: Fall until ground
+                const groundY = groundAnchorY - 10; // Match raised ground
+                if (core.y < groundY) {
+                    core.y += core.vy;
+                } else {
+                    core.y = groundY; // Settle on floor
+                }
+
+                core.el.style.left = (core.x - 10) + 'px';
+                core.el.style.top = core.y + 'px';
+
+                // Collision Detection (Broader for reliability)
+                const dx = core.x - currentX;
+                const dy = core.y - (currentY - 40); // Target slime center
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 80) {
+                    core.consumed = true;
+                    core.el.remove();
+                    energyCores.splice(index, 1);
+                    pv += 30;
+                    updateCounter();
+                    startMunching();
+                }
+            });
+
+            // Perspective Calculations (Subtler)
+            const normalizedY = (currentY - horizonY) / walkableHeight;
+            const depthScale = 0.85 + normalizedY * 0.25;
+
+            // Relative positioning inside the container
+            slime.style.left = (currentX - 60) + 'px';
+            slime.style.top = (currentY - 100) + 'px';
+            slime.style.transform = `scale(${depthScale})`;
+            slime.style.zIndex = Math.floor(currentY);
+            if (isJumping) {
+                const elapsed = time - jumpStartTime;
+                jumpProgress = Math.min(elapsed / jumpDuration, 1);
+                const p = jumpProgress;
+
+                currentX = startX + (targetX - startX) * p;
+                currentY = startY + (targetY - startY) * p;
+
+                const arcY = Math.sin(p * Math.PI) * -100;
+
+                // Asset Switching & Sprite Direction
+                const dx = targetX - startX;
+                const moveDir = dx > 0 ? 1 : -1;
+                const isSideJump = Math.abs(dx) > 30;
+
+                // Body flip (Applied to inner container to keep face sync)
+                slimeInner.style.transform = `scaleX(${moveDir})`;
+
+                if (isSideJump) {
+                    bodySprite.src = assetPath + 'base-right.png';
+                    faceLayer.classList.add('side-view');
+                    faceLayer.style.display = 'flex';
+                } else {
+                    faceLayer.classList.remove('side-view');
+                    faceLayer.style.display = 'flex';
+                    if (p < 0.2) bodySprite.src = assetPath + 'base-stretch.png';
+                    else if (p > 0.8) bodySprite.src = assetPath + 'base-jump.png';
+                    else bodySprite.src = assetPath + 'base.png';
+                }
+
+                // Internal scaling
+                let scaleX = 1, scaleY = 1;
+                if (p < 0.2) {
+                    scaleX = 0.8; scaleY = 1.3;
+                } else if (p > 0.8) {
+                    scaleY = 1.0; scaleX = 1.0;
+                } else {
+                    scaleX = 0.95; scaleY = 1.05;
+                }
+
+                jumpNode.style.transform = `translateY(${arcY}px) scale(${scaleX}, ${scaleY})`;
+
+                // Shadow sync
+                const shadow = slime.querySelector('.slime-shadow');
+                const jumpFactor = Math.abs(arcY) / 120;
+                const shadowScaleX = (1 - jumpFactor * 0.4) * scaleX;
+                const shadowScaleY = (1 - jumpFactor * 0.4);
+                const shadowOpacity = 0.4 - (jumpFactor * 0.3);
+
+                shadow.style.transform = `scale(${shadowScaleX}, ${shadowScaleY})`;
+                shadow.style.opacity = shadowOpacity;
+
+                if (jumpProgress >= 1) {
+                    isJumping = false;
+                    lastJumpEndTime = time;
+                    slime.classList.remove('jumping');
+
+                    // Impact Squash (Maintain direction)
+                    if (isSideJump) {
+                        bodySprite.src = assetPath + 'base-right.png';
+                    } else {
+                        bodySprite.src = assetPath + 'base-jump.png';
+                    }
+
+                    jumpNode.style.transform = 'translateY(0) scale(1.4, 0.6)';
+                    shadow.style.transform = 'scale(1.4, 0.8)';
+                    shadow.style.opacity = 0.5;
+
+                    setTimeout(() => {
+                        if (!isJumping) {
+                            bodySprite.src = assetPath + 'base.png';
+                            slimeInner.style.transform = 'scaleX(1)';
+                            jumpNode.style.transform = 'scale(1,1)';
+                            shadow.style.transform = 'scale(1,1)';
+                            shadow.style.opacity = 0.4;
+                            faceLayer.classList.remove('side-view');
+                            faceLayer.style.display = 'flex';
+                        }
+                    }, 200);
+                }
+            } else {
+                if (pv > 5 && (time - lastJumpEndTime > jumpCooldown)) {
+                    startJump();
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        requestAnimationFrame(update);
+
+        // Listen for resize to update ground limits
+        window.addEventListener('resize', () => {
+            walkableHeight = window.innerHeight * 0.4;
+            groundAnchorY = window.innerHeight;
+            horizonY = window.innerHeight - walkableHeight;
+        });
+
+        setInterval(() => {
+            pv++;
+            counterEl.textContent = pv.toString().padStart(4, '0');
+        }, 3000);
+    </script>
+</body>
+
+</html>

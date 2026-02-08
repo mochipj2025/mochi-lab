@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>火の玉宣伝部長 | もちスララボ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=1.6">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Fira+Code:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+
+    <div class="container">
+        <header>
+            <h1>MOCHISURA OPS ROOM</h1>
+            <span class="subtitle">&laquo; Mochisura Lab Intelligence Division &raquo;</span>
+
+            <nav class="tab-nav">
+                <button class="tab-btn active" data-tab="lab-analytics">
+                    <i class="fa-solid fa-flask"></i> ラボ解析
+                </button>
+                <button class="tab-btn" data-tab="news-curator">
+                    <i class="fa-solid fa-binoculars"></i> 観測
+                </button>
+                <button class="tab-btn" data-tab="sherlock-shelf" id="shelf-tab-btn">
+                    <i class="fa-solid fa-book-archive"></i> 調査記録庫
+                </button>
+            </nav>
+
+            <div class="api-notice">
+                <i class="fa-solid fa-circle-info"></i> Gemini 2.5 Flash 無料枠（1日1,500回 / 1分15回）で稼働中
+            </div>
+        </header>
+
+        <main>
+            <section class="character-section">
+                <div class="character-container">
+                    <div class="character-box">
+                        <img src="{{ url_for('static', filename='img/sherlock_slime.png') }}?v=1.6" alt="探偵スライム"
+                            id="hero-img">
+                    </div>
+                    <div class="dialogue-box">
+                        <i class="fa-solid fa-quote-left"></i>
+                        <div class="bubble" id="char-bubble">
+                            「不可能を消去して残ったもの、それがどれほど奇妙であっても、真実だ。」<br>
+                            準備はいいかい、ワトソン君？
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tab-content active" id="lab-analytics">
+                <section class="landing-controls" id="landing-area">
+                    <button id="start-btn" class="btn-primary btn-large">
+                        <i class="fa-solid fa-magnifying-glass"></i> 事件の調査を開始
+                    </button>
+                </section>
+
+                <section class="controls" id="main-controls" style="display: none;">
+                    <div class="select-wrapper">
+                        <select id="article-select">
+                            <option value="">記事を選択してください...</option>
+                        </select>
+                    </div>
+                    <button id="generate-btn" class="btn-primary">
+                        <i class="fa-solid fa-fingerprint"></i> 証拠を解析
+                    </button>
+                </section>
+            </section>
+
+            <section class="tab-content" id="news-curator" style="display: none;">
+                <div class="curator-controls">
+                    <div class="input-group">
+                        <input type="text" id="custom-topic" placeholder="特定の調査項目を入力（例：ウェアラブル、自動運転...）"
+                            class="custom-input">
+                    </div>
+                    <button id="curate-news-btn" class="btn-primary btn-large">
+                        <i class="fa-solid fa-binoculars"></i> 特異点を観測する
+                    </button>
+                </div>
+            </section>
+
+            <section class="tab-content" id="sherlock-shelf" style="display: none;">
+                <div class="shelf-header">
+                    <h2><i class="fa-solid fa-scroll"></i> 過去の調査記録</h2>
+                    <p>もちスララボ調査班が蓄積してきた、身体操作とAIの融合に関する知見</p>
+                </div>
+                <div id="shelf-container" class="shelf-grid">
+                    <!-- アーカイブされたレポートがここに挿入される -->
+                </div>
+            </section>
+
+            <section class="results" id="results-area" style="display: none;">
+                <div class="patterns-grid" id="standard-patterns">
+                    <div class="pattern-card" id="card-p1">
+                        <h3><i class="fa-solid fa-heart"></i> パターン1</h3>
+                        <div class="tweet-content" id="p1"></div>
+                        <div class="card-actions">
+                            <button class="copy-btn" data-target="p1"><i class="fa-regular fa-copy"></i> Copy</button>
+                            <button class="threads-btn" data-target="p1"><i class="fa-brands fa-threads"></i>
+                                Threads</button>
+                        </div>
+                    </div>
+                    <div class="pattern-card" id="card-p2" style="display: none;">
+                        <h3><i class="fa-solid fa-star"></i> パターン2</h3>
+                        <div class="tweet-content" id="p2"></div>
+                        <div class="card-actions">
+                            <button class="copy-btn" data-target="p2"><i class="fa-regular fa-copy"></i> Copy</button>
+                            <button class="threads-btn" data-target="p2"><i class="fa-brands fa-threads"></i>
+                                Threads</button>
+                        </div>
+                    </div>
+                    <div class="pattern-card" id="card-p3" style="display: none;">
+                        <h3><i class="fa-solid fa-fire"></i> パターン3</h3>
+                        <div class="tweet-content" id="p3"></div>
+                        <div class="card-actions">
+                            <button class="copy-btn" data-target="p3"><i class="fa-regular fa-copy"></i> Copy</button>
+                            <button class="threads-btn" data-target="p3"><i class="fa-brands fa-threads"></i>
+                                Threads</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="structured-results" style="display: none;">
+                    <div class="curation-sheet">
+                        <div class="sheet-header">
+                            <h2><i class="fa-solid fa-file-invoice"></i> 調査報告書</h2>
+                        </div>
+                        <div class="sheet-body">
+                            <div class="sheet-section">
+                                <label><i class="fa-solid fa-microscope"></i> 解析 (Analysis)</label>
+                                <div id="cur-analysis" class="sheet-content"></div>
+                            </div>
+                            <div class="sheet-section">
+                                <label><i class="fa-solid fa-bolt"></i> 要約 (Summary)</label>
+                                <div id="cur-summary" class="sheet-content highlight"></div>
+                            </div>
+                            <div class="sheet-section">
+                                <label><i class="fa-solid fa-link"></i> 情報元 (Source)</label>
+                                <div id="cur-source" class="sheet-content small"></div>
+                            </div>
+                            <div class="sheet-section">
+                                <label><i class="fa-solid fa-comment-dots"></i> 解説 (Commentary)</label>
+                                <div id="cur-commentary" class="sheet-content"></div>
+                            </div>
+                        </div>
+                        <div class="sheet-actions">
+                            <button class="action-btn primary" id="stock-case-btn">
+                                <i class="fa-solid fa-box-archive"></i> 記録庫に保管
+                            </button>
+                            <button class="action-btn" id="share-x-btn">
+                                <i class="fa-brands fa-x-twitter"></i> Xでシェア
+                            </button>
+                            <button class="action-btn" id="share-threads-btn">
+                                <i class="fa-brands fa-threads"></i> Threads
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div id="loading" class="loading-overlay" style="display: none;">
+                <div class="spinner"></div>
+                <p>宣伝部長が執筆中...</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Mochisura Lab. Analysis powered by Intelligence Division.</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}?v=1.6"></script>
+</body>
+
+</html>

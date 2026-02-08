@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Gate | Mochisura Lab Secret Base</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gate-body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, rgba(94, 140, 149, 0.1) 0%, rgba(247, 246, 242, 1) 100%);
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .gate-container {
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            padding: 3rem;
+            background: #fff;
+            border: 1px solid var(--color-border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .gate-icon {
+            font-size: 3rem;
+            color: var(--color-accent-tech);
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .gate-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .gate-desc {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 2rem;
+            font-family: var(--font-code);
+        }
+
+        .invite-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--color-border);
+            font-family: var(--font-code);
+            text-align: center;
+            font-size: 1.2rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 1.5rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .invite-input:focus {
+            border-color: var(--color-accent-tech);
+        }
+
+        .btn-entry {
+            width: 100%;
+            padding: 1rem;
+            background: var(--color-text);
+            color: #fff;
+            border: none;
+            font-family: var(--font-code);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-entry:hover {
+            background: var(--color-accent-tech);
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #aaa;
+            font-family: var(--font-code);
+        }
+    </style>
+</head>
+
+<body class="gate-body">
+    <div class="bg-texture"></div>
+
+    <div class="gate-container">
+        <div class="gate-icon">
+            <i class="fa-solid fa-key"></i>
+        </div>
+        <h1 class="gate-title">Community Gate</h1>
+        <p class="gate-desc">ACCESS RESTRICTED<br>PLEASE ENTER INVITE CODE</p>
+
+        <form action="#">
+            <input type="text" placeholder="****-****" class="invite-input" maxlength="9">
+            <button type="button" class="btn-entry"
+                onclick="alert('秘密基地へようこそ...（という演出です）'); location.href='../index.html'">
+                UNLOCK ACCESS
+            </button>
+        </form>
+
+        <a href="../index.html" class="back-link">&lt; Back to Lab Main</a>
+    </div>
+
+    <!-- Script to simulate verification -->
+    <script>
+        document.querySelector('.invite-input').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/[^A-Z0-9]/gi, '').toUpperCase();
+            if (value.length > 4) {
+                value = value.slice(0, 4) + '-' + value.slice(4);
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+
+</html>
