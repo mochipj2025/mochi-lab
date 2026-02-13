@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="RTX 3060Ti × RAM 32GB × Ollamaで、7体のAI NPCが自律的に文明を築くシミュレータを作った話。ローカルLLMだけで動く、ちいさな世界のものがたり。">
+    <title>RTX 3060Tiで、AIに文明を創らせている | もちスラカルテ開発ブログ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo"><a href="../../index.html"><img src="../../assets/logo.png" alt="Mochisura Lab Logo"><span
+                        class="logo-text">Mochisura Lab</span></a></div>
+            <nav class="site-nav"><a href="../../index.html#products">Products</a><a
+                    href="../../index.html#knowledge">Knowledge</a><a href="../../index.html#community">Community</a><a
+                    href="../../index.html#store">Store</a><a href="../index.html">Dev Blog</a><button
+                    class="theme-toggle" onclick="toggleTheme()" aria-label="切替">🌙</button></nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="article-content">
+            <h1 class="article-title">RTX 3060Tiで、AIに文明を創らせている</h1>
+            <p class="article-meta">2026-02-13 | 8 min read</p>
+
+            <div class="tags">
+                <span class="tag">AI開発</span>
+                <span class="tag">ローカルLLM</span>
+                <span class="tag">個人開発</span>
+                <span class="tag">Project Genesis</span>
+            </div>
+
+            <div class="content">
+                <blockquote>
+                    <p><strong>対象読者</strong>:
+                        「AIってすごいけど、ハイスペックなPCが必要なんでしょ？」と思っている方へ。ごく普通のゲーミングPCで、AIたちが文明を築いていく様子をお伝えします。</p>
+                </blockquote>
+
+                <hr>
+
+                <h2>はじめに — 「新しいGPU、買わなきゃダメ？」</h2>
+
+                <p>最近、AIの話題がタイムラインにたくさん流れてきますよね。</p>
+
+                <p>「このモデルにはA100が必要」「H100を8枚使って学習した」なんて投稿を見ると、正直なところ「自分には関係ない世界かも」って思ってしまう。</p>
+
+                <p>でもね、わたしのPCのスペック、こんな感じなんです。</p>
+
+                <ul>
+                    <li><strong>GPU</strong>：RTX 3060 Ti（VRAM 8GB）</li>
+                    <li><strong>メモリ</strong>：32GB</li>
+                    <li><strong>使っているAI</strong>：Ollama（無料でローカルに動くやつ）</li>
+                    <li><strong>月額のAPI課金</strong>：ゼロ円</li>
+                </ul>
+
+                <p>決してハイスペックとは言えない、ごく普通のゲーミングPC。</p>
+
+                <p>だけどこのマシンで、<strong>7体のAI NPCたちが自分で考えて、自分で街を作って、世代交代しながら文明を築いていくシミュレータ</strong>を動かしています。</p>
+
+                <hr>
+
+                <h2>🏘️ Project Genesisって何？</h2>
+
+                <p>20×20マスの小さな世界に、AIのキャラクターたちが暮らしています。</p>
+
+                <p>プレイヤーの操作は一切なし。AIが自分で考えて、動いて、建物を建てて、仲間と関係を築いて、やがて年老いて、次の世代に想いを残して去っていく。</p>
+
+                <p>そんな「ちいさな文明のものがたり」が、この1台のPCの中で毎日生まれています。</p>
+
+                <p>技術スタックはシンプルです。AI推論にOllama（llama3.1）、バックエンドにPython +
+                    FastAPI、フロントエンドにReactのリアルタイムダッシュボード。データはすべてJSON。すべてがこの1台の中で完結しています。</p>
+
+                <hr>
+
+                <h2>🌿 AIたちの暮らしを支える6つのしくみ</h2>
+
+                <p>単に「AIに行動させる」だけでは、NPCはすぐにループに陥ります。同じ場所で同じことを繰り返すだけ。</p>
+
+                <p>だから、6つのしくみを組みました。</p>
+
+                <h3>しくみ① 生まれながらの個性</h3>
+
+                <p>NPCたちには、生まれた瞬間に「種族」が決まります。</p>
+
+                <p>知識を愛する<strong>「賢者」</strong>は、神殿や書庫を建てたがります。<br>
+                    勇敢な<strong>「戦士」</strong>は、砦や見張り台を築きます。<br>
+                    黙々と手を動かす<strong>「職人」</strong>は、工房や農園を作ります。<br>
+                    人付き合いが得意な<strong>「商人」</strong>は、市場や宿場を開きます。<br>
+                    風のように自由な<strong>「放浪者」</strong>は、道標や展望台を残します。</p>
+
+                <p>名前もそれぞれ7つずつ用意されていて、同じ名前のキャラクターは同時に存在しません。全部の名前が使われると「ミコト2世」みたいに、世代番号がつくんです。かわいいでしょう？</p>
+
+                <h3>しくみ② おなかがすいたら、ごはんを探しに行く</h3>
+
+                <p>AIたちには「欲求」があります。</p>
+
+                <ul>
+                    <li><strong>空腹</strong> — おなかがすいたら、畑のそばに行きたくなる</li>
+                    <li><strong>孤独</strong> — さみしくなったら、誰かのそばに行きたくなる</li>
+                    <li><strong>使命感</strong> — 何かを成し遂げたくなったら、建物を建てたくなる</li>
+                    <li><strong>好奇心</strong> — じっとしていると、まだ見ぬ場所が気になってくる</li>
+                </ul>
+
+                <p>この「心の声」が、AIの行動に影響します。</p>
+
+                <p>わたしが「食料を探しなさい」と命令したわけじゃないんです。AIが自分で「おなかすいたな……」って感じて、勝手に農園の方に歩いていく。<strong>それを見ている時間が、いちばん楽しい。</strong>
+                </p>
+
+                <h3>しくみ③ 関係性の記憶</h3>
+
+                <p>AIたちは、最近の行動を覚えています。</p>
+
+                <p>そして、近くにいた相手との「親しさ」も少しずつ積み重なっていきます。よく一緒にいる相手には「親しい仲間」と感じるし、初めて会った相手には「面識がある程度」。</p>
+
+                <p>この小さな違いが、AIの考え方や行動を変えていくのが面白いんです。</p>
+
+                <h3>しくみ④ 四季のある世界</h3>
+
+                <p>この世界には春夏秋冬があります。50ターンでひとめぐり。</p>
+
+                <ul>
+                    <li><strong>春</strong> — 穏やかで、食べ物がよく育つ季節 🌸</li>
+                    <li><strong>夏</strong> — 食料がいちばん豊かな、輝きの季節 ☀️</li>
+                    <li><strong>秋</strong> — 少しずつ厳しさが増してくる 🍂</li>
+                    <li><strong>冬</strong> — 食料はほとんど育たず、体力の消耗も激しい ❄️</li>
+                </ul>
+
+                <p>農園を持たない集落は、<strong>冬を越えられない</strong>こともあります。</p>
+
+                <h3>しくみ⑤ 想いは石碑に残る</h3>
+
+                <p>AIが寿命を迎えると、その場所に「石碑」が残ります。</p>
+
+                <p>新しく生まれたAIがその石碑の近くにいると、先人の種族を受け継ぐことがあるんです。「あなたは、ミコトの石碑のそばで生まれた」というメッセージが、新しいAIの心に刻まれる。</p>
+
+                <p>誰にも教えていないのに、かつて賢者がたくさんいた場所には、また賢者が生まれやすくなります。<strong>まるで文化が、土地に根づいているみたい。</strong></p>
+
+                <h3>しくみ⑥ 見守る存在 ── アーキビスト</h3>
+
+                <p>20ターンに一度、すべてのAIの「がんばり具合」を静かに分析する存在がいます。</p>
+
+                <p>誰がいちばん文明に貢献したか。どんな行動パターンがうまくいったか。それを記録して、次に生まれてくるAIに「先人たちの知恵」としてそっと伝えます。</p>
+
+                <p>命令するのではなく、ただ見守って、記録して、次の世代に渡す。そんな控えめな存在です。</p>
+
+                <hr>
+
+                <h2>💡 どうして3060Tiで動くの？</h2>
+
+                <p>答えはとてもシンプルで、<strong>「順番に考えてもらう」</strong>ようにしたから。</p>
+
+                <p>7体のAIを同時に考えさせたら、さすがに3060Tiでは厳しいです。</p>
+
+                <p>でも、ターン制にして、1体ずつ順番に考えてもらえば大丈夫。1回の思考は数秒で終わります。</p>
+
+                <p>制約があるからこそ、「どうすれば動くか」を工夫するようになる。<strong>これがローカルLLM開発のいちばん面白いところ</strong>だと思っています。</p>
+
+                <hr>
+
+                <h2>🎓 「十分なスペック」で始めてみる</h2>
+
+                <p>LLMの仕組みを理解するには、3060Tiで十分です。</p>
+
+                <p>自分のPCで、課金を気にせず、何度でもAIを動かして試行錯誤できる。そこから「このマシンをどう活かそうか」という工夫が自然に生まれてきます。</p>
+
+                <p>高いGPUを買わなくても、AIと遊ぶことはできる。</p>
+
+                <p>いまの環境で、どこまでいけるか。試してみると、<strong>きっと思っているより遠くまで行けますよ。</strong></p>
+
+                <hr>
+
+                <p>全部、この3060Tiの上で動いています。</p>
+
+                <p><strong>もちスラ（@yayan198704）</strong><br>
+                    リラクゼーションセラピスト × AI個人開発者<br>
+                    2026年2月13日</p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 もちスラカルテ | Built with ❤️ and pure HTML/CSS</p>
+            <p class="footer-links">
+                <a href="https://www.threads.net/@hogushiya_kida" target="_blank" rel="noopener">Threads</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-toggle').textContent = '☀️';
+        }
+    </script>
+    <button class="scroll-to-top" onclick="scrollToTop()" aria-label="トップに戻る">↑</button>
+    <script>
+        const scrollToTopBtn = document.querySelector('.scroll-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) scrollToTopBtn.classList.add('visible');
+            else scrollToTopBtn.classList.remove('visible');
+        });
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+    <script src="../js/series-navigation.js"></script>
+
+    <!-- Search Capability -->
+    <script src="../js/search.js"></script>
+</body>
+
+</html>
